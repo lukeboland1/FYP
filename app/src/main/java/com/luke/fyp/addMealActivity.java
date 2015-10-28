@@ -53,12 +53,7 @@ public class addMealActivity extends AppCompatActivity {
     public void saveMeal(View v)
     {
         new AddNewMeal().execute(mEdit.getText().toString(), fat.getText().toString());
-        /*if(db.insertMeal(mEdit.getText().toString(), Integer.parseInt(fat.getText().toString())));
-        {
-            Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-        }
-        mEdit.setText("");
-        fat.setText("");*/
+
     }
 
     private class AddNewMeal extends AsyncTask<String, Object, Boolean> {
