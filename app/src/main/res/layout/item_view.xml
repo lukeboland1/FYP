@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+
+    <TextView
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/itemViewMealName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="34dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/itemViewDateTaken"
+        android:layout_below="@+id/itemViewMealName"
+        android:layout_alignLeft="@+id/itemViewMealName"
+        android:layout_alignStart="@+id/itemViewMealName" />
+
+    <TextView
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/itemViewCreonTaken"
+        android:layout_below="@+id/itemViewDateTaken"
+        android:layout_alignLeft="@+id/itemViewDateTaken"
+        android:layout_alignStart="@+id/itemViewDateTaken" />
+
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/itemViewNotes"
+        android:layout_alignTop="@+id/itemViewMealName"
+        android:layout_alignBottom="@+id/itemViewDateTaken"
+        android:layout_toEndOf="@+id/itemViewMealName"
+        android:layout_toRightOf="@+id/itemViewMealName" />
+</RelativeLayout>

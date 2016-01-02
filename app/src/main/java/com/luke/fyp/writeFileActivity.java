@@ -59,7 +59,9 @@ public class writeFileActivity extends AppCompatActivity {
     }
 
     public void sendEmail(View v) throws IOException {
-        //new sendEmail().execute();
+        String e = email.getText().toString();
+        new sendEmail().execute(e);
+        /*
         mealRecords = db.getAllMealRecords();
         File folder = new File(Environment.getExternalStorageDirectory()
                 + "/Folder");
@@ -98,7 +100,7 @@ public class writeFileActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Send email..."));
 
         email.setText("");
-        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();*/
     }
 
 
@@ -119,30 +121,38 @@ public class writeFileActivity extends AppCompatActivity {
 
             try {
                 FileWriter fw = new FileWriter(filename);
-                for(int i = 0; i < mealRecords.size(); i++)
-                {
-                    String s = Long.toString(mealRecords.get(i).getDateTaken());
+                for (int i = 0; i < mealRecords.size(); i++) {
+
                     fw.append(mealRecords.get(i).getName() + ",");
-                    fw.append(convertDate(s, "dd/MM/yyyy") + ",");
-                    fw.append(mealRecords.get(i).getCreonTaken()+ ",");
+                    fw.append(convertDate(mealRecords.get(i).getDateTaken(), "dd/MM/yyyy") + ",");
+                    fw.append(mealRecords.get(i).getCreonTaken() + ",");
                     fw.append(mealRecords.get(i).getNotes() + "\n");
                 }
-
                 fw.close();
-
 
             } catch (Exception e) {
 
 
             }
+            File file = new File(filename);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{params[0]});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "CREON Diary");
+            intent.putExtra(Intent.EXTRA_TEXT, "File Attached");
+            Uri uri = Uri.fromFile(file);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(intent, "Send email..."));
             return true;
         }
+
 
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
-            Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+                email.setText("");
+                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
         }
     }
 
