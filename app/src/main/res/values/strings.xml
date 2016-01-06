@@ -10,4 +10,5 @@
     <string name="title_activity_store_meal_record">storeMealRecordActivity</string>
     <string name="title_activity_first_welcome">firstWelcomeActivity</string>
     <string name="title_activity_write_file">writeFileActivity</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
 </resources>
