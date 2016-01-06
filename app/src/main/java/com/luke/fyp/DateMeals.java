@@ -5,43 +5,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CalendarView;
-import android.widget.CalendarView.OnDateChangeListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CalendarActivity extends AppCompatActivity {
-    private CalendarView calendar;
+public class DateMeals extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
-
-        calendar = (CalendarView)findViewById(R.id.calendar);
-        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth){
-                String date = dayOfMonth + "/" + month + "/" + year;
-                Intent intent = new Intent(getApplicationContext(), DateMeals.class);
-                intent.putExtra("date", date);
-                startActivity(intent);
-
-
-            }
-
-
-        });
-
+        setContentView(R.layout.activity_date_meals);
+        Intent intent = getIntent();
+        String date = intent.getStringExtra("date");
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_calendar, menu);
+        getMenuInflater().inflate(R.menu.menu_date_meals, menu);
         return true;
     }
 

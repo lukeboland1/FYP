@@ -63,6 +63,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.luke.fyp.MainActivity" />
         </activity>
+        <activity
+            android:name=".DateMeals"
+            android:label="@string/title_activity_date_meals"
+            android:parentActivityName=".CalendarActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.luke.fyp.CalendarActivity" />
+        </activity>
     </application>
 
 </manifest>
