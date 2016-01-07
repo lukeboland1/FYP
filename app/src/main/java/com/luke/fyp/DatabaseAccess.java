@@ -217,25 +217,24 @@ public class DatabaseAccess extends SQLiteOpenHelper{
         return mealRecords;
     }
 
-    public ArrayList<MealRecord> getMealRecordsFromDate(Date date)
+    public ArrayList<MealRecord> getMealRecordsFromDate(long time1, long time2)
     {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from mealRecords where name =?", new String[] {name});
+        Cursor res =  db.rawQuery( "select * from mealRecords where dateTaken >= " + time1 + " AND dateTaken < " + time2, null);
         res.moveToFirst();
         ArrayList<MealRecord> mealRecords = new ArrayList<MealRecord>();
         while(res.isAfterLast() == false){
             int creonTaken = res.getInt(res.getColumnIndex(MEALRECORDS_COLUMN_CREON));
             String notes = res.getString(res.getColumnIndex("notes"));
             long datetaken = res.getLong(res.getColumnIndex("dateTaken"));
+            String name = res.getString(res.getColumnIndex("name"));
             mealRecords.add(new MealRecord(name, creonTaken, notes, datetaken));
             res.moveToNext();
         }
         db.close();
         return mealRecords;
     }
-
-
 
 
 }

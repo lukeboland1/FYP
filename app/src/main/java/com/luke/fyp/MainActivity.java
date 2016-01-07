@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button viewMeals;
     private Button storeMealRecord;
     private Button writeFile;
+    private Button calendarButton;
     private DatabaseAccess db;
 
     @Override
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         viewMeals = (Button)findViewById(R.id.storedMeals);
         storeMealRecord = (Button)findViewById(R.id.storeMealentry);
         writeFile = (Button)findViewById(R.id.writeFile);
+        calendarButton = (Button)findViewById(R.id.calendarButton);
         enterMeal.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick (View view){
@@ -72,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
 
                                                }
                                            }
+
+        );
+
+        calendarButton.setOnClickListener(new OnClickListener() {
+                                         @Override
+                                         public void onClick(View view) {
+                                             Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+                                             startActivity(intent);
+
+                                         }
+                                     }
 
         );
 

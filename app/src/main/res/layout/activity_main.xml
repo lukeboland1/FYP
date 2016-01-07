@@ -40,4 +40,13 @@
         android:text="Write File"
         android:layout_below="@id/storeMealentry"
         android:id="@+id/writeFile" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Calendar"
+        android:layout_below="@id/writeFile"
+        android:id="@+id/calendarButton" />
 </RelativeLayout>
