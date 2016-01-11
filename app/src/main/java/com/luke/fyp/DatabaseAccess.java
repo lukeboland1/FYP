@@ -219,9 +219,9 @@ public class DatabaseAccess extends SQLiteOpenHelper{
 
     public ArrayList<MealRecord> getMealRecordsFromDate(long time1, long time2)
     {
-
+        //dateTaken >= " + time1 + " AND
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from mealRecords where dateTaken >= " + time1 + " AND dateTaken < " + time2, null);
+        Cursor res =  db.rawQuery( "select * from mealRecords where dateTaken < " + time2 + " AND dateTaken >= " + time1, null);
         res.moveToFirst();
         ArrayList<MealRecord> mealRecords = new ArrayList<MealRecord>();
         while(res.isAfterLast() == false){

@@ -3,6 +3,7 @@ package com.luke.fyp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,32 +30,36 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
         db = new DatabaseAccess(this);
         calendar = (CalendarView)findViewById(R.id.calendar);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR, 00);
+        c.set(Calendar.MINUTE, 00);
+        c.set(Calendar.SECOND, 00);
+        long datetime1 = c.getTimeInMillis();
+        c.add(Calendar.DATE, 1);
+        long datetime2 = c.getTimeInMillis();
+        mealRecords = db.getMealRecordsFromDate(datetime1, datetime2);
+        populateListView();
+
+
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth){
-                month++;
+                //month++;
                 long time1 = 0;
                 long time2 = 0;
-                date = year  + "/" + month + "/" + dayOfMonth + " 00:00:00";
+                date = year  + "/" + String.format("%02d", month) + "/" + dayOfMonth + " 00:00:00";
                 String date2 = "";
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/mm/dd HH:mm:ss");
                 Calendar c = Calendar.getInstance();
-                try{
-                    c.setTime(sdf.parse(date));
-                    time1 = c.getTimeInMillis();
-                    date=sdf.format(c.getTime());
-                    c.add(Calendar.DATE, 1);  // number of days to add
-                    date2 = sdf.format(c.getTime());
-                    time2 = c.getTimeInMillis();// dt is now the new date
-                }
-                catch(Exception e)
-                {
-
-                }
+                c.set(year, month, dayOfMonth, 00, 00, 00);
+                time1 = c.getTimeInMillis();
+                c.add(Calendar.DATE, 1);
+                time2 = c.getTimeInMillis();
+                Toast.makeText(CalendarActivity.this, " "+time1, Toast.LENGTH_SHORT).show();
                 mealRecords = db.getMealRecordsFromDate(time1, time2);
                 if(mealRecords.size() > 0) {
-                    Toast.makeText(CalendarActivity.this, mealRecords.get(0).getName(), Toast.LENGTH_SHORT).show();
+
                 }
+
                 populateListView();
 
             }
@@ -115,7 +120,7 @@ public class CalendarActivity extends AppCompatActivity {
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
             mName.setText(mr.getName());
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
-            mDate.setText(date);
+            mDate.setText((convertDate(mr.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);
             mCreon.setText("Creon taken =" + mr.getCreonTaken());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
@@ -124,5 +129,9 @@ public class CalendarActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    public static String convertDate(String dateInMilliseconds,String dateFormat) {
+        return DateFormat.format(dateFormat, Long.parseLong(dateInMilliseconds)).toString();
     }
 }
