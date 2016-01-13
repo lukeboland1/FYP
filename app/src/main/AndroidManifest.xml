@@ -7,9 +7,12 @@
     <application
         android:name=".MyApp"
         android:allowBackup="true"
+        android:backupAgent="MyBackupAgent"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAInkZKnjdJcZWamOOVli--lHapHqWwYpLxwa7RYQ" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -62,14 +65,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.luke.fyp.MainActivity" />
-        </activity>
-        <activity
-            android:name=".DateMeals"
-            android:label="@string/title_activity_date_meals"
-            android:parentActivityName=".CalendarActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.luke.fyp.CalendarActivity" />
         </activity>
     </application>
 

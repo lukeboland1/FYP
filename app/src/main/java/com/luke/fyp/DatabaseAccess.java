@@ -27,12 +27,19 @@ public class DatabaseAccess extends SQLiteOpenHelper{
     public static final String MEALRECORDS_COLUMN_NAME = "name";
     public static final String MEALRECORDS_COLUMN_DATE = "dateTaken";
     public static final String MEALRECORDS_COLUMN_CREON = "creonTaken";
+    private SQLiteDatabase database;
+    private static SQLiteOpenHelper mDatabaseHelper;
+    private int mOpenCounter;
+    private DatabaseManagement dbManager;
 
 
 
     public DatabaseAccess(Context context)
     {
         super(context, DATABASE_NAME, null, 5);
+        DatabaseManagement.initializeInstance(this);
+        database = DatabaseManagement.getInstance().openDatabase();
+
     }
 
     @Override
@@ -73,6 +80,7 @@ public class DatabaseAccess extends SQLiteOpenHelper{
         );*/
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
@@ -84,41 +92,33 @@ public class DatabaseAccess extends SQLiteOpenHelper{
 
     public boolean insertMeal(String name, Integer fatContent)
     {
-
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("fatContent", fatContent);
-        db.insert("meals", null, contentValues);
-        db.close();
+        database.insert("meals", null, contentValues);
         return true;
     }
 
     public boolean addUser(int creonType, int fatPerCreon)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("creonType", creonType);
         contentValues.put("fatPerCreon", fatPerCreon);
-        db.insert("users", null, contentValues);
-        db.close();
+        database.insert("users", null, contentValues);
         return true;
     }
 
     public boolean doesUserExist()
     {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from users", null );
+        Cursor res =  database.rawQuery( "select * from users", null );
         res.moveToFirst();
         int count = res.getCount();
 
         if (count > 0)
         {
-            db.close();
             return true;
         }
 
-        db.close();
         return false;
     }
 
@@ -128,8 +128,7 @@ public class DatabaseAccess extends SQLiteOpenHelper{
 
         ArrayList<Meal> array_list = new ArrayList<Meal>();
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from meals", null);
+        Cursor res = database.rawQuery("select * from meals", null);
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -138,53 +137,44 @@ public class DatabaseAccess extends SQLiteOpenHelper{
             array_list.add(new Meal(name, fat));
             res.moveToNext();
         }
-        db.close();
         return array_list;
     }
 
     public User getUser()
     {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from users", null);
+        Cursor res = database.rawQuery("select * from users", null);
         res.moveToFirst();
         while(res.isAfterLast() == false){
 
-            db.close();
             return new User(res.getInt(res.getColumnIndex("creonType")), res.getInt(res.getColumnIndex("fatPerCreon")));
         }
-        db.close();
         return null;
     }
 
     public boolean updateMeal (Integer id, String name, Integer fatContent)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("fatContent", fatContent);
-        db.update("meals", contentValues, "id = ? ", new String[]{Integer.toString(id)});
-        db.close();
+        database.update("meals", contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
     }
 
     public boolean storeMealRecord(String name, int creonTaken, String notes, long datetime)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("creonTaken", creonTaken);
         contentValues.put("notes", notes);
         contentValues.put("dateTaken", datetime);
-        db.insert("mealRecords", null, contentValues);
-        db.close();
+        database.insert("mealRecords", null, contentValues);
         return true;
     }
 
     public ArrayList<MealRecord> getMealRecordsFromName(String name)
     {
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from mealRecords where name =?", new String[] {name});
+        Cursor res =  database.rawQuery( "select * from mealRecords where name =?", new String[] {name});
         res.moveToFirst();
         ArrayList<MealRecord> mealRecords = new ArrayList<MealRecord>();
         while(res.isAfterLast() == false){
@@ -194,15 +184,13 @@ public class DatabaseAccess extends SQLiteOpenHelper{
             mealRecords.add(new MealRecord(name, creonTaken, notes, datetaken));
             res.moveToNext();
         }
-        db.close();
         return mealRecords;
     }
 
     public ArrayList<MealRecord> getAllMealRecords()
     {
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from mealRecords", null);
+        Cursor res =  database.rawQuery( "select * from mealRecords", null);
         res.moveToFirst();
         ArrayList<MealRecord> mealRecords = new ArrayList<MealRecord>();
         while(res.isAfterLast() == false){
@@ -213,15 +201,12 @@ public class DatabaseAccess extends SQLiteOpenHelper{
             mealRecords.add(new MealRecord(name, creonTaken, notes, datetaken));
             res.moveToNext();
         }
-        db.close();
         return mealRecords;
     }
 
     public ArrayList<MealRecord> getMealRecordsFromDate(long time1, long time2)
     {
-        //dateTaken >= " + time1 + " AND
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from mealRecords where dateTaken < " + time2 + " AND dateTaken >= " + time1, null);
+        Cursor res =  database.rawQuery( "select * from mealRecords where dateTaken < " + time2 + " AND dateTaken >= " + time1, null);
         res.moveToFirst();
         ArrayList<MealRecord> mealRecords = new ArrayList<MealRecord>();
         while(res.isAfterLast() == false){
@@ -232,9 +217,9 @@ public class DatabaseAccess extends SQLiteOpenHelper{
             mealRecords.add(new MealRecord(name, creonTaken, notes, datetaken));
             res.moveToNext();
         }
-        db.close();
         return mealRecords;
     }
+
 
 
 }

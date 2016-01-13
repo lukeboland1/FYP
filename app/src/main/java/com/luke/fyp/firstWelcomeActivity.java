@@ -77,13 +77,6 @@ public class firstWelcomeActivity extends AppCompatActivity {
         this.finish();
         return true;
 
-        /*if(db.addUser(Integer.parseInt(creonType), Integer.parseInt(fatPerCreon.getText().toString())));
-        {
-            Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-        }
-        fatPerCreon.setText("");
-        this.finish();
-        return true;*/
     }
 
 

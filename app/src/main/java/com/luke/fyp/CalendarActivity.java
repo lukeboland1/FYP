@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -129,6 +128,12 @@ public class CalendarActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 
     public static String convertDate(String dateInMilliseconds,String dateFormat) {
