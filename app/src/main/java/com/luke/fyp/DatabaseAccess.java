@@ -70,14 +70,71 @@ public class DatabaseAccess extends SQLiteOpenHelper{
                         "fatPerCreon integer)"
         );
 /*
+
+                "create table combinations" +
+                        "(id integer primary key, " +
+                        "name text, " +
+                        "fatContent integer)"
+        );
+        // Create Meal Record table
         db.execSQL(
-                "create table mealFood" +
-                        "(recordID integer, " +
-                        "mealID integer, " +
-                        "primary key(recordID, mealID)" +
-                        "foreign key (recordID) references mealRecords(id)" +
-                        "foreign key (mealID) references meals(id))"
+                "create table entries" +
+                        "(id integer primary key, " +
+                        "dateTaken date, " +
+                        "creonTaken integer, " +
+                        "result integer," +
+                        "notes text,"
+        );
+
+        db.execSQL(
+                "create table users" +
+                        "(id integer primary key, " +
+                        "creonType integer, " +
+                        "fatPerCreon integer)"
+        );
+
+         db.execSQL(
+                "create table components" +
+                        "(id integer primary key, " +
+                        "servingtype text, " +
+                        "name text, " +
+                        "fatPerServing integer)"
+        );
+/*
+        db.execSQL(
+                "create table componentcombinations" +
+                        "(componentID integer, " +
+                        "combinationID integer, " +
+                        "quantity integer, " +
+                        "primary key(componentID, combinationID)" +
+                        "foreign key (componentID) references components(id)" +
+                        "foreign key (combinationID) references combinations(id))"
+        );
+
+
+        db.execSQL(
+                "create table entrycombinations" +
+                        "(entryID integer, " +
+                        "combinationID integer, " +
+                        "primary key(entryID, combinationID)" +
+                        "foreign key (entryID) references entries(id)" +
+                        "foreign key (combinationID) references combinations(id))"
+        );
+
+
+
+        db.execSQL(
+                "create table entrycomponents" +
+                        "(entryID integer, " +
+                        "componentID integer, " +
+                        "quantity integer, " +
+                        "primary key(entryID, componentID)" +
+                        "foreign key (entryID) references entries(id)" +
+                        "foreign key (componentID) references component(id))"
         );*/
+
+
+
     }
 
 
