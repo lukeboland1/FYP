@@ -76,7 +76,7 @@ public class DatabaseAccess extends SQLiteOpenHelper{
                         "name text, " +
                         "fatContent integer)"
         );
-        // Create Meal Record table
+
         db.execSQL(
                 "create table entries" +
                         "(id integer primary key, " +
