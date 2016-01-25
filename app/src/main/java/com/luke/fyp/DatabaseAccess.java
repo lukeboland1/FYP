@@ -278,5 +278,69 @@ public class DatabaseAccess extends SQLiteOpenHelper{
     }
 
 
+    /* new methods
+    public boolean insertComponent(String name, Integer fatPerServing, String servingType)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("servingtype", servingType);
+        contentValues.put("fatPerServing", fatPerServing);
+        database.insert("components", null, contentValues);
+        return true;
+    }
+
+    public boolean insertCombination(String name, Integer fatContent)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        contentValues.put("fatContent", fatContent);
+        database.insert("combinations", null, contentValues);
+        return true;
+    }
+
+    public boolean insertEntry(String name, int creonTaken, String notes, long datetime)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("creonTaken", creonTaken);
+        contentValues.put("notes", notes);
+        contentValues.put("dateTaken", datetime);
+        database.insert("entries", null, contentValues);
+        return true;
+
+    }
+
+     public boolean addComponentCombination(int compID, int combID, int quantity)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("componentID", compID);
+        contentValues.put("combinationID", combID);
+        contentValues.put("quantity", quantity);
+        database.insert("componentcombinations", null, contentValues);
+        return true;
+    }
+
+    public boolean addEntryCombination(int entryID, int combID)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("componentID", compID);
+        contentValues.put("combinationID", combID);
+        contentValues.put("quantity", quantity);
+        database.insert("componentcombinations", null, contentValues);
+        return true;
+    }
+
+    public boolean addEntryComponent(int compID, int entryID, int quantity)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("componentID", compID);
+        contentValues.put("combinationID", combID);
+        contentValues.put("quantity", quantity);
+        database.insert("componentcombinations", null, contentValues);
+        return true;
+    }
+
+     */
+
+
 
 }
