@@ -14,6 +14,13 @@ public class Entry {
     private String notes;
     private int results;
 
+    public Entry(String name, int creonTaken, String notes, long dateTaken) {
+        this.creonTaken = creonTaken;
+        this.name = name;
+        this.notes = notes;
+        this.dateTaken = dateTaken;
+    }
+
     public int getId() {
         return id;
     }
