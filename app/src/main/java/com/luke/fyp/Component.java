@@ -9,6 +9,13 @@ public class Component implements I_Component{
     private int quantity;
     private int id;
 
+    public Component() {};
+    public Component(String name, int fatContent, int quantity, int id) {
+        this.name = name;
+        this.fatContent = fatContent;
+        this.quantity = quantity;
+        this.id = id;
+    }
 
     public void setFatContent(int fatContent) {
         this.fatContent = fatContent;

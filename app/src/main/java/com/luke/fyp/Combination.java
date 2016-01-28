@@ -13,6 +13,8 @@ public class Combination extends Component {
         this.components = components;
     }
 
+    public Combination(){};
+
     @Override
     public int getFatContent()
     {
@@ -24,6 +26,11 @@ public class Combination extends Component {
 
         return num;
 
+    }
+
+    public void setComponents(ArrayList<I_Component> components)
+    {
+        this.components = components;
     }
 
     @Override
