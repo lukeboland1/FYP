@@ -60,9 +60,10 @@ public class addMealActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            boolean tof = db.insertMeal(params[0], Integer.parseInt(params[1]));
+            //boolean tof = db.insertMeal(params[0], Integer.parseInt(params[1]));
             db.close();
-            return tof;
+            //return tof;
+            return true;
         }
 
         @Override

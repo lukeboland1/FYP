@@ -76,6 +76,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.luke.fyp.MainActivity" />
         </activity>
+        <activity
+            android:name=".addCombination"
+            android:label="@string/title_activity_add_combination"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.luke.fyp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

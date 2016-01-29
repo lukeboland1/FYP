@@ -310,9 +310,9 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         return array_list;
     }
 
-    public ArrayList<I_Component> getAllComponents() {
+    public ArrayList<Component> getAllComponents() {
 
-        ArrayList<I_Component> comps = new ArrayList<>();
+        ArrayList<Component> comps = new ArrayList<>();
         Cursor res = database.rawQuery("select * from components", null);
         res.moveToFirst();
         while (res.isAfterLast() == false) {
