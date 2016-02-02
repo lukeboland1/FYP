@@ -108,7 +108,7 @@ public class writeFileActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            mealRecords = db.getAllMealRecords();
+            /*mealRecords = db.getAllMealRecords();
             File folder = new File(Environment.getExternalStorageDirectory()
                     + "/Folder");
 
@@ -143,6 +143,7 @@ public class writeFileActivity extends AppCompatActivity {
             Uri uri = Uri.fromFile(file);
             intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(intent, "Send email..."));
+            return true;*/
             return true;
         }
 

@@ -39,7 +39,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
     public void dropDownDisplayMeals()
     {
-        meals = db.getAllMeals();
+        /*meals = db.getAllMeals();
         String[] items = new String[meals.size()];
         for(int i = 0; i < meals.size(); i++)
         {
@@ -69,12 +69,12 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
             }
 
-            /*@Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                text.setText("");
+            //@Override
+           // public void onNothingSelected(AdapterView<?> arg0) {
+             //   text.setText("");
 
-            }*/
-        });
+            //}
+        });*/
     }
 
     @Override
@@ -141,8 +141,9 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
         @Override
         protected ArrayList<Meal> doInBackground(String... params) {
-            ArrayList<Meal> meal = db.getAllMeals();
-            return meal;
+            //ArrayList<Meal> meal = db.getAllMeals();
+            //return meal;
+            return null;
         }
 
 
@@ -152,8 +153,9 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
         @Override
         protected ArrayList<MealRecord> doInBackground(String... params) {
-            ArrayList<MealRecord> mealR = db.getMealRecordsFromName(params[0]);
-            return mealR;
+            //ArrayList<MealRecord> mealR = db.getMealRecordsFromName(params[0]);
+            //return mealR;
+            return null;
         }
 
 

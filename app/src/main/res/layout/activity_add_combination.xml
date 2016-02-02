@@ -19,27 +19,27 @@
         android:layout_height="50dp"
         android:layout_below="@id/combinationName"
         android:completionThreshold="1"
+        android:hint="Item name"
         />
 
-    <Spinner
-        android:id="@+id/spinner3"
+    <EditText
+        android:id="@+id/quantity"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
         android:layout_below="@id/combinationName"
         android:layout_toRightOf="@+id/myautocomplete1"
-        android:layout_toEndOf="@+id/myautocomplete1" />
+        android:layout_toEndOf="@+id/myautocomplete1"
+        android:hint="Quantity"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Store Entry"
+        android:text="Add"
         android:id="@+id/addToCombination"
         android:layout_below="@id/combinationName"
-        android:layout_toRightOf="@+id/spinner3"
-        android:layout_toEndOf="@+id/spinner3"
+        android:layout_toRightOf="@+id/quantity"
+        android:layout_toEndOf="@+id/quantity"
         android:onClick="addToCombination"/>
 
     <ListView

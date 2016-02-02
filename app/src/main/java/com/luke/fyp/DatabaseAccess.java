@@ -34,7 +34,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
 
     public DatabaseAccess(Context context) {
-        super(context, DATABASE_NAME, null, 5);
+        super(context, DATABASE_NAME, null, 8);
         DatabaseManagement.initializeInstance(this);
         database = DatabaseManagement.getInstance().openDatabase();
 
@@ -65,14 +65,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                         "creonTaken integer, " +
                         "result integer," +
                         "name text, " +
-                        "notes text,"
-        );
-
-        db.execSQL(
-                "create table users" +
-                        "(id integer primary key, " +
-                        "creonType integer, " +
-                        "fatPerCreon integer)"
+                        "notes text)"
         );
 
         db.execSQL(
@@ -124,6 +117,12 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS meals");
         db.execSQL("DROP TABLE IF EXISTS mealRecords");
         db.execSQL("DROP TABLE IF EXISTS users");
+        db.execSQL("DROP TABLE IF EXISTS components");
+        db.execSQL("DROP TABLE IF EXISTS entrycomponents");
+        db.execSQL("DROP TABLE IF EXISTS componentcombinations");
+        db.execSQL("DROP TABLE IF EXISTS entrycombinations");
+        db.execSQL("DROP TABLE IF EXISTS entries");
+        db.execSQL("DROP TABLE IF EXISTS combinations");
         onCreate(db);
     }
 
@@ -302,6 +301,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 int quantity = res.getInt(res.getColumnIndex("quantity"));
                 Component component = new Component(name, fat, quantity, id);
                 comps.add(component);
+                res.moveToNext();
 
             }
             array_list.get(i).setComponents(comps);
@@ -322,11 +322,33 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             int id = res.getInt(res.getColumnIndex("id"));
             Component component = new Component(name, fat, 0, id);
             comps.add(component);
-
+            res.moveToNext();
         }
         res.close();
         return comps;
 
+    }
+
+    public int getIDForRecentEntry() {
+        Cursor res = database.rawQuery("select id from entries where dateTaken = (select max(dateTaken) from entries)", null);
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+
+            return (res.getInt(res.getColumnIndex("id")));
+        }
+        res.close();
+        return 0;
+    }
+
+    public int getIDFromNameCombination(String name){
+        Cursor res = database.rawQuery("select id from combinations where name = ?)",new String[] {name});
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+
+            return (res.getInt(res.getColumnIndex("id")));
+        }
+        res.close();
+        return 0;
     }
 
 

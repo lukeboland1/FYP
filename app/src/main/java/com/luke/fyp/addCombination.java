@@ -24,14 +24,18 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
     private DatabaseAccess db;
     private ArrayList<Component> components;
     private ArrayList<Component> m;
+    private Component component1;
+    private EditText quantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_combination);
+        component1 = null;
         mEdit = (EditText) findViewById(R.id.combinationName);
+        quantity = (EditText) findViewById(R.id.quantity);
         db = new DatabaseAccess(this);
-
+        m = new ArrayList<>();
         myAutoComplete = (AutoCompleteTextView)findViewById(R.id.myautocomplete1);
         dropDownDisplayComponents();
     }
@@ -55,7 +59,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
                 boolean found = false;
                 for (int i = 0; i < components.size() && !found; i++) {
                     if (components.get(i).getName().equals(item)) {
-                        m.add(components.get(i));
+                        component1 = components.get(i);
                         found = true;
                     }
                 }
@@ -72,7 +76,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
     private void populateListView()
     {
         ArrayAdapter<Component> adapt = new MyListAdapter();
-        ListView list =(ListView) findViewById(R.id.itemListView);
+        ListView list =(ListView) findViewById(R.id.componentListView);
         list.setAdapter(adapt);
 
 
@@ -140,21 +144,37 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
             mName.setText(mr.getName());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
-            mNotes.setText(mr.getQuantity());
+            mNotes.setText("" + mr.getQuantity());
 
 
             return itemView;
         }
     }
 
-    public void addToCombination()
+    public void addToCombination(View v)
     {
         myAutoComplete.clearListSelection();
-        populateListView();
+        if(component1 == null)
+        {
+
+        }
+        else {
+            component1.setQuantity(Integer.parseInt(quantity.getText().toString()));
+            m.add(component1);
+            populateListView();
+            quantity.setText("");
+        }
+
+        quantity.setText("");
     }
 
-    public void saveCombination()
+    public void saveCombination(View v)
     {
+        db.insertCombination(mEdit.getText().toString(), 0);
+        int combID = db.getIDFromNameCombination(mEdit.getText().toString());
+        for(int i = 0; i < m.size(); i++) {
+            db.addComponentCombination(m.get(i).getID(), combID, m.get(i).getQuantity());
+        }
 
     }
 

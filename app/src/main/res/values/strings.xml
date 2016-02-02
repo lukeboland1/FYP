@@ -14,4 +14,5 @@
     <string name="title_activity_date_meals">DateMeals</string>
     <string name="title_activity_add_component">addComponent</string>
     <string name="title_activity_add_combination">addCombination</string>
+    <string name="title_activity_add_entry">addEntryActivity</string>
 </resources>

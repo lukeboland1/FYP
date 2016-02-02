@@ -12,8 +12,8 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private Button enterMeal;
-    private Button viewMeals;
+    private Button enterFoodItem;
+    private Button storeMeal;
     private Button storeMealRecord;
     private Button writeFile;
     private Button calendarButton;
@@ -27,15 +27,15 @@ public class MainActivity extends AppCompatActivity {
         new setUser().execute();
 
         setContentView(R.layout.activity_main);
-        enterMeal = (Button)findViewById(R.id.enterMeal);
-        viewMeals = (Button)findViewById(R.id.storedMeals);
+        enterFoodItem = (Button)findViewById(R.id.enterFoodItem);
+        storeMeal = (Button)findViewById(R.id.storeMeal);
         storeMealRecord = (Button)findViewById(R.id.storeMealentry);
         writeFile = (Button)findViewById(R.id.writeFile);
         calendarButton = (Button)findViewById(R.id.calendarButton);
-        enterMeal.setOnClickListener(new OnClickListener() {
+        enterFoodItem.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick (View view){
-                    Intent intent = new Intent(getApplicationContext(), addMealActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), addComponent.class);
                     startActivity(intent);
 
                 }
@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-        viewMeals.setOnClickListener(new OnClickListener() {
+        storeMeal.setOnClickListener(new OnClickListener() {
                 @Override
                   public void onClick (View view){
-                    Intent intent = new Intent(getApplicationContext(), viewMealsActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), addCombination.class);
                     startActivity(intent);
 
                 }

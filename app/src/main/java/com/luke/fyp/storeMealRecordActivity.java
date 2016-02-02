@@ -33,7 +33,7 @@ public class storeMealRecordActivity extends AppCompatActivity {
         creonTaken   = (EditText)findViewById(R.id.creonTaken1);
         notes   = (EditText)findViewById(R.id.notes1);
         suggestedCreon   = (TextView)findViewById(R.id.suggestedCreon);
-        meals = db.getAllMeals();
+        /*meals = db.getAllMeals();
         String[] items = new String[meals.size()];
         for(int i = 0; i < meals.size(); i++)
         {
@@ -71,7 +71,7 @@ public class storeMealRecordActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
     }
 
     @Override
@@ -114,8 +114,8 @@ public class storeMealRecordActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... params) {
             Calendar calendar = Calendar.getInstance();
             long datetime = calendar.getTimeInMillis();
-            boolean tof = db.storeMealRecord(params[0], Integer.parseInt(params[1]), params[2], datetime);
-            return tof;
+            //boolean tof = db.storeMealRecord(params[0], Integer.parseInt(params[1]), params[2], datetime);
+            return false;
         }
 
         @Override
@@ -134,7 +134,7 @@ public class storeMealRecordActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            meals = db.getAllMeals();
+            //meals = db.getAllMeals();
             return true;
         }
 

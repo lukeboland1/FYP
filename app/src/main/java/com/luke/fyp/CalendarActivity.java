@@ -36,7 +36,7 @@ public class CalendarActivity extends AppCompatActivity {
         long datetime1 = c.getTimeInMillis();
         c.add(Calendar.DATE, 1);
         long datetime2 = c.getTimeInMillis();
-        mealRecords = db.getMealRecordsFromDate(datetime1, datetime2);
+        /*mealRecords = db.getMealRecordsFromDate(datetime1, datetime2);
         populateListView();
 
 
@@ -64,7 +64,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
 
 
-        });
+        });*/
 
 
     }
