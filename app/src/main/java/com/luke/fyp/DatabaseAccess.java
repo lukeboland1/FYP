@@ -205,7 +205,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
     public boolean addEntryCombination(int entryID, int combID) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("entryID", combID);
+        contentValues.put("entryID", entryID);
         contentValues.put("combinationID", combID);
         database.insert("entrycombinations", null, contentValues);
         return true;
@@ -238,19 +238,63 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
     public ArrayList<Entry> getAllEntries() {
 
-        Cursor res = database.rawQuery("select * from entries", null);
+        ArrayList<Entry> comps = new ArrayList<>();
+        Cursor res = database.rawQuery("select * from entries ", null);
         res.moveToFirst();
-        ArrayList<Entry> entries = new ArrayList<Entry>();
         while (res.isAfterLast() == false) {
-            int creonTaken = res.getInt(res.getColumnIndex(MEALRECORDS_COLUMN_CREON));
+            int entryID = res.getInt(res.getColumnIndex("id"));
+            long date = res.getLong(res.getColumnIndex("dateTaken"));
+            int creon = res.getInt(res.getColumnIndex("creonTaken"));
             String notes = res.getString(res.getColumnIndex("notes"));
-            long datetaken = res.getLong(res.getColumnIndex("dateTaken"));
-            String name = res.getString(res.getColumnIndex("name"));
-            entries.add(new Entry(name, creonTaken, notes, datetaken));
+            Entry entry = new Entry("", creon, notes, date);
+            entry.setId(entryID);
+            comps.add(entry);
             res.moveToNext();
         }
+
+        for(int i = 0; i < comps.size(); i++)
+        {
+            ArrayList<Component> comps1 = new ArrayList<>();
+            int thisID = comps.get(i).getId();
+            res = database.rawQuery("select components.name, components.servingtype, components.fatPerServing, components.id, entrycomponents.quantity from components inner join entrycomponents on components.id = entrycomponents.componentID where entrycomponents.entryID = ?", new String[] {""+thisID});
+            res.moveToFirst();
+            while (res.isAfterLast() == false) {
+                String name = res.getString(res.getColumnIndex("name"));
+                String type = res.getString(res.getColumnIndex("servingtype"));
+                int fat = res.getInt(res.getColumnIndex("fatPerServing"));
+                int myid = res.getInt(res.getColumnIndex("id"));
+                int quantity = res.getInt(res.getColumnIndex("quantity"));
+                Component component = new Component(name, fat, quantity, myid);
+                comps1.add(component);
+                res.moveToNext();
+
+            }
+
+            comps.get(i).setComponents(comps1);
+        }
+
+        for(int i = 0; i < comps.size(); i++) {
+            ArrayList<Combination> combs1 = new ArrayList<>();
+            int thisID = comps.get(i).getId();
+            res = database.rawQuery("select * from combinations where id = (select combinationID from entrycombinations where entryID = ?)", new String[]{"" + thisID});
+            res.moveToFirst();
+            while (res.isAfterLast() == false) {
+                String name = res.getString(res.getColumnIndex(MEALS_COLUMN_NAME));
+                int fat = res.getInt(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
+                int myid = res.getInt(res.getColumnIndex("id"));
+                Combination combination = new Combination();
+                combination.setId(myid);
+                combination.setName(name);
+                combination.setFatContent(fat);
+                combs1.add(combination);
+
+                res.moveToNext();
+
+            }
+            comps.get(i).setCombinations(combs1);
+        }
         res.close();
-        return entries;
+        return comps;
     }
 
     public ArrayList<Entry> getMealRecordsFromDate1(long time1, long time2) {
@@ -277,11 +321,12 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            String name = res.getString(res.getColumnIndex(MEALS_COLUMN_NAME));
-            int fat = res.getInt(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
+            String name = res.getString(res.getColumnIndex("name"));
+            int fat = res.getInt(res.getColumnIndex("fatContent"));
             int id = res.getInt(res.getColumnIndex("id"));
 
             Combination combination = new Combination();
+            combination.setId(id);
             combination.setName(name);
             combination.setFatContent(fat);
             array_list.add(combination);
@@ -290,8 +335,8 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
 
         for (int i = 0; i < array_list.size(); i++) {
-            ArrayList<I_Component> comps = new ArrayList<>();
-            res = database.rawQuery("select components.name, components.servingtype, components.fatPerServing, components.id, componentcombinations.quantity from components inner join componentcombinations on components.id = componenetcombinations.id where id = ?", new String[]{"" + array_list.get(i).getID()});
+            ArrayList<Component> comps = new ArrayList<>();
+            res = database.rawQuery("select components.name, components.servingtype, components.fatPerServing, components.id, componentcombinations.quantity from components inner join componentcombinations on components.id = componentcombinations.componentID where id = ?", new String[]{"" + array_list.get(i).getID()});
             res.moveToFirst();
             while (res.isAfterLast() == false) {
                 String name = res.getString(res.getColumnIndex("name"));
@@ -341,7 +386,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
     }
 
     public int getIDFromNameCombination(String name){
-        Cursor res = database.rawQuery("select id from combinations where name = ?)",new String[] {name});
+        Cursor res = database.rawQuery("select id from combinations where name = ?",new String[] {name});
         res.moveToFirst();
         while (res.isAfterLast() == false) {
 
@@ -351,5 +396,68 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         return 0;
     }
 
+    public ArrayList<Entry> getEntriesFromComponentID(int id)
+    {
+        ArrayList<Entry> comps = new ArrayList<>();
+        Cursor res = database.rawQuery("select * from entries where id = (select entryID from entrycomponents where componentID = ?", new String[] {""+id});
+        res.moveToFirst();
+        while (res.isAfterLast() == false) {
+            int entryID = res.getInt(res.getColumnIndex("id"));
+            long date = res.getLong(res.getColumnIndex("dateTaken"));
+            int creon = res.getInt(res.getColumnIndex("creaonTaken"));
+            String notes = res.getString(res.getColumnIndex("id"));
+            Entry entry = new Entry("", creon, notes, date);
+            comps.add(entry);
+            res.moveToNext();
+        }
+
+        for(int i = 0; i < comps.size(); i++)
+        {
+            ArrayList<Component> comps1 = new ArrayList<>();
+            int thisID = comps.get(i).getId();
+            res = database.rawQuery("select components.name, components.servingtype, components.fatPerServing, components.id, entrycomponents.quantity from components inner join entrycomponents on components.id = entrycomponents.componentID where entrycomponents.entryID = ?", new String[] {""+thisID});
+            res.moveToFirst();
+            while (res.isAfterLast() == false) {
+                String name = res.getString(res.getColumnIndex("name"));
+                String type = res.getString(res.getColumnIndex("servingtype"));
+                int fat = res.getInt(res.getColumnIndex("fatPerServing"));
+                int myid = res.getInt(res.getColumnIndex("id"));
+                int quantity = res.getInt(res.getColumnIndex("quantity"));
+                Component component = new Component(name, fat, quantity, myid);
+                comps1.add(component);
+                res.moveToNext();
+
+            }
+
+            comps.get(i).setComponents(comps1);
+        }
+
+        for(int i = 0; i < comps.size(); i++) {
+            ArrayList<Combination> combs1 = new ArrayList<>();
+            int thisID = comps.get(i).getId();
+            res = database.rawQuery("select * from combinations where id = (select combinationID from entrycombinations where entryID = ?", new String[]{"" + thisID});
+            res.moveToFirst();
+            while (res.isAfterLast() == false) {
+                String name = res.getString(res.getColumnIndex(MEALS_COLUMN_NAME));
+                int fat = res.getInt(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
+                int myid = res.getInt(res.getColumnIndex("id"));
+                Combination combination = new Combination();
+                combination.setName(name);
+                combination.setFatContent(fat);
+                combs1.add(combination);
+
+                res.moveToNext();
+
+            }
+            comps.get(i).setCombinations(combs1);
+        }
+        res.close();
+        return comps;
+    }
+
+    public ArrayList<Entry> getEntriesFromCombinationID(int id)
+    {
+        return null;
+    }
 
 }

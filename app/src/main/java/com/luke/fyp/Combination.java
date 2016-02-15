@@ -6,14 +6,18 @@ import java.util.ArrayList;
  * Created by Luke on 18/01/2016.
  */
 public class Combination extends Component {
-    private ArrayList<I_Component> components;
+    private ArrayList<Component> components;
 
-    public Combination(ArrayList<I_Component> components)
+    public Combination(ArrayList<Component> components)
     {
         this.components = components;
     }
 
     public Combination(){};
+
+    public ArrayList<Component> getComponents() {
+        return components;
+    }
 
     @Override
     public int getFatContent()
@@ -28,24 +32,14 @@ public class Combination extends Component {
 
     }
 
-    public void setComponents(ArrayList<I_Component> components)
+    public void setComponents(ArrayList<Component> components)
     {
         this.components = components;
     }
 
-    @Override
-    public String getName()
-    {
-        String n = "";
-        for(int i = 0; components.size() > i; i++)
-        {
-            n += components.get(i).getName();
-        }
-        return n;
-    }
 
 
-    public void addComponent(I_Component component)
+    public void addComponent(Component component)
     {
         components.add(component);
     }

@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -164,7 +165,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             populateListView();
             quantity.setText("");
         }
-
+        myAutoComplete.setText("");
         quantity.setText("");
     }
 
@@ -175,6 +176,12 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         for(int i = 0; i < m.size(); i++) {
             db.addComponentCombination(m.get(i).getID(), combID, m.get(i).getQuantity());
         }
+
+        Toast.makeText(addCombination.this, "Added Combination", Toast.LENGTH_LONG).show();
+        myAutoComplete.setText("");
+        myAutoComplete.clearListSelection();
+        m.clear();
+        populateListView();
 
     }
 

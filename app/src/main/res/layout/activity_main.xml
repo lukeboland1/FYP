@@ -49,4 +49,13 @@
         android:text="Calendar"
         android:layout_below="@id/writeFile"
         android:id="@+id/calendarButton" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="View records"
+        android:layout_below="@id/calendarButton"
+        android:id="@+id/viewRecords" />
 </RelativeLayout>

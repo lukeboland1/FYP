@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * Created by Luke on 18/01/2016.
  */
 public class Entry {
-    private ArrayList<I_Component> components;
+    private ArrayList<Component> components;
+    private ArrayList<Combination> combinations;
     private int id;
     private String name;
     private int creonTaken;
@@ -69,5 +70,21 @@ public class Entry {
 
     public void setResults(int results) {
         this.results = results;
+    }
+
+    public ArrayList<Component> getComponents() {
+        return components;
+    }
+
+    public void setComponents(ArrayList<Component> components) {
+        this.components = components;
+    }
+
+    public ArrayList<Combination> getCombinations() {
+        return combinations;
+    }
+
+    public void setCombinations(ArrayList<Combination> combinations) {
+        this.combinations = combinations;
     }
 }

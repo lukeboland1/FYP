@@ -17,12 +17,15 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class viewMealsActivity extends AppCompatActivity implements TextWatcher {
     private DatabaseAccess db;
-    private ArrayList<Meal> meals;
-    private ArrayList<MealRecord> mealRecords;
+    private ArrayList<Component> components;
+    private ArrayList<Combination> combinations;
     private AutoCompleteTextView myAutoComplete;
+    private ArrayList<Entry> entries;
+    private ArrayList<Entry> foundEntries;
 
 
     @Override
@@ -30,7 +33,13 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_meals);
         db = new DatabaseAccess(this);
-
+        entries = db.getAllEntries();
+        components = db.getAllComponents();
+        combinations = db.getAllCombinations();
+        if(combinations.size() > 0)
+        {
+            Toast.makeText(viewMealsActivity.this, ""+combinations.get(0).getName(), Toast.LENGTH_SHORT).show();
+        }
         myAutoComplete = (AutoCompleteTextView)findViewById(R.id.myautocomplete);
 
         dropDownDisplayMeals();
@@ -39,11 +48,17 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
     public void dropDownDisplayMeals()
     {
-        /*meals = db.getAllMeals();
-        String[] items = new String[meals.size()];
-        for(int i = 0; i < meals.size(); i++)
+        String[] items = new String[combinations.size() + components.size()];
+        for(int i = 0; i < combinations.size(); i++)
         {
-            items[i] = (meals.get(i).getName());
+            items[i] = (combinations.get(i).getName());
+        }
+
+        int p = combinations.size();
+
+        for(int i = 0; i < components.size(); i++)
+        {
+            items[p+i] = (components.get(i).getName());
         }
         myAutoComplete = (AutoCompleteTextView)findViewById(R.id.myautocomplete);
 
@@ -55,13 +70,24 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int arg2, long arg3) {
                 String item = (String) arg0.getItemAtPosition(arg2);
-                Meal m = new Meal();
-                mealRecords = new ArrayList<MealRecord>();
                 boolean found = false;
-                for (int i = 0; i < meals.size() && !found; i++) {
-                    if (meals.get(i).getName().equals(item)) {
-                        mealRecords = db.getMealRecordsFromName(meals.get(i).getName());
+                for (int i = 0; i < components.size() && !found; i++) {
+                    if (components.get(i).getName().equals(item)) {
+                        foundEntries = components.get(i).getEntries(entries);
                         found = true;
+                        if(foundEntries.size() > 0) {
+                            Toast.makeText(viewMealsActivity.this, ""+foundEntries.get(0).getCreonTaken(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                for (int i = 0; i < combinations.size() && !found; i++) {
+                    if (combinations.get(i).getName().equals(item)) {
+                        foundEntries = combinations.get(i).getEntries(entries);
+                        found = true;
+                        if(foundEntries.size() > 0) {
+                            Toast.makeText(viewMealsActivity.this, ""+foundEntries.get(0).getCreonTaken(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 
@@ -74,7 +100,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
              //   text.setText("");
 
             //}
-        });*/
+        });
     }
 
     @Override
@@ -98,7 +124,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
     private void populateListView()
     {
-        ArrayAdapter<MealRecord> adapt = new MyListAdapter();
+        ArrayAdapter<Entry> adapt = new MyListAdapter();
         ListView list =(ListView) findViewById(R.id.itemListView);
         list.setAdapter(adapt);
 
@@ -161,11 +187,11 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
     }
 
-    private class MyListAdapter extends ArrayAdapter<MealRecord>
+    private class MyListAdapter extends ArrayAdapter<Entry>
     {
         public MyListAdapter()
         {
-            super(viewMealsActivity.this, R.layout.item_view, mealRecords);
+            super(viewMealsActivity.this, R.layout.item_view, foundEntries);
         }
 
         @Override
@@ -177,16 +203,15 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
             }
 
-            MealRecord mr = mealRecords.get(position);
+            Entry e = foundEntries.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
-            mName.setText(mr.getName());
+            mName.setText(e.getName());
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
-            mDate.setText((convertDate(mr.getDateTaken(), "dd/MM/yyyy")));
+            mDate.setText((convertDate(e.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);
-            mCreon.setText("Creon taken =" + mr.getCreonTaken());
+            mCreon.setText("Creon taken =" + e.getCreonTaken());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
-            mNotes.setText(mr.getNotes());
-
+            mNotes.setText(e.getNotes());
 
             return itemView;
         }

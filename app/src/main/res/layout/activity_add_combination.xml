@@ -24,6 +24,7 @@
 
     <EditText
         android:id="@+id/quantity"
+        android:inputType="number"
         android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_below="@id/combinationName"
