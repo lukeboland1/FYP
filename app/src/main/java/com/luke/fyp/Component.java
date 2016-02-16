@@ -9,15 +9,26 @@ public class Component implements I_Component{
     private String name;
     private int fatContent;
     private int quantity;
+    private String servingType;
     private int id;
 
     public Component() {};
-    public Component(String name, int fatContent, int quantity, int id) {
+    public Component(String name, int fatContent, int quantity, int id, String servingType) {
         this.name = name;
         this.fatContent = fatContent;
         this.quantity = quantity;
         this.id = id;
+        this.servingType = servingType;
     }
+
+    public String getServingType() {
+        return servingType;
+    }
+
+    public void setServingType(String servingType) {
+        this.servingType = servingType;
+    }
+
 
     public void setFatContent(int fatContent) {
         this.fatContent = fatContent;

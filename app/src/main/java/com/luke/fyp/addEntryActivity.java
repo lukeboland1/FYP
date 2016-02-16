@@ -1,5 +1,6 @@
 package com.luke.fyp;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +30,8 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
     private Combination combination1;
     private EditText quantity;
     private Button b;
+    private EditText creon;
+    private EditText notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +40,40 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         db = new DatabaseAccess(this);
         myAutoComplete1 = (AutoCompleteTextView) findViewById(R.id.autoMealName);
         myAutoComplete2 = (AutoCompleteTextView) findViewById(R.id.autoComponentName);
+        creon = (EditText) findViewById(R.id.creonTaken2);
+        notes = (EditText) findViewById(R.id.mealNotes);
         quantity = (EditText) findViewById(R.id.quantityTaken);
         b = (Button) findViewById(R.id.addMealToEntry);
         b.setEnabled(false);
         component1 = null;
         combination1 = null;
         m = new ArrayList<>();
-        dropDownDisplayCombinations();
-        dropDownDisplayComponents();
+        new getComponentsAndCombinations().execute();
 
+
+    }
+
+
+    private class getComponentsAndCombinations extends AsyncTask<String, Object, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            combinations = db.getAllCombinations();
+            components = db.getAllComponents();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            dropDownDisplayCombinations();
+            dropDownDisplayComponents();
+
+        }
     }
 
     public void dropDownDisplayCombinations()
     {
-        combinations = db.getAllCombinations();
         String[] items = new String[combinations.size()];
         for(int i = 0; i < combinations.size(); i++) {
             items[i] = (combinations.get(i).getName());
@@ -84,7 +108,6 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
     public void dropDownDisplayComponents()
     {
-        components = db.getAllComponents();
         String[] items = new String[components.size()];
         for(int i = 0; i < components.size(); i++) {
             items[i] = (components.get(i).getName());
@@ -115,6 +138,60 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             }*/
         });
     }
+
+
+
+    public void addMealToEntry(View v)
+    {
+        myAutoComplete1.setEnabled(false);
+        b.setEnabled(false);
+    }
+
+    public void addComponentToEntry(View v)
+    {
+        myAutoComplete2.clearListSelection();
+        if(component1 == null)
+        {
+
+        }
+        else {
+            component1.setQuantity(Integer.parseInt(quantity.getText().toString()));
+            m.add(component1);
+            //populateListView();
+            quantity.setText("");
+        }
+        component1 = null;
+        myAutoComplete2.setText("");
+        quantity.setText("");
+
+    }
+
+    public void saveEntry(View v)
+    {
+        Calendar calendar = Calendar.getInstance();
+        long datetime = calendar.getTimeInMillis();
+        db.insertEntry(Integer.parseInt(creon.getText().toString()),notes.getText().toString(),datetime);
+        int id = db.getIDForRecentEntry();
+        if(combination1 == null)
+        {
+
+        }
+        else{
+            db.addEntryCombination(id, combination1.getID());
+        }
+
+        for(int i = 0; i < m.size(); i++)
+        {
+            db.addEntryComponent(m.get(i).getID(), id, m.get(i).getQuantity());
+        }
+
+        myAutoComplete1.setText("");
+        creon.setText("");
+        notes.setText("");
+        myAutoComplete1.clearListSelection();
+    }
+
+
 
 
 
@@ -157,53 +234,5 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void addMealToEntry(View v)
-    {
-        myAutoComplete1.setEnabled(false);
-        b.setEnabled(false);
-    }
-
-    public void addComponentToEntry(View v)
-    {
-        myAutoComplete2.clearListSelection();
-        if(component1 == null)
-        {
-
-        }
-        else {
-            component1.setQuantity(Integer.parseInt(quantity.getText().toString()));
-            m.add(component1);
-            //populateListView();
-            quantity.setText("");
-        }
-        component1 = null;
-        myAutoComplete2.setText("");
-        quantity.setText("");
-
-    }
-
-    public void saveEntry(View v)
-    {
-        Calendar calendar = Calendar.getInstance();
-        long datetime = calendar.getTimeInMillis();
-        db.insertEntry("",0,"",datetime);
-        int id = db.getIDForRecentEntry();
-        if(combination1 == null)
-        {
-
-        }
-        else{
-            db.addEntryCombination(id, combination1.getID());
-        }
-
-        for(int i = 0; i < m.size(); i++)
-        {
-            db.addEntryComponent(m.get(i).getID(), id, m.get(i).getQuantity());
-        }
-
-        myAutoComplete1.setText("");
-        myAutoComplete1.clearListSelection();
     }
 }

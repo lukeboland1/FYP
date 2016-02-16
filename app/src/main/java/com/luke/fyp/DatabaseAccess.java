@@ -184,7 +184,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertEntry(String name, int creonTaken, String notes, long datetime) {
+    public boolean insertEntry(int creonTaken, String notes, long datetime) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("creonTaken", creonTaken);
         contentValues.put("notes", notes);
@@ -264,7 +264,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 int fat = res.getInt(res.getColumnIndex("fatPerServing"));
                 int myid = res.getInt(res.getColumnIndex("id"));
                 int quantity = res.getInt(res.getColumnIndex("quantity"));
-                Component component = new Component(name, fat, quantity, myid);
+                Component component = new Component(name, fat, quantity, myid, type);
                 comps1.add(component);
                 res.moveToNext();
 
@@ -344,7 +344,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 int fat = res.getInt(res.getColumnIndex("fatPerServing"));
                 int id = res.getInt(res.getColumnIndex("id"));
                 int quantity = res.getInt(res.getColumnIndex("quantity"));
-                Component component = new Component(name, fat, quantity, id);
+                Component component = new Component(name, fat, quantity, id, type);
                 comps.add(component);
                 res.moveToNext();
 
@@ -365,7 +365,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             String type = res.getString(res.getColumnIndex("servingtype"));
             int fat = res.getInt(res.getColumnIndex("fatPerServing"));
             int id = res.getInt(res.getColumnIndex("id"));
-            Component component = new Component(name, fat, 0, id);
+            Component component = new Component(name, fat, 0, id, type);
             comps.add(component);
             res.moveToNext();
         }
@@ -423,7 +423,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 int fat = res.getInt(res.getColumnIndex("fatPerServing"));
                 int myid = res.getInt(res.getColumnIndex("id"));
                 int quantity = res.getInt(res.getColumnIndex("quantity"));
-                Component component = new Component(name, fat, quantity, myid);
+                Component component = new Component(name, fat, quantity, myid, type);
                 comps1.add(component);
                 res.moveToNext();
 

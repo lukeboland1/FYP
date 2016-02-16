@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.os.AsyncTask;
 import java.util.ArrayList;
 
 public class addCombination extends AppCompatActivity implements TextWatcher {
@@ -27,6 +27,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
     private ArrayList<Component> m;
     private Component component1;
     private EditText quantity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,16 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
                     if (components.get(i).getName().equals(item)) {
                         component1 = components.get(i);
                         found = true;
+                        if(component1.getServingType().equals("Grams"))
+                        {
+                            quantity.setHint("Quantity in Grams");
+                        }
+
+                        else if(component1.getServingType().equals("Millilitres"))
+                        {
+                            quantity.setHint("Quantity in Millilitres");
+                        }
+
                     }
                 }
 
@@ -145,7 +156,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
             mName.setText(mr.getName());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
-            mNotes.setText("" + mr.getQuantity());
+            mNotes.setText("" + mr.getQuantity() + " " + mr.getServingType());
 
 
             return itemView;
@@ -167,23 +178,43 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         }
         myAutoComplete.setText("");
         quantity.setText("");
+        quantity.setHint("Quantity");
     }
 
     public void saveCombination(View v)
     {
-        db.insertCombination(mEdit.getText().toString(), 0);
-        int combID = db.getIDFromNameCombination(mEdit.getText().toString());
-        for(int i = 0; i < m.size(); i++) {
-            db.addComponentCombination(m.get(i).getID(), combID, m.get(i).getQuantity());
-        }
 
-        Toast.makeText(addCombination.this, "Added Combination", Toast.LENGTH_LONG).show();
-        myAutoComplete.setText("");
-        myAutoComplete.clearListSelection();
-        m.clear();
-        populateListView();
+        new AddNewCombination().execute(mEdit.getText().toString());
 
     }
+
+    private class AddNewCombination extends AsyncTask<String, Object, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            boolean tof = db.insertCombination(params[0], 0);
+            return tof;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            int combID = db.getIDFromNameCombination(mEdit.getText().toString());
+            for(int i = 0; i < m.size(); i++) {
+                db.addComponentCombination(m.get(i).getID(), combID, m.get(i).getQuantity());
+            }
+            super.onPostExecute(result);
+            Toast.makeText(addCombination.this, "Added Combination", Toast.LENGTH_LONG).show();
+            myAutoComplete.setText("");
+            myAutoComplete.clearListSelection();
+            m.clear();
+            mEdit.setText("");
+            populateListView();
+
+
+        }
+    }
+
+
 
 
 

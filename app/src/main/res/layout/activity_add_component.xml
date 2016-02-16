@@ -15,20 +15,29 @@
         android:layout_marginTop="100dp"
         android:hint="Item Name"/>
 
-    <EditText
+    <Spinner
+        android:id="@+id/spinnerServingType"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/componentName"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
+    <!--<EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/servingType"
         android:layout_below="@id/componentName"
         android:layout_centerHorizontal="true"
-        android:hint="Serving Type"/>
+        android:hint="Serving Type"/>-->
 
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/fatPerServing"
         android:inputType="number"
-        android:layout_below="@id/servingType"
+        android:layout_below="@id/spinnerServingType"
         android:layout_centerHorizontal="true"
         android:hint="Fat per serving"/>
 
