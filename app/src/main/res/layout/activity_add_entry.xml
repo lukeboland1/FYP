@@ -7,10 +7,9 @@
     tools:context="com.luke.fyp.storeEntry">
 
     <AutoCompleteTextView android:id="@+id/autoMealName"
-        android:layout_width="140dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:completionThreshold="1"
         android:hint="Meal name"
         />
@@ -27,7 +26,7 @@
 
 
     <AutoCompleteTextView android:id="@+id/autoComponentName"
-        android:layout_width="140dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_below="@id/autoMealName"
         android:completionThreshold="1"
@@ -39,27 +38,22 @@
         android:inputType="number"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        android:layout_below="@id/autoMealName"
-        android:layout_toRightOf="@+id/autoComponentName"
-        android:layout_toEndOf="@+id/autoComponentName"
+        android:layout_below="@id/autoComponentName"
         android:hint="Quantity"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:text="Add"
         android:id="@+id/addComponentToEntry"
-        android:layout_below="@id/autoMealName"
-        android:layout_toRightOf="@+id/quantityTaken"
-        android:layout_toEndOf="@+id/quantityTaken"
+        android:layout_below="@id/quantityTaken"
         android:onClick="addComponentToEntry"/>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/componentListView1"
-        android:layout_below="@+id/autoComponentName"
+        android:layout_below="@+id/saveEntry"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -68,7 +62,7 @@
         android:inputType="number"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        android:layout_below="@id/componentListView1"
+        android:layout_below="@id/addComponentToEntry"
         android:hint="Creon Taken"/>
 
     <EditText
@@ -84,8 +78,6 @@
         android:text="SAVE MEAL"
         android:id="@+id/saveEntry"
         android:layout_below="@+id/mealNotes"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp"
         android:onClick="saveEntry"/>
 
 

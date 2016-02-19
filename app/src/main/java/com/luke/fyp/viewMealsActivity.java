@@ -205,7 +205,9 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
             Entry e = foundEntries.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
-            mName.setText(e.getName());
+            if(e.getCombinations().size() > 0) {
+                mName.setText(e.getCombinations().get(0).getName());
+            }
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
             mDate.setText((convertDate(e.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);

@@ -52,6 +52,18 @@ public class Entry {
         return s;
     }
 
+    public boolean isBetweenTwoDates(long date1, long date2)
+    {
+        if(dateTaken >= date1 && dateTaken < date2)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void setDateTaken(long dateTaken) {
         this.dateTaken = dateTaken;
     }

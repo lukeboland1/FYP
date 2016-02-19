@@ -11,11 +11,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/combinationName"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:hint="Meal Name"/>
 
     <AutoCompleteTextView android:id="@+id/myautocomplete1"
-        android:layout_width="140dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_below="@id/combinationName"
         android:completionThreshold="1"
@@ -25,29 +24,26 @@
     <EditText
         android:id="@+id/quantity"
         android:inputType="number"
-        android:layout_width="140dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_below="@id/combinationName"
-        android:layout_toRightOf="@+id/myautocomplete1"
-        android:layout_toEndOf="@+id/myautocomplete1"
-        android:hint="Quantity"/>
+        android:layout_below="@id/myautocomplete1"
+        android:hint="Quantity"
+        android:enabled="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:text="Add"
         android:id="@+id/addToCombination"
-        android:layout_below="@id/combinationName"
-        android:layout_toRightOf="@+id/quantity"
-        android:layout_toEndOf="@+id/quantity"
+        android:layout_below="@id/quantity"
+        android:enabled="false"
         android:onClick="addToCombination"/>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/componentListView"
-        android:layout_below="@+id/myautocomplete1"
+        android:layout_below="@+id/saveThisMeal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -55,9 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SAVE MEAL"
-        android:id="@+id/saveItem"
-        android:layout_below="@+id/componentListView"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/saveThisMeal"
+        android:layout_below="@+id/addToCombination"
         android:layout_marginTop="31dp"
         android:onClick="saveCombination"/>
 

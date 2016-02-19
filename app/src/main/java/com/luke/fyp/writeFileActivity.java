@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class writeFileActivity extends AppCompatActivity {
     private DatabaseAccess db;
-    private ArrayList<MealRecord> mealRecords;
+    private ArrayList<Entry> mealRecords;
     private EditText email;
 
     @Override
@@ -61,8 +61,10 @@ public class writeFileActivity extends AppCompatActivity {
     public void sendEmail(View v) throws IOException {
         String e = email.getText().toString();
         new sendEmail().execute(e);
+
+
         /*
-        mealRecords = db.getAllMealRecords();
+        mealRecords = db.getAllEntries();
         File folder = new File(Environment.getExternalStorageDirectory()
                 + "/Folder");
 
@@ -77,7 +79,7 @@ public class writeFileActivity extends AppCompatActivity {
             FileWriter fw = new FileWriter(filename);
             for(int i = 0; i < mealRecords.size(); i++)
             {
-                String s = Long.toString(mealRecords.get(i).getDateTaken());
+                String s = (mealRecords.get(i).getDateTaken());
                 fw.append(mealRecords.get(i).getName() + ",");
                 fw.append(convertDate(s, "dd/MM/yyyy") + ",");
                 fw.append(mealRecords.get(i).getCreonTaken()+ ",");
@@ -85,7 +87,7 @@ public class writeFileActivity extends AppCompatActivity {
             }
             fw.close();
 
-        } catch (Exception e) {
+        } catch (Exception ex) {
 
 
         }
@@ -108,7 +110,7 @@ public class writeFileActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            /*mealRecords = db.getAllMealRecords();
+            mealRecords = db.getAllEntries();
             File folder = new File(Environment.getExternalStorageDirectory()
                     + "/Folder");
 
@@ -143,7 +145,6 @@ public class writeFileActivity extends AppCompatActivity {
             Uri uri = Uri.fromFile(file);
             intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(intent, "Send email..."));
-            return true;*/
             return true;
         }
 

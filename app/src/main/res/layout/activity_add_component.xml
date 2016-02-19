@@ -12,7 +12,7 @@
         android:id="@+id/componentName"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
         android:hint="Item Name"/>
 
     <Spinner
@@ -23,14 +23,6 @@
         android:layout_below="@id/componentName"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
-
-    <!--<EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/servingType"
-        android:layout_below="@id/componentName"
-        android:layout_centerHorizontal="true"
-        android:hint="Serving Type"/>-->
 
     <EditText
         android:layout_width="200dp"
@@ -50,5 +42,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp"
         android:onClick="saveComponent"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/componentListView5"
+        android:layout_below="@+id/saveItem"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

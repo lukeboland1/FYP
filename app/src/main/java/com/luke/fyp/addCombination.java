@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
     private ArrayList<Component> m;
     private Component component1;
     private EditText quantity;
+    private Button b;
 
 
     @Override
@@ -36,15 +38,17 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         component1 = null;
         mEdit = (EditText) findViewById(R.id.combinationName);
         quantity = (EditText) findViewById(R.id.quantity);
+        b = (Button) findViewById(R.id.addToCombination);
         db = new DatabaseAccess(this);
         m = new ArrayList<>();
         myAutoComplete = (AutoCompleteTextView)findViewById(R.id.myautocomplete1);
-        dropDownDisplayComponents();
+        //dropDownDisplayComponents();
+        new loadObjects().execute();
     }
 
     public void dropDownDisplayComponents()
     {
-        components = db.getAllComponents();
+        //components = db.getAllComponents();
         String[] items = new String[components.size()];
         for(int i = 0; i < components.size(); i++) {
             items[i] = (components.get(i).getName());
@@ -63,6 +67,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
                     if (components.get(i).getName().equals(item)) {
                         component1 = components.get(i);
                         found = true;
+                        String servingType = component1.getServingType();
                         if(component1.getServingType().equals("Grams"))
                         {
                             quantity.setHint("Quantity in Grams");
@@ -72,6 +77,59 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
                         {
                             quantity.setHint("Quantity in Millilitres");
                         }
+
+                        else if(servingType.equals("Tablespoon"))
+                        {
+                            quantity.setHint("Quantity in Tablespoons");
+                        }
+
+                        else if(servingType.equals("Teaspoon"))
+                        {
+                            quantity.setHint("Quantity in Teaspoons");
+                        }
+
+                        else if(servingType.equals("Oz"))
+                        {
+                            quantity.setHint("Quantity in Ozs");
+                        }
+
+                        else if(servingType.equals("Floz"))
+                        {
+                            quantity.setHint("Quantity in Flozs");
+                        }
+
+                        else if(servingType.equals("Pints"))
+                        {
+                            quantity.setHint("Quantity in Pints");
+                        }
+
+                        else if(servingType.equals("Lbs"))
+                        {
+                            quantity.setHint("Quantity in lbs");
+                        }
+
+                        else if(servingType.equals("Milligram"))
+                        {
+                            quantity.setHint("Quantity in milligrams");
+                        }
+
+                        else if(servingType.equals("Cup"))
+                        {
+                            quantity.setHint("Quantity in cups");
+                        }
+
+                        else if(servingType.equals("Portion"))
+                        {
+                            quantity.setHint("Quantity in portions");
+                        }
+
+                        else if(servingType.equals("Unit"))
+                        {
+                            quantity.setHint("Quantity in units");
+                        }
+
+                        quantity.setEnabled(true);
+                        b.setEnabled(true);
 
                     }
                 }
@@ -179,6 +237,8 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         myAutoComplete.setText("");
         quantity.setText("");
         quantity.setHint("Quantity");
+        quantity.setEnabled(false);
+        b.setEnabled(false);
     }
 
     public void saveCombination(View v)
@@ -193,15 +253,15 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         @Override
         protected Boolean doInBackground(String... params) {
             boolean tof = db.insertCombination(params[0], 0);
+            int combID = db.getIDFromNameCombination(params[0]);
+            for(int i = 0; i < m.size(); i++) {
+                db.addComponentCombination(m.get(i).getID(), combID, m.get(i).getQuantity());
+            }
             return tof;
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
-            int combID = db.getIDFromNameCombination(mEdit.getText().toString());
-            for(int i = 0; i < m.size(); i++) {
-                db.addComponentCombination(m.get(i).getID(), combID, m.get(i).getQuantity());
-            }
             super.onPostExecute(result);
             Toast.makeText(addCombination.this, "Added Combination", Toast.LENGTH_LONG).show();
             myAutoComplete.setText("");
@@ -209,6 +269,23 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             m.clear();
             mEdit.setText("");
             populateListView();
+
+
+        }
+    }
+
+    private class loadObjects extends AsyncTask<String, Object, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            components = db.getAllComponents();
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            dropDownDisplayComponents();
 
 
         }

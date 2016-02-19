@@ -19,7 +19,8 @@ import java.util.Calendar;
 
 public class CalendarActivity extends AppCompatActivity {
     private CalendarView calendar;
-    private ArrayList<MealRecord> mealRecords;
+    private ArrayList<Entry> mealRecords;
+    private ArrayList<Entry> entries;
     private DatabaseAccess db;
     private String date;
 
@@ -36,7 +37,17 @@ public class CalendarActivity extends AppCompatActivity {
         long datetime1 = c.getTimeInMillis();
         c.add(Calendar.DATE, 1);
         long datetime2 = c.getTimeInMillis();
-        /*mealRecords = db.getMealRecordsFromDate(datetime1, datetime2);
+
+        entries = db.getAllEntries();
+        mealRecords = new ArrayList<>();
+        for(int i = 0; i < entries.size(); i++)
+        {
+            if(entries.get(i).isBetweenTwoDates(datetime1, datetime2))
+            {
+                mealRecords.add(entries.get(i));
+            }
+        }
+
         populateListView();
 
 
@@ -54,9 +65,13 @@ public class CalendarActivity extends AppCompatActivity {
                 c.add(Calendar.DATE, 1);
                 time2 = c.getTimeInMillis();
                 Toast.makeText(CalendarActivity.this, " "+time1, Toast.LENGTH_SHORT).show();
-                mealRecords = db.getMealRecordsFromDate(time1, time2);
-                if(mealRecords.size() > 0) {
-
+                mealRecords.clear();
+                for(int i = 0; i < entries.size(); i++)
+                {
+                    if(entries.get(i).isBetweenTwoDates(time1, time2))
+                    {
+                        mealRecords.add(entries.get(i));
+                    }
                 }
 
                 populateListView();
@@ -64,7 +79,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
 
 
-        });*/
+        });
 
 
     }
@@ -93,13 +108,13 @@ public class CalendarActivity extends AppCompatActivity {
 
     private void populateListView()
     {
-        ArrayAdapter<MealRecord> adapt = new MyListAdapter();
+        ArrayAdapter<Entry> adapt = new MyListAdapter();
         ListView list =(ListView) findViewById(R.id.listViewItems);
         list.setAdapter(adapt);
 
     }
 
-    private class MyListAdapter extends ArrayAdapter<MealRecord>
+    private class MyListAdapter extends ArrayAdapter<Entry>
     {
         public MyListAdapter()
         {
@@ -115,9 +130,11 @@ public class CalendarActivity extends AppCompatActivity {
 
             }
 
-            MealRecord mr = mealRecords.get(position);
+            Entry mr = mealRecords.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
-            mName.setText(mr.getName());
+            if(mr.getCombinations().size() > 0) {
+                mName.setText(mr.getCombinations().get(0).getName());
+            }
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
             mDate.setText((convertDate(mr.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);
