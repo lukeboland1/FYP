@@ -73,18 +73,18 @@ public class firstWelcomeActivity extends AppCompatActivity {
 
     public boolean addUser(View v)
     {
-        new AddNewUser().execute(Integer.parseInt(creonType), Integer.parseInt(fatPerCreon.getText().toString()));
+        new AddNewUser().execute((creonType), fatPerCreon.getText().toString());
         this.finish();
         return true;
 
     }
 
 
-    private class AddNewUser extends AsyncTask<Integer, Object, Boolean> {
+    private class AddNewUser extends AsyncTask<String, Object, Boolean> {
 
         @Override
-        protected Boolean doInBackground(Integer... params) {
-            boolean tof = db.addUser(params[0], params[1]);
+        protected Boolean doInBackground(String... params) {
+            boolean tof = db.addUser(Integer.parseInt(params[0]), Double.parseDouble(params[1]));
             return tof;
         }
 

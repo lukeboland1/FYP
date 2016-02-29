@@ -5,9 +5,9 @@ package com.luke.fyp;
  */
 public class User {
     private int creonType;
-    private int fatPerCreon;
+    private double fatPerCreon;
 
-    public User(int creonType, int fatPerCreon) {
+    public User(int creonType, double fatPerCreon) {
         this.creonType = creonType;
         this.fatPerCreon = fatPerCreon;
     }
@@ -20,7 +20,7 @@ public class User {
         this.creonType = creonType;
     }
 
-    public int getFatPerCreon() {
+    public double getFatPerCreon() {
         return fatPerCreon;
     }
 

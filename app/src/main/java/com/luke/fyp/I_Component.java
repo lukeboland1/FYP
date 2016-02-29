@@ -6,7 +6,7 @@ package com.luke.fyp;
 interface I_Component {
 
     public String getName();
-    public int getFatContent();
+    public double getFatContent();
     public int getID();
 
 }

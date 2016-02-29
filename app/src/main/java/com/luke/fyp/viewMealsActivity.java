@@ -214,6 +214,12 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
             mCreon.setText("Creon taken =" + e.getCreonTaken());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
             mNotes.setText(e.getNotes());
+            String notes = "";
+            for(int i = 0; i < e.getComponents().size(); i++)
+            {
+                notes+=" " + (e.getComponents().get(i).getName()) + " " + e.getComponents().get(i).getQuantity() + " " + e.getComponents().get(i).getServingType() + "\n";
+            }
+            mNotes.setText(notes);
 
             return itemView;
         }

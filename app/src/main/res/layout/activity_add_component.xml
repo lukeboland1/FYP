@@ -28,7 +28,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/fatPerServing"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:layout_below="@id/spinnerServingType"
         android:layout_centerHorizontal="true"
         android:hint="Fat per serving"/>

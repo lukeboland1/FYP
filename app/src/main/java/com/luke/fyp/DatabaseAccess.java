@@ -34,7 +34,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
 
     public DatabaseAccess(Context context) {
-        super(context, DATABASE_NAME, null, 8);
+        super(context, DATABASE_NAME, null, 9);
         DatabaseManagement.initializeInstance(this);
         database = DatabaseManagement.getInstance().openDatabase();
 
@@ -48,14 +48,14 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 "create table users" +
                         "(id integer primary key, " +
                         "creonType integer, " +
-                        "fatPerCreon integer)"
+                        "fatPerCreon double)"
         );
 
         db.execSQL(
                 "create table combinations" +
                         "(id integer primary key, " +
                         "name text, " +
-                        "fatContent integer)"
+                        "fatContent double)"
         );
 
         db.execSQL(
@@ -73,7 +73,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                         "(id integer primary key, " +
                         "servingtype text, " +
                         "name text, " +
-                        "fatPerServing integer)"
+                        "fatPerServing double)"
         );
 
         db.execSQL(
@@ -126,7 +126,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addUser(int creonType, int fatPerCreon) {
+    public boolean addUser(int creonType, double fatPerCreon) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("creonType", creonType);
         contentValues.put("fatPerCreon", fatPerCreon);
@@ -151,13 +151,13 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         res.moveToFirst();
         while (res.isAfterLast() == false) {
 
-            return new User(res.getInt(res.getColumnIndex("creonType")), res.getInt(res.getColumnIndex("fatPerCreon")));
+            return new User(res.getInt(res.getColumnIndex("creonType")), res.getDouble(res.getColumnIndex("fatPerCreon")));
         }
         res.close();
         return null;
     }
 
-    public boolean updateMeal(Integer id, String name, Integer fatContent) {
+    public boolean updateMeal(Integer id, String name, double fatContent) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("fatContent", fatContent);
@@ -167,7 +167,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
 
     // new methods
-    public boolean insertComponent(String name, Integer fatPerServing, String servingType) {
+    public boolean insertComponent(String name, double fatPerServing, String servingType) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("servingtype", servingType);
@@ -176,7 +176,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertCombination(String name, Integer fatContent) {
+    public boolean insertCombination(String name, double fatContent) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("fatContent", fatContent);
@@ -261,7 +261,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             while (res.isAfterLast() == false) {
                 String name = res.getString(res.getColumnIndex("name"));
                 String type = res.getString(res.getColumnIndex("servingtype"));
-                int fat = res.getInt(res.getColumnIndex("fatPerServing"));
+                double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
                 int myid = res.getInt(res.getColumnIndex("id"));
                 int quantity = res.getInt(res.getColumnIndex("quantity"));
                 Component component = new Component(name, fat, quantity, myid, type);
@@ -280,7 +280,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             res.moveToFirst();
             while (res.isAfterLast() == false) {
                 String name = res.getString(res.getColumnIndex(MEALS_COLUMN_NAME));
-                int fat = res.getInt(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
+                double fat = res.getDouble(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
                 int myid = res.getInt(res.getColumnIndex("id"));
                 Combination combination = new Combination();
                 combination.setId(myid);
@@ -322,7 +322,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
         while (res.isAfterLast() == false) {
             String name = res.getString(res.getColumnIndex("name"));
-            int fat = res.getInt(res.getColumnIndex("fatContent"));
+            double fat = res.getDouble(res.getColumnIndex("fatContent"));
             int id = res.getInt(res.getColumnIndex("id"));
 
             Combination combination = new Combination();
@@ -336,12 +336,12 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
         for (int i = 0; i < array_list.size(); i++) {
             ArrayList<Component> comps = new ArrayList<>();
-            res = database.rawQuery("select components.name, components.servingtype, components.fatPerServing, components.id, componentcombinations.quantity from components inner join componentcombinations on components.id = componentcombinations.componentID where id = ?", new String[]{"" + array_list.get(i).getID()});
+            res = database.rawQuery("select components.name, components.servingtype, components.fatPerServing, components.id, componentcombinations.quantity from components inner join componentcombinations on components.id = componentcombinations.componentID where combinationID = ?", new String[]{"" + array_list.get(i).getID()});
             res.moveToFirst();
             while (res.isAfterLast() == false) {
                 String name = res.getString(res.getColumnIndex("name"));
                 String type = res.getString(res.getColumnIndex("servingtype"));
-                int fat = res.getInt(res.getColumnIndex("fatPerServing"));
+                double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
                 int id = res.getInt(res.getColumnIndex("id"));
                 int quantity = res.getInt(res.getColumnIndex("quantity"));
                 Component component = new Component(name, fat, quantity, id, type);
@@ -363,7 +363,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         while (res.isAfterLast() == false) {
             String name = res.getString(res.getColumnIndex("name"));
             String type = res.getString(res.getColumnIndex("servingtype"));
-            int fat = res.getInt(res.getColumnIndex("fatPerServing"));
+            double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
             int id = res.getInt(res.getColumnIndex("id"));
             Component component = new Component(name, fat, 0, id, type);
             comps.add(component);
@@ -420,7 +420,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             while (res.isAfterLast() == false) {
                 String name = res.getString(res.getColumnIndex("name"));
                 String type = res.getString(res.getColumnIndex("servingtype"));
-                int fat = res.getInt(res.getColumnIndex("fatPerServing"));
+                double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
                 int myid = res.getInt(res.getColumnIndex("id"));
                 int quantity = res.getInt(res.getColumnIndex("quantity"));
                 Component component = new Component(name, fat, quantity, myid, type);
@@ -439,7 +439,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             res.moveToFirst();
             while (res.isAfterLast() == false) {
                 String name = res.getString(res.getColumnIndex(MEALS_COLUMN_NAME));
-                int fat = res.getInt(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
+                double fat = res.getDouble(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
                 int myid = res.getInt(res.getColumnIndex("id"));
                 Combination combination = new Combination();
                 combination.setName(name);

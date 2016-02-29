@@ -36,7 +36,7 @@
     <EditText
         android:id="@+id/quantityTaken"
         android:inputType="number"
-        android:layout_width="140dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_below="@id/autoComponentName"
         android:hint="Quantity"/>
@@ -65,11 +65,19 @@
         android:layout_below="@id/addComponentToEntry"
         android:hint="Creon Taken"/>
 
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/suggested"
+        android:layout_below="@id/creonTaken2" />
+
+
     <EditText
         android:id="@+id/mealNotes"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        android:layout_below="@id/creonTaken2"
+        android:layout_below="@id/suggested"
         android:hint="Notes"/>
 
     <Button
@@ -79,6 +87,15 @@
         android:id="@+id/saveEntry"
         android:layout_below="@+id/mealNotes"
         android:onClick="saveEntry"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/componentListView6"
+        android:layout_below="@+id/saveEntry"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 
 
 </RelativeLayout>

@@ -34,86 +34,6 @@ public class addComponent extends AppCompatActivity {
         fat = (EditText)findViewById(R.id.fatPerServing);
         new setupDisplay().execute();
 
-        /*
-        String[] items = {"Millilitres", "Grams", "Unit", "Tablespoon", "Teaspoon", "Oz", "Floz", "Pints", "Lbs", "Cup", "Milligram", "Portion"};
-        Spinner dropdown = (Spinner)findViewById(R.id.spinnerServingType);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                String item =(String) arg0.getItemAtPosition(arg2);
-                servingType = item;
-                canStore = true;
-                if(servingType.equals("Grams"))
-                {
-                    fat.setHint("Fat per 100 grams");
-                }
-                else if(servingType.equals("Millilitres"))
-                {
-                    fat.setHint("Fat per 100 millilitres");
-                }
-
-                else if(servingType.equals("Tablespoon"))
-                {
-                    fat.setHint("Fat per Tablespoon");
-                }
-
-                else if(servingType.equals("Teaspoon"))
-                {
-                    fat.setHint("Fat per Teaspoon");
-                }
-
-                else if(servingType.equals("Oz"))
-                {
-                    fat.setHint("Fat per Oz");
-                }
-
-                else if(servingType.equals("Floz"))
-                {
-                    fat.setHint("Fat per Floz");
-                }
-
-                else if(servingType.equals("Pints"))
-                {
-                    fat.setHint("Fat per Pint");
-                }
-
-                else if(servingType.equals("Lbs"))
-                {
-                    fat.setHint("Fat per lb");
-                }
-
-                else if(servingType.equals("Milligram"))
-                {
-                    fat.setHint("Fat per 100 milligrams");
-                }
-
-                else if(servingType.equals("Cup"))
-                {
-                    fat.setHint("Fat per cup");
-                }
-
-                else if(servingType.equals("Portion"))
-                {
-                    fat.setHint("Fat per portion");
-                }
-
-                else if(servingType.equals("Unit"))
-                {
-                    fat.setHint("Fat per unit");
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-
-            }
-        });*/
     }
 
 
@@ -144,7 +64,7 @@ public class addComponent extends AppCompatActivity {
             boolean tof = false;
 
             if(!found) {
-                tof = db.insertComponent(params[0], Integer.parseInt(params[1]), servingType);
+                tof = db.insertComponent(params[0], Double.parseDouble(params[1]), servingType);
                 components = db.getAllComponents();
             }
 
@@ -180,7 +100,7 @@ public class addComponent extends AppCompatActivity {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             populateListView();
-            String[] items = {"Millilitres", "Grams", "Unit", "Tablespoon", "Teaspoon", "Oz", "Floz", "Pints", "Lbs", "Cup", "Milligram", "Portion"};
+            String[] items = {"Millilitres", "Grams", "Unit", "Tablespoon", "Teaspoon", "Oz", "Floz", "Pints", "Lbs", "Cup", "Milligram", "Portion", "Slices"};
             Spinner dropdown = (Spinner)findViewById(R.id.spinnerServingType);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(addComponent.this, android.R.layout.simple_spinner_dropdown_item, items);
             dropdown.setAdapter(adapter);
@@ -251,6 +171,11 @@ public class addComponent extends AppCompatActivity {
                         fat.setHint("Fat per unit");
                     }
 
+                    else if(servingType.equals("Slices"))
+                    {
+                        fat.setHint("Fat per slice");
+                    }
+
                 }
 
                 @Override
@@ -295,7 +220,7 @@ public class addComponent extends AppCompatActivity {
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
             mName.setText(mr.getName());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
-            mNotes.setText("" + mr.getQuantity() + " " + mr.getServingType());
+            mNotes.setText(" " + mr.getServingType() + "\n" + mr.getFatContent() + " grams of fat");
 
 
             return itemView;

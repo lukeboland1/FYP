@@ -132,16 +132,23 @@ public class CalendarActivity extends AppCompatActivity {
 
             Entry mr = mealRecords.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
+            String names = "";
             if(mr.getCombinations().size() > 0) {
-                mName.setText(mr.getCombinations().get(0).getName());
+                names+=(mr.getCombinations().get(0).getName());
             }
+            mName.setText(names);
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
             mDate.setText((convertDate(mr.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);
             mCreon.setText("Creon taken =" + mr.getCreonTaken());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
             mNotes.setText(mr.getNotes());
-
+            String notes = "";
+            for(int i = 0; i < mr.getComponents().size(); i++)
+            {
+                notes+=" " + (mr.getComponents().get(i).getName()) + " " + mr.getComponents().get(i).getQuantity() + " " + mr.getComponents().get(i).getServingType() + "\n";
+            }
+            mNotes.setText(notes);
 
             return itemView;
         }

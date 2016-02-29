@@ -1,5 +1,7 @@
 package com.luke.fyp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -20,12 +22,12 @@ public class Combination extends Component {
     }
 
     @Override
-    public int getFatContent()
+    public double getFatContent()
     {
-        int num = 0;
+        double num = 0;
         for(int i = 0; components.size() > i; i++)
         {
-            num += components.get(i).getFatContent();
+            num += components.get(i).getTotalFat();
         }
 
         return num;
@@ -37,6 +39,19 @@ public class Combination extends Component {
         this.components = components;
     }
 
+    public double getFat()
+    {
+        double num = 0;
+        Log.d("FAT", ""+components.size());
+        for(int i = 0; components.size() > i; i++)
+        {
+            num += components.get(i).getTotalFat();
+            Log.d("FAT", components.get(i).getName() + " " + components.get(i).getQuantity() + " " + components.get(i).getTotalFat());
+        }
+
+        return num;
+
+    }
 
 
     public void addComponent(Component component)

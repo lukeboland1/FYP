@@ -7,13 +7,13 @@ import java.util.ArrayList;
  */
 public class Component implements I_Component{
     private String name;
-    private int fatContent;
+    private double fatContent;
     private int quantity;
     private String servingType;
     private int id;
 
     public Component() {};
-    public Component(String name, int fatContent, int quantity, int id, String servingType) {
+    public Component(String name, double fatContent, int quantity, int id, String servingType) {
         this.name = name;
         this.fatContent = fatContent;
         this.quantity = quantity;
@@ -30,7 +30,7 @@ public class Component implements I_Component{
     }
 
 
-    public void setFatContent(int fatContent) {
+    public void setFatContent(double fatContent) {
         this.fatContent = fatContent;
     }
 
@@ -56,8 +56,23 @@ public class Component implements I_Component{
     }
 
     @Override
-    public int getFatContent() {
+    public double getFatContent() {
         return fatContent;
+    }
+
+    public double getTotalFat(){
+        if (servingType.equals("Millilitres") || servingType.equals("Grams") || servingType.equals("Milligrams"))
+        {
+            double fat = quantity / 100;
+            double fatP = fatContent * fat;
+            return fatP;
+        }
+
+        else
+        {
+            double fat = quantity * fatContent;
+            return fat;
+        }
     }
 
     @Override

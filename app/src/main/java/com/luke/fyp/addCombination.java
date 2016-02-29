@@ -128,6 +128,11 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
                             quantity.setHint("Quantity in units");
                         }
 
+                        else if(servingType.equals("Slices"))
+                        {
+                            quantity.setHint("Quantity in slices");
+                        }
+
                         quantity.setEnabled(true);
                         b.setEnabled(true);
 
