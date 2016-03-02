@@ -34,7 +34,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
 
     public DatabaseAccess(Context context) {
-        super(context, DATABASE_NAME, null, 9);
+        super(context, DATABASE_NAME, null, 10);
         DatabaseManagement.initializeInstance(this);
         database = DatabaseManagement.getInstance().openDatabase();
 
@@ -80,7 +80,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 "create table componentcombinations" +
                         "(componentID integer, " +
                         "combinationID integer, " +
-                        "quantity integer, " +
+                        "quantity double, " +
                         "primary key(componentID, combinationID)" +
                         "foreign key (componentID) references components(id)" +
                         "foreign key (combinationID) references combinations(id))"
@@ -91,6 +91,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 "create table entrycombinations" +
                         "(entryID integer, " +
                         "combinationID integer, " +
+                        "quantity double, " +
                         "primary key(entryID, combinationID)" +
                         "foreign key (entryID) references entries(id)" +
                         "foreign key (combinationID) references combinations(id))"
@@ -101,7 +102,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 "create table entrycomponents" +
                         "(entryID integer, " +
                         "componentID integer, " +
-                        "quantity integer, " +
+                        "quantity double, " +
                         "primary key(entryID, componentID)" +
                         "foreign key (entryID) references entries(id)" +
                         "foreign key (componentID) references component(id))"
@@ -194,7 +195,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
     }
 
-    public boolean addComponentCombination(int compID, int combID, int quantity) {
+    public boolean addComponentCombination(int compID, int combID, double quantity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("componentID", compID);
         contentValues.put("combinationID", combID);
@@ -203,15 +204,16 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean addEntryCombination(int entryID, int combID) {
+    public boolean addEntryCombination(int entryID, int combID, double quantity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("entryID", entryID);
         contentValues.put("combinationID", combID);
+        contentValues.put("quantity", quantity);
         database.insert("entrycombinations", null, contentValues);
         return true;
     }
 
-    public boolean addEntryComponent(int compID, int entryID, int quantity) {
+    public boolean addEntryComponent(int compID, int entryID, double quantity) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("componentID", compID);
         contentValues.put("entryID", entryID);
@@ -263,7 +265,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 String type = res.getString(res.getColumnIndex("servingtype"));
                 double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
                 int myid = res.getInt(res.getColumnIndex("id"));
-                int quantity = res.getInt(res.getColumnIndex("quantity"));
+                double quantity = res.getDouble(res.getColumnIndex("quantity"));
                 Component component = new Component(name, fat, quantity, myid, type);
                 comps1.add(component);
                 res.moveToNext();
@@ -276,16 +278,17 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         for(int i = 0; i < comps.size(); i++) {
             ArrayList<Combination> combs1 = new ArrayList<>();
             int thisID = comps.get(i).getId();
-            res = database.rawQuery("select * from combinations where id = (select combinationID from entrycombinations where entryID = ?)", new String[]{"" + thisID});
+            res = database.rawQuery("select combinations.name, combinations.id, entrycombinations.quantity from combinations inner join entrycombinations on combinations.id = entrycombinations.combinationID where entryID = ?", new String[]{"" + thisID});
+            //res = database.rawQuery("select * from combinations where id = (select combinationID from entrycombinations where entryID = ?)", new String[]{"" + thisID});
             res.moveToFirst();
             while (res.isAfterLast() == false) {
                 String name = res.getString(res.getColumnIndex(MEALS_COLUMN_NAME));
-                double fat = res.getDouble(res.getColumnIndex(MEALS_COLUMN_FATCONTENT));
                 int myid = res.getInt(res.getColumnIndex("id"));
+                double quantity = res.getDouble(res.getColumnIndex("quantity"));
                 Combination combination = new Combination();
                 combination.setId(myid);
                 combination.setName(name);
-                combination.setFatContent(fat);
+                combination.setQuantity(quantity);
                 combs1.add(combination);
 
                 res.moveToNext();
@@ -324,7 +327,6 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             String name = res.getString(res.getColumnIndex("name"));
             double fat = res.getDouble(res.getColumnIndex("fatContent"));
             int id = res.getInt(res.getColumnIndex("id"));
-
             Combination combination = new Combination();
             combination.setId(id);
             combination.setName(name);
@@ -343,7 +345,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 String type = res.getString(res.getColumnIndex("servingtype"));
                 double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
                 int id = res.getInt(res.getColumnIndex("id"));
-                int quantity = res.getInt(res.getColumnIndex("quantity"));
+                double quantity = res.getDouble(res.getColumnIndex("quantity"));
                 Component component = new Component(name, fat, quantity, id, type);
                 comps.add(component);
                 res.moveToNext();
@@ -422,7 +424,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 String type = res.getString(res.getColumnIndex("servingtype"));
                 double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
                 int myid = res.getInt(res.getColumnIndex("id"));
-                int quantity = res.getInt(res.getColumnIndex("quantity"));
+                double quantity = res.getDouble(res.getColumnIndex("quantity"));
                 Component component = new Component(name, fat, quantity, myid, type);
                 comps1.add(component);
                 res.moveToNext();

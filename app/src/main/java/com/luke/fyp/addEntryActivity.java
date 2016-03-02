@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
     private TextView suggestedCreon;
     private double entryFat;
     private User u;
+    private String qa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +56,61 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         b.setEnabled(false);
         component1 = null;
         combination1 = null;
+        qa = "1";
         entryFat = 0;
         m = new ArrayList<>();
+        String[] items = {"1","1/2","1/3","1/4","1/5","1/6","1/8"};
+        Spinner dropdown = (Spinner)findViewById(R.id.spinnerFraction);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(addEntryActivity.this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                String item =(String) arg0.getItemAtPosition(arg2);
+                qa = item;
+                setQuantity();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+
+            }
+        });
 
         MyApp myapp = ((MyApp)getApplicationContext());
         u = myapp.getUser();
         new getComponentsAndCombinations().execute();
 
+
+    }
+
+    public void setQuantity()
+    {
+        if(combination1 == null)
+        {
+            Toast.makeText(addEntryActivity.this, "Please select meal first", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if (qa.equals("1")) {
+                combination1.setQuantity(1);
+            } else if (qa.equals("1/2")) {
+                combination1.setQuantity(0.5);
+            } else if (qa.equals("1/4")) {
+                combination1.setQuantity(0.25);
+            } else if (qa.equals("1/3")) {
+                combination1.setQuantity(0.33333);
+            } else if (qa.equals("1/5")) {
+                combination1.setQuantity(0.2);
+            } else if (qa.equals("1/6")) {
+                combination1.setQuantity(0.1666666);
+            } else if (qa.equals("1/8")) {
+                combination1.setQuantity(0.125);
+            }
+        }
 
     }
 
@@ -104,6 +154,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
                         combination1 = combinations.get(i);
                         found = true;
                         b.setEnabled(true);
+                        setQuantity();
                     }
                 }
 
@@ -226,9 +277,8 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             myAutoComplete1.setEnabled(false);
             b.setEnabled(false);
             entryFat += combination1.getFat();
-            Toast.makeText(addEntryActivity.this, ""+combination1.getFat(), Toast.LENGTH_SHORT).show();
             double cb = (entryFat / u.getFatPerCreon());
-            suggestedCreon.setText("Suggested Creon = " + cb);
+            suggestedCreon.setText("Suggested Creon = " + Math.round(cb*combination1.getQuantity()));
         }
     }
 
@@ -238,13 +288,13 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         if (component1 == null) {
 
         } else {
-            component1.setQuantity(Integer.parseInt(quantity.getText().toString()));
+            component1.setQuantity(Double.parseDouble(quantity.getText().toString()));
             m.add(component1);
             //populateListView();
             quantity.setText("");
             entryFat += component1.getTotalFat();
             double cr = (entryFat / u.getFatPerCreon());
-            suggestedCreon.setText("Suggested Creon = " + cr);
+            suggestedCreon.setText("Suggested Creon = " + Math.round(cr));
 
 
         }
@@ -266,7 +316,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
         }
         else{
-            db.addEntryCombination(id, combination1.getID());
+            db.addEntryCombination(id, combination1.getID(), combination1.getQuantity());
         }
 
         for(int i = 0; i < m.size(); i++)
@@ -278,6 +328,8 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         creon.setText("");
         notes.setText("");
         myAutoComplete1.clearListSelection();
+        populateListView();
+        suggestedCreon.setText("");
     }
 
 

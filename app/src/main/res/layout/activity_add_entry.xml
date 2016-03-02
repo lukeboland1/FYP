@@ -14,14 +14,23 @@
         android:hint="Meal name"
         />
 
+    <Spinner
+        android:id="@+id/spinnerFraction"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@+id/autoMealName"
+        android:layout_toEndOf="@+id/autoMealName"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Add"
         android:id="@+id/addMealToEntry"
-        android:layout_toRightOf="@+id/autoMealName"
-        android:layout_toEndOf="@+id/autoMealName"
+        android:layout_toRightOf="@+id/spinnerFraction"
+        android:layout_toEndOf="@+id/spinnerFraction"
         android:onClick="addMealToEntry"/>
 
 
@@ -35,7 +44,7 @@
 
     <EditText
         android:id="@+id/quantityTaken"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_below="@id/autoComponentName"

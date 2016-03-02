@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class Component implements I_Component{
     private String name;
     private double fatContent;
-    private int quantity;
+    private double quantity;
     private String servingType;
     private int id;
 
     public Component() {};
-    public Component(String name, double fatContent, int quantity, int id, String servingType) {
+    public Component(String name, double fatContent, double quantity, int id, String servingType) {
         this.name = name;
         this.fatContent = fatContent;
         this.quantity = quantity;
@@ -38,11 +38,11 @@ public class Component implements I_Component{
         this.name = name;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

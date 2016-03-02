@@ -42,11 +42,9 @@ public class Combination extends Component {
     public double getFat()
     {
         double num = 0;
-        Log.d("FAT", ""+components.size());
         for(int i = 0; components.size() > i; i++)
         {
             num += components.get(i).getTotalFat();
-            Log.d("FAT", components.get(i).getName() + " " + components.get(i).getQuantity() + " " + components.get(i).getTotalFat());
         }
 
         return num;
