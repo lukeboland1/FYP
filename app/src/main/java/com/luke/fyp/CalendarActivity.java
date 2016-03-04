@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,7 +63,6 @@ public class CalendarActivity extends AppCompatActivity {
                 time1 = c.getTimeInMillis();
                 c.add(Calendar.DATE, 1);
                 time2 = c.getTimeInMillis();
-                Toast.makeText(CalendarActivity.this, " "+time1, Toast.LENGTH_SHORT).show();
                 mealRecords.clear();
                 for(int i = 0; i < entries.size(); i++)
                 {

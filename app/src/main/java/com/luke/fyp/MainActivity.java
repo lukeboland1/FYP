@@ -1,24 +1,26 @@
 package com.luke.fyp;
 
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private Button enterFoodItem;
-    private Button storeMeal;
-    private Button storeMealRecord;
-    private Button writeFile;
-    private Button calendarButton;
-    private Button viewRecords;
     private DatabaseAccess db;
+    private LinearLayout button;
+    private LinearLayout button1;
+    private LinearLayout button2;
+    private LinearLayout button3;
+    private LinearLayout button4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,88 +28,78 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseAccess(this);
         new doesUserExist().execute();
         new setUser().execute();
-
         setContentView(R.layout.activity_main);
-        enterFoodItem = (Button)findViewById(R.id.enterFoodItem);
-        storeMeal = (Button)findViewById(R.id.storeMeal);
-        storeMealRecord = (Button)findViewById(R.id.storeMealentry);
-        writeFile = (Button)findViewById(R.id.writeFile);
-        calendarButton = (Button)findViewById(R.id.calendarButton);
-        viewRecords = (Button)findViewById(R.id.viewRecords);
-        enterFoodItem.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick (View view){
-                    Intent intent = new Intent(getApplicationContext(), addComponent.class);
-                    startActivity(intent);
 
-                }
-          }
-
-        );
-
-        viewRecords.setOnClickListener(new OnClickListener() {
-                                           @Override
-                                           public void onClick(View view) {
-                                               Intent intent = new Intent(getApplicationContext(), viewMealsActivity.class);
-                                               startActivity(intent);
-
-                                           }
-                                       }
-
-        );
+        button = (LinearLayout)findViewById(R.id.button);
+        button1 = (LinearLayout)findViewById(R.id.button2);
+        button2 = (LinearLayout)findViewById(R.id.button3);
+        button3 = (LinearLayout)findViewById(R.id.button4);
+        button4 = (LinearLayout)findViewById(R.id.button5);
+        buttonEffect(button);
+        buttonEffect(button1);
+        buttonEffect(button2);
+        buttonEffect(button3);
+        buttonEffect(button4);
 
 
-        storeMeal.setOnClickListener(new OnClickListener() {
-                @Override
-                  public void onClick (View view){
-                    Intent intent = new Intent(getApplicationContext(), addCombination.class);
-                    startActivity(intent);
+    }
 
-                }
-               }
-
-        );
-
-        storeMealRecord.setOnClickListener(new OnClickListener() {
-                                               @Override
-                                               public void onClick(View view) {
-                                                   Intent intent = new Intent(getApplicationContext(), addEntryActivity.class);
-                                                   startActivity(intent);
-
-                                               }
-                                           }
-
-        );
-
-        writeFile.setOnClickListener(new OnClickListener() {
-                                               @Override
-                                               public void onClick(View view) {
-                                                   Intent intent = new Intent(getApplicationContext(), writeFileActivity.class);
-                                                   startActivity(intent);
-
-                                               }
-                                           }
-
-        );
-
-        calendarButton.setOnClickListener(new OnClickListener() {
-                                         @Override
-                                         public void onClick(View view) {
-                                             Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
-                                             startActivity(intent);
-
-                                         }
-                                     }
-
-        );
-
-        }
-
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
             // Inflate the menu; this adds items to the action bar if it is present.
             getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    public static void buttonEffect(View button){
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe01E1E1E, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    public void entry(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), addEntryActivity.class);
+        startActivity(intent);
+    }
+
+    public void meal(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), addCombination.class);
+        startActivity(intent);
+    }
+
+    public void item(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), addComponent.class);
+        startActivity(intent);
+    }
+
+    public void calendar(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), CalendarActivity.class);
+        startActivity(intent);
+    }
+
+    public void records(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), viewMealsActivity.class);
+        startActivity(intent);
     }
 
     @Override

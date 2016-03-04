@@ -31,5 +31,14 @@
         android:layout_toEndOf="@+id/spinner3"
         android:onClick="addToCombination"/>
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/layoutbg"
+        android:layout_below="@id/myautocomplete1"
+        android:text="   New Meal"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff" />
+
 
 </RelativeLayout>

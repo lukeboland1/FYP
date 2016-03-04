@@ -4,15 +4,33 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.luke.fyp.storeEntry">
+    tools:context="com.luke.fyp.storeEntry"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layoutEntry1"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/topBarEntry"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/layoutbg"
+        android:text="   What meal did you have? (Leave blank if none)"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff" />
 
     <AutoCompleteTextView android:id="@+id/autoMealName"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/topBarEntry"
         android:completionThreshold="1"
-        android:hint="Meal name"
-        />
+        android:hint="Meal name" />
 
     <Spinner
         android:id="@+id/spinnerFraction"
@@ -20,44 +38,67 @@
         android:layout_height="50dp"
         android:layout_toRightOf="@+id/autoMealName"
         android:layout_toEndOf="@+id/autoMealName"
+
+        android:layout_below="@id/topBarEntry"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:layout_below="@id/topBarEntry"
         android:layout_centerHorizontal="true"
         android:text="Add"
         android:id="@+id/addMealToEntry"
         android:layout_toRightOf="@+id/spinnerFraction"
         android:layout_toEndOf="@+id/spinnerFraction"
         android:onClick="addMealToEntry"/>
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layoutEntry2"
+        android:layout_below="@id/layoutEntry1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/topBarEntry2"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/layoutbg"
+            android:text="   Did you have additional items?"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff" />
 
     <AutoCompleteTextView android:id="@+id/autoComponentName"
         android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/autoMealName"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBarEntry2"
         android:completionThreshold="1"
-        android:hint="Item name"
-        />
+        android:hint="Item name" />
 
     <EditText
         android:id="@+id/quantityTaken"
         android:inputType="numberDecimal"
         android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/autoComponentName"
-        android:hint="Quantity"/>
+        android:hint="Quantity" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add"
         android:id="@+id/addComponentToEntry"
-        android:layout_below="@id/quantityTaken"
-        android:onClick="addComponentToEntry"/>
-
+        android:onClick="addComponentToEntry"
+        android:layout_below="@+id/autoComponentName"
+        android:layout_toRightOf="@+id/autoComponentName"
+        android:layout_toEndOf="@+id/autoComponentName" />
+    </RelativeLayout>
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,36 +107,59 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <RelativeLayout
+        android:id="@+id/layoutEntry3"
+        android:layout_below="@id/layoutEntry2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/topBarEntry3"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/layoutbg"
+            android:text="   Required Information"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff" />
+
     <EditText
         android:id="@+id/creonTaken2"
         android:inputType="number"
         android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/addComponentToEntry"
-        android:hint="Creon Taken"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBarEntry3"
+        android:hint="Creon Taken" />
 
     <TextView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/suggested"
-        android:layout_below="@id/creonTaken2" />
+        android:layout_alignBottom="@+id/creonTaken2"
+        android:layout_toRightOf="@+id/creonTaken2"
+        android:layout_toEndOf="@+id/creonTaken2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp" />
 
 
     <EditText
         android:id="@+id/mealNotes"
         android:layout_width="140dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/suggested"
-        android:hint="Notes"/>
-
+        android:hint="Notes" />
+    </RelativeLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SAVE MEAL"
         android:id="@+id/saveEntry"
-        android:layout_below="@+id/mealNotes"
-        android:onClick="saveEntry"/>
+        android:onClick="saveEntry"
+        android:layout_below="@+id/layoutEntry3"
+        android:layout_centerHorizontal="true" />
 
     <ListView
         android:layout_width="wrap_content"

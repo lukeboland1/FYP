@@ -33,22 +33,6 @@
                 android:value="com.luke.fyp.MainActivity" />
         </activity>
         <activity
-            android:name=".addMealActivity"
-            android:label="@string/title_activity_add_meal"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.luke.fyp.MainActivity" />
-        </activity>
-        <activity
-            android:name=".storeMealRecordActivity"
-            android:label="@string/title_activity_store_meal_record"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.luke.fyp.MainActivity" />
-        </activity>
-        <activity
             android:name=".firstWelcomeActivity"
             android:label="@string/title_activity_first_welcome" >
         </activity>

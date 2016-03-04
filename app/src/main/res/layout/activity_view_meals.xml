@@ -7,19 +7,30 @@
     tools:context="com.luke.fyp.viewMealsActivity"
     >
 
-    <!--<Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="126dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown" /> -->
-
-    <AutoCompleteTextView android:id="@+id/myautocomplete"
+    <LinearLayout
+        android:id="@+id/layoutRecords"
+        android:layout_below="@+id/calendar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/bottomBarRecords"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/layoutbg"
+        android:text="   View Records for a Meal / Item"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff" />
+
+    <AutoCompleteTextView android:id="@+id/myautocomplete"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bottomBarRecords"
         android:completionThreshold="1"
-        />
+        android:hint="Enter meal or item name" />
 
 
     <ListView
@@ -29,6 +40,6 @@
         android:layout_below="@+id/myautocomplete"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
+</LinearLayout>
 
 </RelativeLayout>
