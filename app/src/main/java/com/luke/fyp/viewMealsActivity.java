@@ -1,5 +1,6 @@
 package com.luke.fyp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import java.util.ArrayList;
 import android.widget.AdapterView.OnItemClickListener;
@@ -36,10 +38,6 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
         entries = db.getAllEntries();
         components = db.getAllComponents();
         combinations = db.getAllCombinations();
-        if(combinations.size() > 0)
-        {
-            Toast.makeText(viewMealsActivity.this, ""+combinations.get(0).getName(), Toast.LENGTH_SHORT).show();
-        }
         myAutoComplete = (AutoCompleteTextView)findViewById(R.id.myautocomplete);
 
         dropDownDisplayMeals();
@@ -75,9 +73,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
                     if (components.get(i).getName().equals(item)) {
                         foundEntries = components.get(i).getEntries(entries);
                         found = true;
-                        if(foundEntries.size() > 0) {
-                            Toast.makeText(viewMealsActivity.this, ""+foundEntries.get(0).getCreonTaken(), Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 }
 
@@ -85,9 +81,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
                     if (combinations.get(i).getName().equals(item)) {
                         foundEntries = combinations.get(i).getEntries(entries);
                         found = true;
-                        if(foundEntries.size() > 0) {
-                            Toast.makeText(viewMealsActivity.this, ""+foundEntries.get(0).getCreonTaken(), Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 }
 
@@ -155,6 +149,11 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
         if (id == R.id.action_settings) {
             return true;
         }
+        else if (id == R.id.sendDatabase) {
+            Intent intent = new Intent(getApplicationContext(), writeFileActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -203,7 +202,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
             }
 
-            Entry e = foundEntries.get(position);
+            final Entry e = foundEntries.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
             if(e.getCombinations().size() > 0) {
                 mName.setText(e.getCombinations().get(0).getName());
@@ -220,10 +219,147 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
                 notes+=" " + (e.getComponents().get(i).getName()) + " " + e.getComponents().get(i).getQuantity() + " " + e.getComponents().get(i).getServingType() + "\n";
             }
             mNotes.setText(notes);
+            final ImageButton up = (ImageButton)itemView.findViewById(R.id.tooManyCreon);
+            final ImageButton down = (ImageButton)itemView.findViewById(R.id.tooFewCreon);
+            if(e.getResults() == 1){
+                up.setImageResource(R.drawable.arrowupred);
+                down.setImageResource(R.drawable.arrowdownwhite);
+            }
+            else if(e.getResults() == 2) {
+                up.setImageResource(R.drawable.arrowupwhite);
+                down.setImageResource(R.drawable.arrowdownred);
+            }
+            else
+            {
+                up.setImageResource(R.drawable.arrowupwhite);
+                down.setImageResource(R.drawable.arrowdownwhite);
+            }
+
+            up.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    for(int i = 0; i < entries.size(); i++)
+                    {
+                        if (entries.get(i).getId() == e.getId())
+                        {
+
+                            if (e.getResults() == 1)
+                            {
+                                db.updateResult(0, e.getId());
+                                down.setImageResource(R.drawable.arrowdownwhite);
+                                up.setImageResource(R.drawable.arrowupwhite);
+                                entries.get(i).setResults(0);
+                            }
+                            else
+                            {
+                                db.updateResult(1, e.getId());
+                                down.setImageResource(R.drawable.arrowdownwhite);
+                                up.setImageResource(R.drawable.arrowupred);
+                                entries.get(i).setResults(1);
+                            }
+                        }
+                    }
+                }
+            });
+
+            down.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    for (int i = 0; i < entries.size(); i++)
+                    {
+                        if (entries.get(i).getId() == e.getId())
+                        {
+
+                            if (e.getResults() == 2)
+                            {
+                                db.updateResult(0, e.getId());
+                                down.setImageResource(R.drawable.arrowdownwhite);
+                                up.setImageResource(R.drawable.arrowupwhite);
+                                entries.get(i).setResults(0);
+                            }
+                            else
+                            {
+                                db.updateResult(2, e.getId());
+                                down.setImageResource(R.drawable.arrowdownred);
+                                up.setImageResource(R.drawable.arrowupwhite);
+                                entries.get(i).setResults(2);
+                            }
+                        }
+                    }
+                }
+            });
+
+            itemView.setTag(e.getId());
+            up.setTag(e.getId());
+            down.setTag(e.getId());
 
             return itemView;
         }
     }
+    /*
+    public void tooManyCreon(View v)
+    {
+        int id =(int) v.getTag();
+        ImageButton up = (ImageButton)v;
+        //ImageButton down = (ImageButton)v;
+        boolean found = false;
+        for(int i = 0; i < entries.size() && !found; i++)
+        {
+            if(id == entries.get(i).getId())
+            {
+                if(entries.get(i).getResults() == 1)
+                {
+                    db.updateResult(0, id);
+                    //down.setImageResource(R.drawable.arrowdownwhite);
+                    up.setImageResource(R.drawable.arrowupwhite);
+                    entries.get(i).setResults(0);
+                }
+
+                else {
+                    db.updateResult(1, id);
+                    //down.setImageResource(R.drawable.arrowdownwhite);
+                    up.setImageResource(R.drawable.arrowupred);
+                    entries.get(i).setResults(1);
+                }
+
+                found = true;
+            }
+        }
+    }
+
+    public void tooFewCreon(View v)
+    {
+        int id =(int) v.getTag();
+        ImageButton down = (ImageButton)v;
+        //ImageButton up = (ImageButton)v;
+        boolean found = false;
+        for(int i = 0; i < entries.size() && !found; i++)
+        {
+            if(id == entries.get(i).getId())
+            {
+                if(entries.get(i).getResults() == 2)
+                {
+                    db.updateResult(0, id);
+                    down.setImageResource(R.drawable.arrowdownwhite);
+                    //up.setImageResource(R.drawable.arrowupwhite);
+                    entries.get(i).setResults(0);
+                }
+
+                else {
+                    db.updateResult(2, id);
+                    down.setImageResource(R.drawable.arrowdownred);
+                    //up.setImageResource(R.drawable.arrowupwhite);
+                    entries.get(i).setResults(2);
+                }
+
+                found = true;
+            }
+        }
+    }*/
+
+
 
 
 }

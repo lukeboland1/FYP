@@ -8,69 +8,47 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
-        android:id="@+id/itemViewMealName"
+        android:id="@+id/itemViewMealName1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="34dp"
         android:layout_marginStart="34dp"
         android:layout_marginTop="25dp"
-         />
+        />
 
     <TextView
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
-        android:id="@+id/itemViewDateTaken"
+        android:id="@+id/itemViewDateTaken1"
         android:layout_below="@+id/itemViewMealName"
         android:layout_alignLeft="@+id/itemViewMealName"
         android:layout_alignStart="@+id/itemViewMealName"
-         />
+        />
 
     <TextView
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
-        android:id="@+id/itemViewCreonTaken"
+        android:id="@+id/itemViewCreonTaken1"
         android:layout_below="@+id/itemViewDateTaken"
         android:layout_alignLeft="@+id/itemViewDateTaken"
         android:layout_alignStart="@+id/itemViewDateTaken"
-         />
+        />
 
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text=""
-        android:id="@+id/itemViewNotes"
+        android:id="@+id/itemViewNotes1"
         android:layout_alignTop="@+id/itemViewMealName"
         android:layout_alignBottom="@+id/itemViewDateTaken"
         android:layout_toEndOf="@+id/itemViewMealName"
         android:layout_toRightOf="@+id/itemViewMealName"
         />
 
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/tooManyCreon"
-        android:onClick="tooManyCreon"
-        android:src="@drawable/arrowupwhite"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/tooFewCreon"
-        android:onClick="tooFewCreon"
-        android:src="@drawable/arrowdownwhite"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:layout_below="@+id/tooManyCreon"
-        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

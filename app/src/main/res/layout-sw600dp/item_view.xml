@@ -40,7 +40,7 @@
          />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/itemViewNotes"
@@ -49,28 +49,4 @@
         android:layout_toEndOf="@+id/itemViewMealName"
         android:layout_toRightOf="@+id/itemViewMealName"
         />
-
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/tooManyCreon"
-        android:onClick="tooManyCreon"
-        android:src="@drawable/arrowupwhite"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <ImageButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/tooFewCreon"
-        android:onClick="tooFewCreon"
-        android:src="@drawable/arrowdownwhite"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:layout_below="@+id/tooManyCreon"
-        android:layout_alignParentRight="true" />
-
 </RelativeLayout>

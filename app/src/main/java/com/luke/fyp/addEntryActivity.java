@@ -1,5 +1,6 @@
 package com.luke.fyp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -276,9 +278,9 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         else {
             myAutoComplete1.setEnabled(false);
             b.setEnabled(false);
-            entryFat += combination1.getFat();
+            entryFat += (combination1.getFat()*combination1.getQuantity());
             double cb = (entryFat / u.getFatPerCreon());
-            suggestedCreon.setText("Suggested Creon = " + Math.round(cb*combination1.getQuantity()));
+            suggestedCreon.setText("Suggested Creon = " + Math.round(cb));
         }
     }
 
@@ -292,7 +294,10 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             m.add(component1);
             //populateListView();
             quantity.setText("");
+            Toast.makeText(addEntryActivity.this, "Component Quantity = " + component1.getQuantity(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(addEntryActivity.this, "Component fat = " + component1.getTotalFat(), Toast.LENGTH_SHORT).show();
             entryFat += component1.getTotalFat();
+            Toast.makeText(addEntryActivity.this, "Entry fat = " + entryFat, Toast.LENGTH_SHORT).show();
             double cr = (entryFat / u.getFatPerCreon());
             suggestedCreon.setText("Suggested Creon = " + Math.round(cr));
 
@@ -309,8 +314,10 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
     {
         Calendar calendar = Calendar.getInstance();
         long datetime = calendar.getTimeInMillis();
-        db.insertEntry(Integer.parseInt(creon.getText().toString()),notes.getText().toString(),datetime);
+        db.insertEntry(Integer.parseInt(creon.getText().toString()), notes.getText().toString(), datetime);
+
         int id = db.getIDForRecentEntry();
+
         if(combination1 == null)
         {
 
@@ -328,6 +335,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         creon.setText("");
         notes.setText("");
         myAutoComplete1.clearListSelection();
+        m.clear();
         populateListView();
         suggestedCreon.setText("");
     }
@@ -347,7 +355,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
     {
         public MyListAdapter()
         {
-            super(addEntryActivity.this, R.layout.item_view, m);
+            super(addEntryActivity.this, R.layout.item_view1, m);
         }
 
         @Override
@@ -355,21 +363,19 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             View itemView = convertView;
             if(itemView == null)
             {
-                itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.item_view1, parent, false);
 
             }
 
             Component mr = m.get(position);
-            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
+            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName1);
             mName.setText(mr.getName());
-            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
+            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes1);
             mNotes.setText(mr.getQuantity() + " " + mr.getServingType());
-
 
             return itemView;
         }
     }
-
 
 
     @Override
@@ -407,6 +413,22 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        else if(id == R.id.addItemMenu)
+        {
+            Intent intent = new Intent(getApplicationContext(), addComponent.class);
+            startActivity(intent);
+            new getComponentsAndCombinations().execute();
+            return true;
+        }
+
+        else if(id == R.id.addMealMenu)
+        {
+            Intent intent = new Intent(getApplicationContext(), addCombination.class);
+            startActivity(intent);
+            new getComponentsAndCombinations().execute();
             return true;
         }
 

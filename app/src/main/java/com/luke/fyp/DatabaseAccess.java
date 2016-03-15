@@ -190,6 +190,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         contentValues.put("creonTaken", creonTaken);
         contentValues.put("notes", notes);
         contentValues.put("dateTaken", datetime);
+        contentValues.put("result", 0);
         database.insert("entries", null, contentValues);
         return true;
 
@@ -222,7 +223,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         return true;
     }
 
-    public ArrayList<Entry> getEntriesFromName(String name) {
+    /*public ArrayList<Entry> getEntriesFromName(String name) {
 
         Cursor res = database.rawQuery("select * from entries where id IN (select entryID from entrycomponents where name = ? group by entryID)", new String[]{name});
         res.moveToFirst();
@@ -236,7 +237,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         }
         res.close();
         return entries;
-    }
+    }*/
 
     public ArrayList<Entry> getAllEntries() {
 
@@ -247,8 +248,9 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             int entryID = res.getInt(res.getColumnIndex("id"));
             long date = res.getLong(res.getColumnIndex("dateTaken"));
             int creon = res.getInt(res.getColumnIndex("creonTaken"));
+            int result = res.getInt(res.getColumnIndex("result"));
             String notes = res.getString(res.getColumnIndex("notes"));
-            Entry entry = new Entry("", creon, notes, date);
+            Entry entry = new Entry("", creon, notes, date, result);
             entry.setId(entryID);
             comps.add(entry);
             res.moveToNext();
@@ -308,8 +310,9 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             int creonTaken = res.getInt(res.getColumnIndex(MEALRECORDS_COLUMN_CREON));
             String notes = res.getString(res.getColumnIndex("notes"));
             long datetaken = res.getLong(res.getColumnIndex("dateTaken"));
+            int result = res.getInt(res.getColumnIndex("result"));
             String name = res.getString(res.getColumnIndex("name"));
-            entries.add(new Entry(name, creonTaken, notes, datetaken));
+            entries.add(new Entry(name, creonTaken, notes, datetaken, result));
             res.moveToNext();
         }
         res.close();
@@ -408,7 +411,9 @@ public class DatabaseAccess extends SQLiteOpenHelper {
             long date = res.getLong(res.getColumnIndex("dateTaken"));
             int creon = res.getInt(res.getColumnIndex("creaonTaken"));
             String notes = res.getString(res.getColumnIndex("id"));
-            Entry entry = new Entry("", creon, notes, date);
+
+            int result = res.getInt(res.getColumnIndex("result"));
+            Entry entry = new Entry("", creon, notes, date, result);
             comps.add(entry);
             res.moveToNext();
         }
@@ -457,9 +462,12 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         return comps;
     }
 
-    public ArrayList<Entry> getEntriesFromCombinationID(int id)
-    {
-        return null;
+    public void updateResult(int result, int id) {
+
+        //database.rawQuery("UPDATE entries SET result = ? WHERE id = ?", new String[]{""+ result, "" + id});
+        ContentValues cv = new ContentValues();
+        cv.put("result", result);
+        database.update("entries", cv, "id = ? ", new String[]{Integer.toString(id)});
     }
 
 }

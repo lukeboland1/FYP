@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">FYP</string>
+    <string name="app_name">CREON Diary</string>
 
-    <string name="app_label">FYP</string>
+    <string name="app_label">CREON Diary</string>
     <string name="search_hint">Search Meals</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_view_meals">viewMeals</string>
-    <string name="title_activity_add_meal">addMealActivity</string>
-    <string name="title_activity_store_meal_record">storeMealRecordActivity</string>
-    <string name="title_activity_first_welcome">firstWelcomeActivity</string>
-    <string name="title_activity_write_file">writeFileActivity</string>
-    <string name="title_activity_calendar">CalendarActivity</string>
+    <string name="title_activity_view_meals">View Records</string>
+    <string name="title_activity_add_meal">Add Meal</string>
+    <string name="title_activity_store_meal_record">Store Meal Record</string>
+    <string name="title_activity_first_welcome">Initial Setup</string>
+    <string name="title_activity_write_file">Send email</string>
+    <string name="title_activity_calendar">Calendar</string>
     <string name="title_activity_date_meals">DateMeals</string>
-    <string name="title_activity_add_component">addComponent</string>
-    <string name="title_activity_add_combination">addCombination</string>
-    <string name="title_activity_add_entry">addEntryActivity</string>
+    <string name="title_activity_add_component">Add Ingredient</string>
+    <string name="title_activity_add_combination">Add Recipe</string>
+    <string name="title_activity_add_entry">Store Entry</string>
 </resources>

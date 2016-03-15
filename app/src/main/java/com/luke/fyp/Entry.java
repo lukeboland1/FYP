@@ -15,11 +15,12 @@ public class Entry {
     private String notes;
     private int results;
 
-    public Entry(String name, int creonTaken, String notes, long dateTaken) {
+    public Entry(String name, int creonTaken, String notes, long dateTaken, int results) {
         this.creonTaken = creonTaken;
         this.name = name;
         this.notes = notes;
         this.dateTaken = dateTaken;
+        this.results = results;
     }
 
     public int getId() {
@@ -31,7 +32,17 @@ public class Entry {
     }
 
     public String getName() {
-        return name;
+        String jal = "";
+        if(combinations.size() > 0)
+        {
+            jal += " " + combinations.get(0).getName();
+        }
+        for(int i = 0; i < components.size(); i++)
+        {
+            jal += " " + components.get(i).getName();
+        }
+
+        return jal;
     }
 
     public void setName(String name) {

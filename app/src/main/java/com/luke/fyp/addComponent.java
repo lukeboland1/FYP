@@ -79,7 +79,7 @@ public class addComponent extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "Failed to store item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Item name already exists. Please choose a different name", Toast.LENGTH_SHORT).show();
             }
             mEdit.setText("");
             fat.setText("");
@@ -204,7 +204,7 @@ public class addComponent extends AppCompatActivity {
     {
         public MyListAdapter()
         {
-            super(addComponent.this, R.layout.item_view, components);
+            super(addComponent.this, R.layout.item_view1, components);
         }
 
         @Override
@@ -212,14 +212,14 @@ public class addComponent extends AppCompatActivity {
             View itemView = convertView;
             if(itemView == null)
             {
-                itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.item_view1, parent, false);
 
             }
 
             Component mr = components.get(position);
-            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
+            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName1);
             mName.setText(mr.getName());
-            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
+            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes1);
             mNotes.setText(" " + mr.getServingType() + "\n" + mr.getFatContent() + " grams of fat");
 
 

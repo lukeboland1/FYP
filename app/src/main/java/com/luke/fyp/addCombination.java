@@ -1,6 +1,7 @@
 package com.luke.fyp;
 
 import android.content.ComponentCallbacks;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +29,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
     private ArrayList<Component> m;
     private Component component1;
     private EditText quantity;
+    private ArrayList<Combination> combinations;
     private Button b;
 
 
@@ -48,7 +50,6 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
 
     public void dropDownDisplayComponents()
     {
-        //components = db.getAllComponents();
         String[] items = new String[components.size()];
         for(int i = 0; i < components.size(); i++) {
             items[i] = (components.get(i).getName());
@@ -171,6 +172,15 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id == R.id.addItemCombination)
+        {
+            Intent intent = new Intent(getApplicationContext(), addComponent.class);
+            startActivity(intent);
+            new loadObjects().execute();
+            return true;
+        }
+
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -203,7 +213,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
     {
         public MyListAdapter()
         {
-            super(addCombination.this, R.layout.item_view, m);
+            super(addCombination.this, R.layout.item_view1, m);
         }
 
         @Override
@@ -211,14 +221,14 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             View itemView = convertView;
             if(itemView == null)
             {
-                itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.item_view1, parent, false);
 
             }
 
             Component mr = m.get(position);
-            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
+            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName1);
             mName.setText(mr.getName());
-            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
+            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes1);
             mNotes.setText("" + mr.getQuantity() + " " + mr.getServingType());
 
 
@@ -248,8 +258,18 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
 
     public void saveCombination(View v)
     {
+        boolean found = false;
+        for(int i = 0; i < combinations.size() && !found; i++)
+        {
+            if(combinations.get(i).getName().equals(mEdit.getText().toString()))
+            {
+                found = true;
+            }
+        }
 
-        new AddNewCombination().execute(mEdit.getText().toString());
+        if(!found) {
+            new AddNewCombination().execute(mEdit.getText().toString());
+        }
 
     }
 
@@ -284,6 +304,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         @Override
         protected Boolean doInBackground(String... params) {
             components = db.getAllComponents();
+            combinations = db.getAllCombinations();
             return true;
         }
 
@@ -291,10 +312,10 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             dropDownDisplayComponents();
-
-
         }
     }
+
+
 
 
 

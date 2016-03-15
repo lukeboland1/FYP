@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -101,6 +102,12 @@ public class CalendarActivity extends AppCompatActivity {
             return true;
         }
 
+        else if (id == R.id.sendDatabase1) {
+            Intent intent = new Intent(getApplicationContext(), writeFileActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -128,25 +135,102 @@ public class CalendarActivity extends AppCompatActivity {
 
             }
 
-            Entry mr = mealRecords.get(position);
+            final Entry e = mealRecords.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
             String names = "";
-            if(mr.getCombinations().size() > 0) {
-                names+=(mr.getCombinations().get(0).getName());
+            if(e.getCombinations().size() > 0) {
+                names+=(e.getCombinations().get(0).getName());
             }
             mName.setText(names);
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
-            mDate.setText((convertDate(mr.getDateTaken(), "dd/MM/yyyy")));
+            mDate.setText((convertDate(e.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);
-            mCreon.setText("Creon taken =" + mr.getCreonTaken());
+            mCreon.setText("Creon taken =" + e.getCreonTaken());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
-            mNotes.setText(mr.getNotes());
+            mNotes.setText(e.getNotes());
             String notes = "";
-            for(int i = 0; i < mr.getComponents().size(); i++)
+            for(int i = 0; i < e.getComponents().size(); i++)
             {
-                notes+=" " + (mr.getComponents().get(i).getName()) + " " + mr.getComponents().get(i).getQuantity() + " " + mr.getComponents().get(i).getServingType() + "\n";
+                notes+=" " + (e.getComponents().get(i).getName()) + " " + e.getComponents().get(i).getQuantity() + " " + e.getComponents().get(i).getServingType() + "\n";
             }
             mNotes.setText(notes);
+
+            final ImageButton up = (ImageButton)itemView.findViewById(R.id.tooManyCreon);
+            final ImageButton down = (ImageButton)itemView.findViewById(R.id.tooFewCreon);
+            if(e.getResults() == 1){
+                up.setImageResource(R.drawable.arrowupred);
+                down.setImageResource(R.drawable.arrowdownwhite);
+            }
+            else if(e.getResults() == 2) {
+                up.setImageResource(R.drawable.arrowupwhite);
+                down.setImageResource(R.drawable.arrowdownred);
+            }
+            else
+            {
+                up.setImageResource(R.drawable.arrowupwhite);
+                down.setImageResource(R.drawable.arrowdownwhite);
+            }
+
+            up.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    for(int i = 0; i < entries.size(); i++)
+                    {
+                        if (entries.get(i).getId() == e.getId())
+                        {
+
+                            if (e.getResults() == 1)
+                            {
+                                db.updateResult(0, e.getId());
+                                down.setImageResource(R.drawable.arrowdownwhite);
+                                up.setImageResource(R.drawable.arrowupwhite);
+                                entries.get(i).setResults(0);
+                            }
+                            else
+                            {
+                                db.updateResult(1, e.getId());
+                                down.setImageResource(R.drawable.arrowdownwhite);
+                                up.setImageResource(R.drawable.arrowupred);
+                                entries.get(i).setResults(1);
+                            }
+                        }
+                    }
+                }
+            });
+
+            down.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    for (int i = 0; i < entries.size(); i++)
+                    {
+                        if (entries.get(i).getId() == e.getId())
+                        {
+
+                            if (e.getResults() == 2)
+                            {
+                                db.updateResult(0, e.getId());
+                                down.setImageResource(R.drawable.arrowdownwhite);
+                                up.setImageResource(R.drawable.arrowupwhite);
+                                entries.get(i).setResults(0);
+                            }
+                            else
+                            {
+                                db.updateResult(2, e.getId());
+                                down.setImageResource(R.drawable.arrowdownred);
+                                up.setImageResource(R.drawable.arrowupwhite);
+                                entries.get(i).setResults(2);
+                            }
+                        }
+                    }
+                }
+            });
+
+            itemView.setTag(e.getId());
+            up.setTag(e.getId());
+            down.setTag(e.getId());
+
 
             return itemView;
         }
