@@ -4,22 +4,38 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/back"
     tools:context="com.luke.fyp.firstWelcomeActivity">
+
+    <LinearLayout
+        android:id="@+id/layoutFirstWelcome"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/bottomBarFirst"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/layoutbg"
+            android:text="   Enter Your Details"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff" />
 
     <Spinner
         android:id="@+id/spinner3"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_below="@id/bottomBarFirst"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 
     <EditText
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:id="@+id/fatPerCreon"
         android:inputType="numberDecimal"
         android:layout_below="@id/spinner3"
@@ -28,10 +44,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:text="Save details"
         android:id="@+id/saveUserDetails"
         android:layout_below="@+id/fatPerCreon"
         android:onClick="addUser"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

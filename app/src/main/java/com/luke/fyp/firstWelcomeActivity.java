@@ -25,7 +25,7 @@ public class firstWelcomeActivity extends AppCompatActivity {
         db = new DatabaseAccess(this);
         fatPerCreon = (EditText)findViewById(R.id.fatPerCreon);
         Spinner dropdown = (Spinner)findViewById(R.id.spinner3);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[]{"10000","25000","40000"});
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new String[]{"10000","25000","Both"});
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -33,6 +33,14 @@ public class firstWelcomeActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 creonType = (String) arg0.getItemAtPosition(arg2);
+                if(creonType.equals("25000"))
+                {
+                    fatPerCreon.setHint("Fat per CREON 25,000 tablet");
+                }
+                else
+                {
+                    fatPerCreon.setHint("Fat per CREON 10,000 tablet");
+                }
             }
 
             @Override
@@ -84,7 +92,8 @@ public class firstWelcomeActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            boolean tof = db.addUser(Integer.parseInt(params[0]), Double.parseDouble(params[1]));
+            boolean tof = db.addUser((params[0]), Double.parseDouble(params[1]));
+            ((MyApp) firstWelcomeActivity.this.getApplication()).setUser(db.getUser());
             return tof;
         }
 

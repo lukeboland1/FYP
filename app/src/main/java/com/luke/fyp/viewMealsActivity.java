@@ -19,7 +19,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class viewMealsActivity extends AppCompatActivity implements TextWatcher {
     private DatabaseAccess db;
@@ -210,7 +209,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
             mDate.setText((convertDate(e.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);
-            mCreon.setText("Creon taken =" + e.getCreonTaken());
+            mCreon.setText("Creon taken =" + e.getCreon10000taken());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
             mNotes.setText(e.getNotes());
             String notes = "";

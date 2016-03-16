@@ -10,13 +10,15 @@ public class Entry {
     private ArrayList<Combination> combinations;
     private int id;
     private String name;
-    private int creonTaken;
+    private int creon10000taken;
+    private int creon25000taken;
     private long dateTaken;
     private String notes;
     private int results;
 
-    public Entry(String name, int creonTaken, String notes, long dateTaken, int results) {
-        this.creonTaken = creonTaken;
+    public Entry(String name, int creon10000Taken, int creon25000Taken, String notes, long dateTaken, int results) {
+        this.creon10000taken = creon10000Taken;
+        this.creon25000taken = creon25000Taken;
         this.name = name;
         this.notes = notes;
         this.dateTaken = dateTaken;
@@ -29,6 +31,14 @@ public class Entry {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCreon25000taken() {
+        return creon25000taken;
+    }
+
+    public void setCreon25000taken(int creon25000taken) {
+        this.creon25000taken = creon25000taken;
     }
 
     public String getName() {
@@ -49,12 +59,12 @@ public class Entry {
         this.name = name;
     }
 
-    public int getCreonTaken() {
-        return creonTaken;
+    public int getCreon10000taken() {
+        return creon10000taken;
     }
 
-    public void setCreonTaken(int creonTaken) {
-        this.creonTaken = creonTaken;
+    public void setCreon10000taken(int creon10000taken) {
+        this.creon10000taken = creon10000taken;
     }
 
     public String getDateTaken() {

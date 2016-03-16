@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,7 +35,10 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
     private Combination combination1;
     private EditText quantity;
     private Button b;
-    private EditText creon;
+    private EditText creon10;
+    private EditText creon25;
+    private int creon10taken;
+    private int creon25taken;
     private EditText notes;
     private TextView suggestedCreon;
     private double entryFat;
@@ -48,9 +50,28 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_entry);
         db = new DatabaseAccess(this);
+        MyApp myapp = ((MyApp)getApplicationContext());
+        u = myapp.getUser();
         myAutoComplete1 = (AutoCompleteTextView) findViewById(R.id.autoMealName);
         myAutoComplete2 = (AutoCompleteTextView) findViewById(R.id.autoComponentName);
-        creon = (EditText) findViewById(R.id.creonTaken2);
+        creon10 = (EditText) findViewById(R.id.creonTaken2);
+        creon25 = (EditText) findViewById(R.id.creonTaken3);
+        creon10taken = 0;
+        creon25taken = 0;
+
+        if(u.getCreonType().equals("10000"))
+        {
+            creon10.setHint("Creon 10,000 taken");
+            creon25.setVisibility(View.INVISIBLE);
+            creon25.setEnabled(false);
+        }
+
+        else if(u.getCreonType().equals("25000"))
+        {
+            creon10.setHint("Creon 25,000 taken");
+            creon25.setVisibility(View.INVISIBLE);
+            creon25.setEnabled(false);
+        }
         notes = (EditText) findViewById(R.id.mealNotes);
         quantity = (EditText) findViewById(R.id.quantityTaken);
         suggestedCreon = (TextView) findViewById(R.id.suggested);
@@ -83,8 +104,6 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             }
         });
 
-        MyApp myapp = ((MyApp)getApplicationContext());
-        u = myapp.getUser();
         new getComponentsAndCombinations().execute();
 
 
@@ -278,9 +297,41 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         else {
             myAutoComplete1.setEnabled(false);
             b.setEnabled(false);
-            entryFat += (combination1.getFat()*combination1.getQuantity());
-            double cb = (entryFat / u.getFatPerCreon());
-            suggestedCreon.setText("Suggested Creon = " + Math.round(cb));
+
+            if(u.getCreonType().equals("10000") || u.getCreonType().equals("25000")) {
+                entryFat += (combination1.getFat() * combination1.getQuantity());
+                double cb = (entryFat / u.getFatPerCreon());
+                suggestedCreon.setText("Suggested Creon = " + Math.round(cb));
+            }
+            else
+            {
+
+                entryFat += (combination1.getFat() * combination1.getQuantity());
+                double u25 = u.getFatPerCreon()*2.5;
+                double cb = (entryFat / u25);
+                int single = (int)cb;
+                int single2 = 0;
+                double remainder = cb % 1;
+                if (remainder >= 0.9)
+                {
+                    single++;
+                }
+                else if(remainder >= 0.6)
+                {
+                    single2 = 2;
+                }
+
+                else if(remainder >= 0.2)
+                {
+                    single2 = 1;
+                }
+
+                suggestedCreon.setText("Suggested Creon 25,000 = " + single + "\n" + "Suggested Creon 10,000 = " + single2);
+
+
+
+
+            }
         }
     }
 
@@ -314,7 +365,21 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
     {
         Calendar calendar = Calendar.getInstance();
         long datetime = calendar.getTimeInMillis();
-        db.insertEntry(Integer.parseInt(creon.getText().toString()), notes.getText().toString(), datetime);
+        if(u.getCreonType().equals("10000"))
+        {
+            creon10taken = Integer.parseInt(creon10.getText().toString());
+        }
+        else if(u.getCreonType().equals("25000"))
+        {
+            creon25taken = Integer.parseInt(creon10.getText().toString());
+        }
+
+        else
+        {
+            creon10taken = Integer.parseInt(creon10.getText().toString());
+            creon25taken = Integer.parseInt(creon25.getText().toString());
+        }
+        db.insertEntry(creon10taken, creon25taken, notes.getText().toString(), datetime);
 
         int id = db.getIDForRecentEntry();
 
@@ -332,7 +397,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
         }
 
         myAutoComplete1.setText("");
-        creon.setText("");
+        creon10.setText("");
         notes.setText("");
         myAutoComplete1.clearListSelection();
         m.clear();
