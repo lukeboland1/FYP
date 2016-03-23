@@ -209,7 +209,7 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
             mDate.setText((convertDate(e.getDateTaken(), "dd/MM/yyyy")));
             TextView mCreon = (TextView)itemView.findViewById(R.id.itemViewCreonTaken);
-            mCreon.setText("Creon taken =" + e.getCreon10000taken());
+            mCreon.setText("Creon 10000 taken = " + e.getCreon10000taken() + "\nCreon 25000 taken =" + e.getCreon25000taken());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes);
             mNotes.setText(e.getNotes());
             String notes = "";

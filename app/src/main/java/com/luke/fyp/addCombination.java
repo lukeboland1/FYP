@@ -258,6 +258,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
 
     public void saveCombination(View v)
     {
+
         boolean found = false;
         for(int i = 0; i < combinations.size() && !found; i++)
         {
@@ -267,7 +268,21 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             }
         }
 
-        if(!found) {
+        if(found)
+        {
+            Toast.makeText(addCombination.this, "Meal name already exists, please choose another", Toast.LENGTH_SHORT).show();
+            mEdit.setText("");
+        }
+        else if(mEdit.getText().toString().equals(""))
+        {
+            Toast.makeText(addCombination.this, "Please Enter Meal Name", Toast.LENGTH_SHORT).show();
+        }
+        else if(m.size() <= 0)
+        {
+            Toast.makeText(addCombination.this, "Please Add At least 1 ingredient", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
             new AddNewCombination().execute(mEdit.getText().toString());
         }
 
@@ -288,7 +303,7 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
-            Toast.makeText(addCombination.this, "Added Combination", Toast.LENGTH_LONG).show();
+            Toast.makeText(addCombination.this, "Meal added", Toast.LENGTH_LONG).show();
             myAutoComplete.setText("");
             myAutoComplete.clearListSelection();
             m.clear();

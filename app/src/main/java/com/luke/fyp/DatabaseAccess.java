@@ -34,7 +34,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
 
     public DatabaseAccess(Context context) {
-        super(context, DATABASE_NAME, null, 12);
+        super(context, DATABASE_NAME, null, 13);
         DatabaseManagement.initializeInstance(this);
         database = DatabaseManagement.getInstance().openDatabase();
 

@@ -17,6 +17,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +27,7 @@
         </activity>
         <activity
             android:name=".viewMealsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_view_meals"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -34,10 +36,12 @@
         </activity>
         <activity
             android:name=".firstWelcomeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_first_welcome" >
         </activity>
         <activity
             android:name=".writeFileActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_write_file"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -46,6 +50,7 @@
         </activity>
         <activity
             android:name=".CalendarActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_calendar"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -54,6 +59,7 @@
         </activity>
         <activity
             android:name=".addComponent"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_add_component"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -62,6 +68,7 @@
         </activity>
         <activity
             android:name=".addCombination"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_add_combination"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -70,6 +77,7 @@
         </activity>
         <activity
             android:name=".addEntryActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_add_entry"
             android:parentActivityName=".MainActivity" >
             <meta-data

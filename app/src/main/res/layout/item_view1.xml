@@ -9,46 +9,25 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
         android:id="@+id/itemViewMealName1"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="25dp"
-        />
+        android:layout_alignParentStart="true" />
+
 
     <TextView
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=""
-        android:id="@+id/itemViewDateTaken1"
-        android:layout_below="@+id/itemViewMealName"
-        android:layout_alignLeft="@+id/itemViewMealName"
-        android:layout_alignStart="@+id/itemViewMealName"
-        />
-
-    <TextView
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=""
-        android:id="@+id/itemViewCreonTaken1"
-        android:layout_below="@+id/itemViewDateTaken"
-        android:layout_alignLeft="@+id/itemViewDateTaken"
-        android:layout_alignStart="@+id/itemViewDateTaken"
-        />
-
-    <TextView
-        android:layout_width="150dp"
+        android:layout_width="170dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/itemViewNotes1"
-        android:layout_alignTop="@+id/itemViewMealName"
-        android:layout_alignBottom="@+id/itemViewDateTaken"
-        android:layout_toEndOf="@+id/itemViewMealName"
-        android:layout_toRightOf="@+id/itemViewMealName"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/itemViewMealName1"
+        android:layout_toEndOf="@+id/itemViewMealName1" />
 
 
 </RelativeLayout>

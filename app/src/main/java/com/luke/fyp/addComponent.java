@@ -40,12 +40,18 @@ public class addComponent extends AppCompatActivity {
 
     public void saveComponent(View v)
     {
-        if(!fat.getText().toString().equals("")) {
-            new AddNewComponent().execute(mEdit.getText().toString(), fat.getText().toString());
+        if(fat.getText().toString().equals("")) {
+
+            Toast.makeText(addComponent.this, "Please enter fat per serving", Toast.LENGTH_SHORT).show();
+        }
+
+        else if(mEdit.getText().toString().equals(""))
+        {
+            Toast.makeText(addComponent.this, "Please enter item name", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Toast.makeText(addComponent.this, "Please enter fat per serving", Toast.LENGTH_SHORT).show();
+            new AddNewComponent().execute(mEdit.getText().toString(), fat.getText().toString());
         }
     }
 

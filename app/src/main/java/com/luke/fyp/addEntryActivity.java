@@ -337,72 +337,151 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
     public void addComponentToEntry(View v)
     {
+        boolean found = false;
         myAutoComplete2.clearListSelection();
+        for(int i = 0; i < m.size() && !found; i++)
+        {
+            if(m.get(i).getName().equals(component1.getName()))
+            {
+                found = true;
+            }
+        }
         if (component1 == null) {
+            Toast.makeText(addEntryActivity.this, "Error: Please choose valid item", Toast.LENGTH_SHORT).show();
+            myAutoComplete2.setText("");
+            quantity.setText("");
+        }
+        else if (found)
+        {
+            Toast.makeText(addEntryActivity.this, "Error: Item has already been added", Toast.LENGTH_SHORT).show();
+            component1 = null;
+            myAutoComplete2.setText("");
+            quantity.setText("");
+        }
 
-        } else {
+        else {
             component1.setQuantity(Double.parseDouble(quantity.getText().toString()));
             m.add(component1);
-            //populateListView();
             quantity.setText("");
-            Toast.makeText(addEntryActivity.this, "Component Quantity = " + component1.getQuantity(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(addEntryActivity.this, "Component fat = " + component1.getTotalFat(), Toast.LENGTH_SHORT).show();
-            entryFat += component1.getTotalFat();
-            Toast.makeText(addEntryActivity.this, "Entry fat = " + entryFat, Toast.LENGTH_SHORT).show();
-            double cr = (entryFat / u.getFatPerCreon());
-            suggestedCreon.setText("Suggested Creon = " + Math.round(cr));
+            if(u.getCreonType().equals("10000") || u.getCreonType().equals("25000")) {
+                entryFat += (component1.getTotalFat());
+                double cb = (entryFat / u.getFatPerCreon());
+                suggestedCreon.setText("Suggested Creon = " + Math.round(cb));
+            }
+            else {
+                entryFat += (component1.getTotalFat());
+                double u25 = u.getFatPerCreon() * 2.5;
+                double cb = (entryFat / u25);
+                int single = (int) cb;
+                int single2 = 0;
+                double remainder = cb % 1;
+                if (remainder >= 0.9) {
+                    single++;
+                } else if (remainder >= 0.6) {
+                    single2 = 2;
+                } else if (remainder >= 0.2) {
+                    single2 = 1;
+                }
 
+                suggestedCreon.setText("Suggested Creon 25,000 = " + single + "\n" + "Suggested Creon 10,000 = " + single2);
+
+            }
 
         }
         component1 = null;
         myAutoComplete2.setText("");
-        quantity.setText("");
         populateListView();
 
     }
 
     public void saveEntry(View v)
     {
+        boolean donotpreced = false;
+
+        if(combination1 == null && m.size() <= 0)
+        {
+            donotpreced = true;
+            Toast.makeText(addEntryActivity.this, "Please add meal or item", Toast.LENGTH_SHORT).show();
+        }
         Calendar calendar = Calendar.getInstance();
         long datetime = calendar.getTimeInMillis();
         if(u.getCreonType().equals("10000"))
         {
-            creon10taken = Integer.parseInt(creon10.getText().toString());
+            if(creon10.getText().toString().equals(""))
+            {
+                Toast.makeText(addEntryActivity.this, "Please enter CREON taken", Toast.LENGTH_SHORT).show();
+                donotpreced = true;
+            }
+            else {
+                creon10taken = Integer.parseInt(creon10.getText().toString());
+            }
         }
         else if(u.getCreonType().equals("25000"))
         {
-            creon25taken = Integer.parseInt(creon10.getText().toString());
+            if(creon10.getText().toString().equals(""))
+            {
+                Toast.makeText(addEntryActivity.this, "Please enter CREON taken", Toast.LENGTH_SHORT).show();
+                donotpreced = true;
+            }
+            else {
+                creon25taken = Integer.parseInt(creon10.getText().toString());
+            }
         }
 
         else
         {
-            creon10taken = Integer.parseInt(creon10.getText().toString());
-            creon25taken = Integer.parseInt(creon25.getText().toString());
+            if(creon10.getText().toString().equals("") && creon25.getText().toString().equals(""))
+            {
+                Toast.makeText(addEntryActivity.this, "Please enter CREON taken", Toast.LENGTH_SHORT).show();
+                donotpreced = true;
+            }
+
+            else if(creon10.getText().toString().equals(""))
+            {
+                creon10taken = 0;
+                creon25taken = Integer.parseInt(creon25.getText().toString());
+            }
+            else if(creon25.getText().toString().equals(""))
+            {
+                creon25taken = 0;
+                creon10taken = Integer.parseInt(creon10.getText().toString());
+            }
+
+            else
+            {
+                creon10taken = Integer.parseInt(creon10.getText().toString());
+                creon25taken = Integer.parseInt(creon25.getText().toString());
+            }
+
         }
-        db.insertEntry(creon10taken, creon25taken, notes.getText().toString(), datetime);
 
-        int id = db.getIDForRecentEntry();
-
-        if(combination1 == null)
+        if(donotpreced)
         {
 
         }
-        else{
-            db.addEntryCombination(id, combination1.getID(), combination1.getQuantity());
-        }
+        else {
+            db.insertEntry(creon10taken, creon25taken, notes.getText().toString(), datetime);
 
-        for(int i = 0; i < m.size(); i++)
-        {
-            db.addEntryComponent(m.get(i).getID(), id, m.get(i).getQuantity());
-        }
+            int id = db.getIDForRecentEntry();
 
-        myAutoComplete1.setText("");
-        creon10.setText("");
-        notes.setText("");
-        myAutoComplete1.clearListSelection();
-        m.clear();
-        populateListView();
-        suggestedCreon.setText("");
+            if (combination1 == null) {
+
+            } else {
+                db.addEntryCombination(id, combination1.getID(), combination1.getQuantity());
+            }
+
+            for (int i = 0; i < m.size(); i++) {
+                db.addEntryComponent(m.get(i).getID(), id, m.get(i).getQuantity());
+            }
+            Toast.makeText(addEntryActivity.this, "Entry Stored", Toast.LENGTH_SHORT).show();
+            myAutoComplete1.setText("");
+            creon10.setText("");
+            notes.setText("");
+            myAutoComplete1.clearListSelection();
+            m.clear();
+            populateListView();
+            suggestedCreon.setText("");
+        }
     }
 
 
