@@ -21,14 +21,17 @@
         <TextView
             android:id="@+id/topBarComponent"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="70dp"
             android:background="@drawable/layoutbg"
             android:text="   New Item"
+            android:textSize= "28dp"
             android:gravity="center_vertical"
             android:textColor="#ffffff" />
     <EditText
         android:layout_below="@id/topBarComponent"
-        android:layout_width="200dp"
+        android:layout_width="400dp"
+
+        android:textSize= "28dp"
         android:layout_height="wrap_content"
         android:id="@+id/componentName"
         android:layout_centerHorizontal="true"
@@ -36,7 +39,8 @@
 
     <Spinner
         android:id="@+id/spinnerServingType"
-        android:layout_width="200dp"
+        android:layout_width="400dp"
+        android:textSize= "28dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/componentName"
@@ -44,8 +48,10 @@
         android:spinnerMode="dropdown" />
 
     <EditText
-        android:layout_width="200dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
+
+        android:textSize= "28dp"
         android:id="@+id/fatPerServing"
         android:inputType="numberDecimal"
         android:layout_below="@id/spinnerServingType"
@@ -58,6 +64,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SAVE ITEM"
+
+        android:textSize= "28dp"
         android:id="@+id/saveItem"
         android:layout_below="@+id/layoutComponent1"
         android:layout_centerHorizontal="true"
@@ -77,7 +85,9 @@
     <TextView
         android:id="@+id/bottomBarComponent"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="70dp"
+
+        android:textSize= "28dp"
         android:background="@drawable/layoutbg"
         android:text="   Existing Items"
         android:gravity="center_vertical"

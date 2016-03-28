@@ -39,7 +39,6 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
     private EditText creon25;
     private int creon10taken;
     private int creon25taken;
-    private EditText notes;
     private TextView suggestedCreon;
     private double entryFat;
     private User u;
@@ -72,7 +71,6 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             creon25.setVisibility(View.INVISIBLE);
             creon25.setEnabled(false);
         }
-        notes = (EditText) findViewById(R.id.mealNotes);
         quantity = (EditText) findViewById(R.id.quantityTaken);
         suggestedCreon = (TextView) findViewById(R.id.suggested);
         b = (Button) findViewById(R.id.addMealToEntry);
@@ -326,7 +324,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
                     single2 = 1;
                 }
 
-                suggestedCreon.setText("Suggested Creon 25,000 = " + single + "\n" + "Suggested Creon 10,000 = " + single2);
+                suggestedCreon.setText("Suggested Creon 10,000 = " + single2 + "  " + "Suggested Creon 25,000 = " + single);
 
 
 
@@ -383,7 +381,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
                     single2 = 1;
                 }
 
-                suggestedCreon.setText("Suggested Creon 25,000 = " + single + "\n" + "Suggested Creon 10,000 = " + single2);
+                suggestedCreon.setText("Suggested Creon 10,000 = " + single2 + "" + "  Suggested Creon 25,000 = " + single);
 
             }
 
@@ -460,7 +458,10 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
         }
         else {
-            db.insertEntry(creon10taken, creon25taken, notes.getText().toString(), datetime);
+
+            new AddNewEntry().execute();
+
+            /*db.insertEntry(creon10taken, creon25taken, "", datetime);
 
             int id = db.getIDForRecentEntry();
 
@@ -476,11 +477,53 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             Toast.makeText(addEntryActivity.this, "Entry Stored", Toast.LENGTH_SHORT).show();
             myAutoComplete1.setText("");
             creon10.setText("");
-            notes.setText("");
             myAutoComplete1.clearListSelection();
             m.clear();
+            creon25.setText("");
             populateListView();
             suggestedCreon.setText("");
+            myAutoComplete1.setEnabled(true);
+            b.setEnabled(true);*/
+        }
+    }
+
+    private class AddNewEntry extends AsyncTask<String, Object, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            Calendar calendar = Calendar.getInstance();
+            long datetime = calendar.getTimeInMillis();
+            boolean tof = db.insertEntry(creon10taken, creon25taken, "", datetime);
+            int id = db.getIDForRecentEntry();
+
+            if (combination1 == null) {
+
+            }
+            else {
+                db.addEntryCombination(id, combination1.getID(), combination1.getQuantity());
+            }
+
+            for (int i = 0; i < m.size(); i++) {
+                db.addEntryComponent(m.get(i).getID(), id, m.get(i).getQuantity());
+            }
+            return tof;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            Toast.makeText(addEntryActivity.this, "Entry Stored", Toast.LENGTH_SHORT).show();
+            myAutoComplete1.setText("");
+            creon10.setText("");
+            myAutoComplete1.clearListSelection();
+            m.clear();
+            creon25.setText("");
+            populateListView();
+            suggestedCreon.setText("");
+            myAutoComplete1.setEnabled(true);
+            b.setEnabled(true);
+
+
         }
     }
 
@@ -519,6 +562,12 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
             return itemView;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 
 
@@ -573,6 +622,12 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             Intent intent = new Intent(getApplicationContext(), addCombination.class);
             startActivity(intent);
             new getComponentsAndCombinations().execute();
+            return true;
+        }
+
+        else if (id == android.R.id.home)
+        {
+            super.onBackPressed();
             return true;
         }
 

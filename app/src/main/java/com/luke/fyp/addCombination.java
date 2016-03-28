@@ -44,7 +44,6 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         db = new DatabaseAccess(this);
         m = new ArrayList<>();
         myAutoComplete = (AutoCompleteTextView)findViewById(R.id.myautocomplete1);
-        //dropDownDisplayComponents();
         new loadObjects().execute();
     }
 
@@ -180,6 +179,19 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             return true;
         }
 
+        else if (id == android.R.id.home)
+        {
+            super.onBackPressed();
+            return true;
+        }
+
+        else if (id == R.id.editMealMenu)
+        {
+            Intent intent = new Intent(getApplicationContext(), editMeal.class);
+            startActivity(intent);
+            return true;
+        }
+
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -244,12 +256,13 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
 
         }
         else {
-            component1.setQuantity(Integer.parseInt(quantity.getText().toString()));
+            component1.setQuantity(Double.parseDouble(quantity.getText().toString()));
             m.add(component1);
             populateListView();
             quantity.setText("");
         }
         myAutoComplete.setText("");
+        component1 = null;
         quantity.setText("");
         quantity.setHint("Quantity");
         quantity.setEnabled(false);
@@ -328,6 +341,12 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
             super.onPostExecute(result);
             dropDownDisplayComponents();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 
 

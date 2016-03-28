@@ -1,6 +1,7 @@
 package com.luke.fyp;
 
 import android.database.Cursor;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 public class firstWelcomeActivity extends AppCompatActivity {
     private DatabaseAccess db;
@@ -92,9 +98,11 @@ public class firstWelcomeActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            boolean tof = db.addUser((params[0]), Double.parseDouble(params[1]));
+            //boolean tof = db.addUser((params[0]), Double.parseDouble(params[1]));
+            importDB();
             ((MyApp) firstWelcomeActivity.this.getApplication()).setUser(db.getUser());
-            return tof;
+
+            return true;
         }
 
         @Override
@@ -104,6 +112,32 @@ public class firstWelcomeActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
 
             fatPerCreon.setText("");
+
+
+        }
+    }
+
+    private void importDB() {
+        // TODO Auto-generated method stub
+
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data  = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String  currentDBPath= "//data//" + "com.luke.fyp"
+                        + "//databases//" + "MyDBName.db";
+                String backupDBPath  = "/MyDBName.db";
+                File  backupDB= new File(data, currentDBPath);
+                File currentDB  = new File(sd, backupDBPath);
+
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+            }
+        } catch (Exception e) {
 
 
         }

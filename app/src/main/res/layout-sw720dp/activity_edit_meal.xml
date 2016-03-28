@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/back"
+    android:focusableInTouchMode="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.luke.fyp.editMeal">
+
+    <LinearLayout
+        android:id="@+id/layoutEdit"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:id="@+id/topBarEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/layoutbg"
+            android:text="  Recipe you wish to Edit"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff" />
+
+        <AutoCompleteTextView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:id="@+id/combinationNameEdit"
+            android:completionThreshold="1"
+            android:layout_below="@+id/topBarEdit"
+            android:hint="Recipe Name"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutEdit2"
+        android:layout_below="@id/layoutEdit"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:id="@+id/itemBarEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/layoutbg"
+            android:text="   Add ingredients to your recipe"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff" />
+
+        <AutoCompleteTextView android:id="@+id/myautocompleteEdit1"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/itemBarEdit"
+            android:completionThreshold="1"
+            android:hint="Item name"
+            />
+
+        <EditText
+            android:id="@+id/quantityEdit"
+            android:inputType="numberDecimal"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/myautocompleteEdit1"
+            android:hint="Quantity"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:id="@+id/addToCombinationEdit"
+            android:enabled="false"
+            android:onClick="addToCombination"
+            android:layout_below="@+id/myautocompleteEdit1"
+            android:layout_toRightOf="@+id/myautocompleteEdit1" />
+
+    </RelativeLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE MEAL"
+        android:id="@+id/saveThisMealEdit"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/layoutEdit2"
+        android:layout_marginTop="15dp"
+
+        android:layout_marginBottom="15dp"
+        android:onClick="saveCombination"/>
+
+    <LinearLayout
+        android:id="@+id/layoutEdit3"
+        android:layout_below="@id/saveThisMealEdit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layoutwhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/listBarEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/layoutbg"
+            android:text="   Current Ingredients List"
+            android:gravity="center_vertical"
+            android:textColor="#ffffff" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/componentListViewEdit"
+            android:layout_below="@+id/listBarEdit"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+</RelativeLayout>

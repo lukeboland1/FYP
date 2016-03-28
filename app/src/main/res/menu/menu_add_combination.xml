@@ -8,4 +8,8 @@
         android:orderInCategory="100" app:showAsAction="ifRoom"
         />
 
+    <item android:id="@+id/editMealMenu" android:title="Edit Meal"
+        android:orderInCategory="100" app:showAsAction="ifRoom"
+        />
+
 </menu>

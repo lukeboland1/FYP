@@ -108,6 +108,12 @@ public class CalendarActivity extends AppCompatActivity {
             return true;
         }
 
+        else if (id == android.R.id.home)
+        {
+            super.onBackPressed();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

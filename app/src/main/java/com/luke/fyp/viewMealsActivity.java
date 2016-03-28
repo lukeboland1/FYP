@@ -34,13 +34,8 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_meals);
         db = new DatabaseAccess(this);
-        entries = db.getAllEntries();
-        components = db.getAllComponents();
-        combinations = db.getAllCombinations();
         myAutoComplete = (AutoCompleteTextView)findViewById(R.id.myautocomplete);
-
-        dropDownDisplayMeals();
-        //displayMeals();
+        new loadData().execute();
     }
 
     public void dropDownDisplayMeals()
@@ -154,6 +149,12 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
             return true;
         }
 
+        else if (id == android.R.id.home)
+        {
+            super.onBackPressed();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -161,28 +162,22 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
         return DateFormat.format(dateFormat, Long.parseLong(dateInMilliseconds)).toString();
     }
 
-    private class getAllMeals extends AsyncTask<String, Object, ArrayList<Meal>> {
+    private class loadData extends AsyncTask<String, Object, Boolean> {
 
         @Override
-        protected ArrayList<Meal> doInBackground(String... params) {
-            //ArrayList<Meal> meal = db.getAllMeals();
-            //return meal;
-            return null;
+        protected Boolean doInBackground(String... params) {
+            entries = db.getAllEntries();
+            components = db.getAllComponents();
+            combinations = db.getAllCombinations();
+            return true;
         }
-
-
-    }
-
-    private class getMealRecords extends AsyncTask<String, Object, ArrayList<MealRecord>> {
 
         @Override
-        protected ArrayList<MealRecord> doInBackground(String... params) {
-            //ArrayList<MealRecord> mealR = db.getMealRecordsFromName(params[0]);
-            //return mealR;
-            return null;
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            dropDownDisplayMeals();
+
         }
-
-
     }
 
     private class MyListAdapter extends ArrayAdapter<Entry>
@@ -297,67 +292,6 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
             return itemView;
         }
     }
-    /*
-    public void tooManyCreon(View v)
-    {
-        int id =(int) v.getTag();
-        ImageButton up = (ImageButton)v;
-        //ImageButton down = (ImageButton)v;
-        boolean found = false;
-        for(int i = 0; i < entries.size() && !found; i++)
-        {
-            if(id == entries.get(i).getId())
-            {
-                if(entries.get(i).getResults() == 1)
-                {
-                    db.updateResult(0, id);
-                    //down.setImageResource(R.drawable.arrowdownwhite);
-                    up.setImageResource(R.drawable.arrowupwhite);
-                    entries.get(i).setResults(0);
-                }
-
-                else {
-                    db.updateResult(1, id);
-                    //down.setImageResource(R.drawable.arrowdownwhite);
-                    up.setImageResource(R.drawable.arrowupred);
-                    entries.get(i).setResults(1);
-                }
-
-                found = true;
-            }
-        }
-    }
-
-    public void tooFewCreon(View v)
-    {
-        int id =(int) v.getTag();
-        ImageButton down = (ImageButton)v;
-        //ImageButton up = (ImageButton)v;
-        boolean found = false;
-        for(int i = 0; i < entries.size() && !found; i++)
-        {
-            if(id == entries.get(i).getId())
-            {
-                if(entries.get(i).getResults() == 2)
-                {
-                    db.updateResult(0, id);
-                    down.setImageResource(R.drawable.arrowdownwhite);
-                    //up.setImageResource(R.drawable.arrowupwhite);
-                    entries.get(i).setResults(0);
-                }
-
-                else {
-                    db.updateResult(2, id);
-                    down.setImageResource(R.drawable.arrowdownred);
-                    //up.setImageResource(R.drawable.arrowupwhite);
-                    entries.get(i).setResults(2);
-                }
-
-                found = true;
-            }
-        }
-    }*/
-
 
 
 

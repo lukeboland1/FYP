@@ -3,12 +3,13 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/back"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
     >
 
     <LinearLayout
         android:id="@+id/button"
-        android:layout_width="315dp"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:background="@drawable/layoutbg"
         android:clickable="true"
@@ -19,13 +20,13 @@
         android:layout_marginBottom="10dp">
     <ImageView
         android:layout_marginTop="10dp"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_width="240dp"
+        android:layout_height="160dp"
         android:id="@+id/imageView"
         android:src="@drawable/pen"/>
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="Store Meal Entry"
         android:id="@+id/storeMealentry"
@@ -35,12 +36,12 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:textColor="#ffffff"
-        android:textSize="20dp" />
+        android:textSize="32dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button2"
-        android:layout_width="320dp"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:background="@drawable/layoutbg"
         android:clickable="true"
@@ -53,13 +54,13 @@
 
     <ImageView
         android:layout_marginTop="10dp"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_width="240dp"
+        android:layout_height="160dp"
         android:id="@+id/imageView2"
         android:src="@drawable/flatfood"/>
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="Store New Meal"
         android:id="@+id/storeMeal"
@@ -71,12 +72,12 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff"
-        android:textSize="20dp"/>
+        android:textSize="32dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button3"
-        android:layout_width="320dp"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:background="@drawable/layoutbg"
         android:clickable="true"
@@ -88,8 +89,8 @@
         android:orientation="vertical" >
     <ImageView
         android:layout_marginTop="10dp"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_width="240dp"
+        android:layout_height="160dp"
         android:id="@+id/imageView3"
         android:layout_alignParentRight="true"
         android:src="@drawable/carrot"/>
@@ -97,7 +98,7 @@
 
     <TextView
 
-        android:layout_width="300dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="New Food Item"
         android:id="@+id/enterFoodItem"
@@ -108,13 +109,13 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:textColor="#ffffff"
-        android:textSize="20dp"
+        android:textSize="32dp"
         />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button4"
-        android:layout_width="320dp"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:background="@drawable/layoutbg"
         android:clickable="true"
@@ -125,15 +126,15 @@
         android:orientation="vertical" >
     <ImageView
 
-        android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_width="240dp"
+        android:layout_height="160dp"
         android:id="@+id/imageView4"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="10dp"
         android:src="@drawable/calendar"/>
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="Calendar"
         android:id="@+id/calendarButton"
@@ -144,12 +145,12 @@
         android:gravity="center"
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff"
-        android:textSize="20dp"/>
+        android:textSize="32dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/button5"
-        android:layout_width="320dp"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:background="@drawable/layoutbg"
         android:clickable="true"
@@ -159,8 +160,8 @@
         android:layout_alignParentRight="true"
         android:orientation="vertical" >
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_width="240dp"
+        android:layout_height="160dp"
         android:id="@+id/imageView5"
         android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
@@ -170,7 +171,7 @@
 
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="View records"
         android:id="@+id/viewRecords"
@@ -181,7 +182,7 @@
         android:layout_marginBottom="10dp"
         android:textColor="#ffffff"
         android:gravity="center"
-        android:textSize="20dp"/>
+        android:textSize="32dp"/>
 </LinearLayout>
 
 </RelativeLayout>

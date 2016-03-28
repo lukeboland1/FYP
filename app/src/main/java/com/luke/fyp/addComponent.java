@@ -115,70 +115,34 @@ public class addComponent extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> arg0, View arg1,
                                            int arg2, long arg3) {
-                    String item =(String) arg0.getItemAtPosition(arg2);
+                    String item = (String) arg0.getItemAtPosition(arg2);
                     servingType = item;
                     canStore = true;
-                    if(servingType.equals("Grams"))
-                    {
+                    if (servingType.equals("Grams")) {
                         fat.setHint("Fat per 100 grams");
-                    }
-                    else if(servingType.equals("Millilitres"))
-                    {
+                    } else if (servingType.equals("Millilitres")) {
                         fat.setHint("Fat per 100 millilitres");
-                    }
-
-                    else if(servingType.equals("Tablespoon"))
-                    {
+                    } else if (servingType.equals("Tablespoon")) {
                         fat.setHint("Fat per Tablespoon");
-                    }
-
-                    else if(servingType.equals("Teaspoon"))
-                    {
+                    } else if (servingType.equals("Teaspoon")) {
                         fat.setHint("Fat per Teaspoon");
-                    }
-
-                    else if(servingType.equals("Oz"))
-                    {
+                    } else if (servingType.equals("Oz")) {
                         fat.setHint("Fat per Oz");
-                    }
-
-                    else if(servingType.equals("Floz"))
-                    {
+                    } else if (servingType.equals("Floz")) {
                         fat.setHint("Fat per Floz");
-                    }
-
-                    else if(servingType.equals("Pints"))
-                    {
+                    } else if (servingType.equals("Pints")) {
                         fat.setHint("Fat per Pint");
-                    }
-
-                    else if(servingType.equals("Lbs"))
-                    {
+                    } else if (servingType.equals("Lbs")) {
                         fat.setHint("Fat per lb");
-                    }
-
-                    else if(servingType.equals("Milligram"))
-                    {
+                    } else if (servingType.equals("Milligram")) {
                         fat.setHint("Fat per 100 milligrams");
-                    }
-
-                    else if(servingType.equals("Cup"))
-                    {
+                    } else if (servingType.equals("Cup")) {
                         fat.setHint("Fat per cup");
-                    }
-
-                    else if(servingType.equals("Portion"))
-                    {
+                    } else if (servingType.equals("Portion")) {
                         fat.setHint("Fat per portion");
-                    }
-
-                    else if(servingType.equals("Unit"))
-                    {
+                    } else if (servingType.equals("Unit")) {
                         fat.setHint("Fat per unit");
-                    }
-
-                    else if(servingType.equals("Slices"))
-                    {
+                    } else if (servingType.equals("Slices")) {
                         fat.setHint("Fat per slice");
                     }
 
@@ -263,6 +227,14 @@ public class addComponent extends AppCompatActivity {
             return true;
         }
 
+        else if (id == android.R.id.home)
+        {
+            super.onBackPressed();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
+
 }

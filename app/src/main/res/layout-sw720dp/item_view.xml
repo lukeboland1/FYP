@@ -4,7 +4,7 @@
 
 
     <TextView
-        android:layout_width="140dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
@@ -18,7 +18,7 @@
          />
 
     <TextView
-        android:layout_width="160dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
@@ -29,7 +29,7 @@
          />
 
     <TextView
-        android:layout_width="160dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
@@ -41,7 +41,7 @@
         android:layout_marginBottom="5dp"/>
 
     <TextView
-        android:layout_width="130dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/itemViewNotes"

@@ -21,36 +21,43 @@
     <TextView
         android:id="@+id/topBarEntry"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="70dp"
+
+        android:textSize= "28dp"
         android:background="@drawable/layoutbg"
         android:text="   What meal did you have? (Leave blank if none)"
         android:gravity="center_vertical"
         android:textColor="#ffffff" />
 
     <AutoCompleteTextView android:id="@+id/autoMealName"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:textSize= "28dp"
         android:layout_below="@id/topBarEntry"
         android:completionThreshold="1"
         android:hint="Meal name" />
 
     <Spinner
         android:id="@+id/spinnerFraction"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_toRightOf="@+id/autoMealName"
         android:layout_toEndOf="@+id/autoMealName"
-
+        android:textSize= "28dp"
         android:layout_below="@id/topBarEntry"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_below="@id/topBarEntry"
         android:layout_centerHorizontal="true"
         android:text="Add"
+
+        android:textSize= "28dp"
         android:id="@+id/addMealToEntry"
         android:layout_toRightOf="@+id/spinnerFraction"
         android:layout_toEndOf="@+id/spinnerFraction"
@@ -69,28 +76,29 @@
         <TextView
             android:id="@+id/topBarEntry2"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="70dp"
+            android:textSize= "28dp"
             android:background="@drawable/layoutbg"
             android:text="   Did you have additional items?"
             android:gravity="center_vertical"
             android:textColor="#ffffff" />
 
     <AutoCompleteTextView android:id="@+id/autoComponentName"
-        android:layout_width="200dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/topBarEntry2"
         android:completionThreshold="1"
         android:hint="Item name"
-        android:textSize="15dp" />
+        android:textSize= "28dp" />
 
     <EditText
         android:id="@+id/quantityTaken"
         android:inputType="numberDecimal"
-        android:layout_width="200dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/autoComponentName"
         android:hint="Quantity"
-        android:textSize="15dp" />
+        android:textSize= "28dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -98,9 +106,10 @@
         android:text="Add"
         android:id="@+id/addComponentToEntry"
         android:onClick="addComponentToEntry"
-        android:layout_below="@+id/autoComponentName"
-        android:layout_toRightOf="@+id/autoComponentName"
-        android:layout_toEndOf="@+id/autoComponentName" />
+        android:textSize= "28dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/quantityTaken" />
     </RelativeLayout>
     <ListView
         android:layout_width="wrap_content"
@@ -122,7 +131,8 @@
         <TextView
             android:id="@+id/topBarEntry3"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="70dp"
+            android:textSize= "28dp"
             android:background="@drawable/layoutbg"
             android:text="   Required Information"
             android:gravity="center_vertical"
@@ -131,50 +141,44 @@
     <EditText
         android:id="@+id/creonTaken2"
         android:inputType="number"
-        android:layout_width="170dp"
+        android:layout_width="250dp"
         android:text=""
         android:layout_height="wrap_content"
         android:layout_below="@id/topBarEntry3"
         android:hint="Creon 10,000 Taken"
-        android:textSize="15dp" />
+        android:textSize= "20dp"/>
 
         <EditText
             android:id="@+id/creonTaken3"
             android:inputType="number"
-            android:layout_width="170dp"
+            android:layout_width="250dp"
             android:text=""
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/creonTaken2"
             android:layout_below="@id/topBarEntry3"
             android:hint="Creon 25,000 Taken"
-            android:textSize="15dp" />
+            android:textSize= "20dp" />
 
     <TextView
-        android:layout_width="190dp"
+        android:layout_width="550dp"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/suggested"
-        android:layout_below="@id/creonTaken3"
-        android:layout_toRightOf="@+id/mealNotes"
-        android:layout_toEndOf="@+id/mealNotes"
+        android:textSize= "20dp"
+        android:layout_below="@id/creonTaken2"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp" />
 
 
-    <EditText
-        android:id="@+id/mealNotes"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/creonTaken2"
-        android:hint="Notes" />
     </RelativeLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SAVE MEAL"
         android:id="@+id/saveEntry"
+        android:textSize= "28dp"
         android:onClick="saveEntry"
         android:layout_below="@+id/layoutEntry3"
         android:layout_centerHorizontal="true" />
@@ -191,9 +195,10 @@
         <TextView
             android:id="@+id/topBarEntry4"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="70dp"
             android:background="@drawable/layoutbg"
             android:text="   Extra Items"
+            android:textSize= "28dp"
             android:gravity="center_vertical"
             android:textColor="#ffffff" />
 
