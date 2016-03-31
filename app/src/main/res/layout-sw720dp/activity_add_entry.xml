@@ -22,7 +22,6 @@
         android:id="@+id/topBarEntry"
         android:layout_width="fill_parent"
         android:layout_height="70dp"
-
         android:textSize= "28dp"
         android:background="@drawable/layoutbg"
         android:text="   What meal did you have? (Leave blank if none)"
@@ -56,9 +55,11 @@
         android:layout_below="@id/topBarEntry"
         android:layout_centerHorizontal="true"
         android:text="Add"
-
+        android:textColor="#ffffff"
+        android:background="@drawable/mybutton"
         android:textSize= "28dp"
         android:id="@+id/addMealToEntry"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/spinnerFraction"
         android:layout_toEndOf="@+id/spinnerFraction"
         android:onClick="addMealToEntry"/>
@@ -107,6 +108,8 @@
         android:id="@+id/addComponentToEntry"
         android:onClick="addComponentToEntry"
         android:textSize= "28dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/mybutton"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_below="@+id/quantityTaken" />
@@ -168,17 +171,17 @@
         android:layout_below="@id/creonTaken2"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp" />
+        android:layout_marginBottom="10dp" />
 
 
     </RelativeLayout>
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SAVE MEAL"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:text="Save Meal"
         android:id="@+id/saveEntry"
         android:textSize= "28dp"
+        android:background="@drawable/mybutton"
         android:onClick="saveEntry"
         android:layout_below="@+id/layoutEntry3"
         android:layout_centerHorizontal="true" />

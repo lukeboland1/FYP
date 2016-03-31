@@ -34,7 +34,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
 
 
     public DatabaseAccess(Context context) {
-        super(context, DATABASE_NAME, null, 18);
+        super(context, DATABASE_NAME, null, 21);
         DatabaseManagement.initializeInstance(this);
         database = DatabaseManagement.getInstance().openDatabase();
 
@@ -136,6 +136,15 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         database.insert("users", null, contentValues);
         return true;
     }
+
+    public void updateUser(String creonType, double fatPerCreon) {
+
+        ContentValues cv = new ContentValues();
+        cv.put("creonType", creonType);
+        cv.put("fatPerCreon", fatPerCreon);
+        database.update("users", cv, "id = ?", new String[]{Integer.toString(1)});
+    }
+
 
     public boolean doesUserExist() {
         Cursor res = database.rawQuery("select * from users", null);
@@ -490,7 +499,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
     }
 
     public ArrayList<Entry> getAllEntries() {
-
+        ArrayList<Integer> nums = new ArrayList<>();
         ArrayList<Entry> comps = new ArrayList<>();
         Cursor res = database.rawQuery("select * from entries ", null);
         res.moveToFirst();
@@ -529,7 +538,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
         }
 
         for(int i = 0; i < comps.size(); i++) {
-            ArrayList<Combination> combs1 = new ArrayList<>();
+            Combination combs1 = null;
             int thisID = comps.get(i).getId();
             res = database.rawQuery("select combinations.name, combinations.id, entrycombinations.quantity from combinations inner join entrycombinations on combinations.id = entrycombinations.combinationID where entryID = ?", new String[]{"" + thisID});
             //res = database.rawQuery("select * from combinations where id = (select combinationID from entrycombinations where entryID = ?)", new String[]{"" + thisID});
@@ -542,12 +551,33 @@ public class DatabaseAccess extends SQLiteOpenHelper {
                 combination.setId(myid);
                 combination.setName(name);
                 combination.setQuantity(quantity);
-                combs1.add(combination);
+                combs1 = combination;
 
                 res.moveToNext();
+                nums.add(i);
 
             }
-            comps.get(i).setCombinations(combs1);
+            comps.get(i).setCombination(combs1);
+        }
+
+        for (int i = 0; i < comps.size(); i++) {
+            if (comps.get(i).getCombination() != null) {
+                ArrayList<Component> comps0 = new ArrayList<>();
+                res = database.rawQuery("select components.name, components.servingtype, components.fatPerServing, components.id, componentcombinations.quantity from components inner join componentcombinations on components.id = componentcombinations.componentID where combinationID = ?", new String[]{"" + comps.get(i).getCombination().getID()});
+                res.moveToFirst();
+                while (res.isAfterLast() == false) {
+                    String name = res.getString(res.getColumnIndex("name"));
+                    String type = res.getString(res.getColumnIndex("servingtype"));
+                    double fat = res.getDouble(res.getColumnIndex("fatPerServing"));
+                    int id = res.getInt(res.getColumnIndex("id"));
+                    double quantity = res.getDouble(res.getColumnIndex("quantity"));
+                    Component component = new Component(name, fat, quantity, id, type);
+                    comps0.add(component);
+                    res.moveToNext();
+
+                }
+                comps.get(i).getCombination().setComponents(comps0);
+            }
         }
         res.close();
         return comps;
@@ -597,7 +627,7 @@ public class DatabaseAccess extends SQLiteOpenHelper {
     public ArrayList<Component> getAllComponents() {
 
         ArrayList<Component> comps = new ArrayList<>();
-        Cursor res = database.rawQuery("select * from components", null);
+        Cursor res = database.rawQuery("select * from components order by name ASC ", null);
         res.moveToFirst();
         while (res.isAfterLast() == false) {
             String name = res.getString(res.getColumnIndex("name"));

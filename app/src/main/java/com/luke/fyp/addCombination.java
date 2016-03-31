@@ -193,10 +193,12 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
         }
 
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), settings.class);
+            startActivity(intent);
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -225,27 +227,35 @@ public class addCombination extends AppCompatActivity implements TextWatcher {
     {
         public MyListAdapter()
         {
-            super(addCombination.this, R.layout.item_view1, m);
+            super(addCombination.this, R.layout.item_view2, m);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
             if(itemView == null)
             {
-                itemView = getLayoutInflater().inflate(R.layout.item_view1, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.item_view2, parent, false);
 
             }
 
-            Component mr = m.get(position);
-            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName1);
+            final Component mr = m.get(position);
+            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName2);
             mName.setText(mr.getName());
-            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes1);
-            mNotes.setText("" + mr.getQuantity() + " " + mr.getServingType());
-
+            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes2);
+            mNotes.setText(" " + mr.getQuantity() + " " + mr.getServingType());
+            final Button up = (Button)itemView.findViewById(R.id.button6);
+            up.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    m.remove(position);
+                    populateListView();
+                }
+            });
 
             return itemView;
         }
+
     }
 
     public void addToCombination(View v)

@@ -8,7 +8,7 @@
     tools:context="com.luke.fyp.firstWelcomeActivity">
 
     <LinearLayout
-        android:id="@+id/layoutFirstWelcome"
+        android:id="@+id/layoutSettings"
         android:layout_alignParentTop="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:layout_marginBottom="10dp">
 
         <TextView
-            android:id="@+id/bottomBarFirst"
+            android:id="@+id/bottomBarSettings"
             android:layout_width="fill_parent"
             android:layout_height="70dp"
             android:textSize= "28dp"
@@ -26,33 +26,32 @@
             android:gravity="center_vertical"
             android:textColor="#ffffff" />
 
-    <Spinner
-        android:id="@+id/spinner3"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:textSize= "28dp"
-        android:layout_below="@id/bottomBarFirst"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown" />
+        <Spinner
+            android:id="@+id/spinnerSettings"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textSize= "28dp"
+            android:layout_below="@id/bottomBarSettings"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown" />
 
-    <EditText
-        android:layout_width="300dp"
-        android:textSize= "28dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/fatPerCreon"
-        android:text=""
-        android:inputType="numberDecimal"
-        android:layout_below="@id/spinner3"
-        android:hint="Fat Per Creon"/>
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/fatPerCreonSettings"
+            android:inputType="numberDecimal"
+            android:textSize= "28dp"
+            android:layout_below="@id/spinnerSettings"
+            android:hint="Fat Per Creon"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize= "28dp"
-        android:text="Save details"
-        android:id="@+id/saveUserDetails"
-        android:layout_below="@+id/fatPerCreon"
-        android:onClick="addUser"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save details"
+            android:textSize= "28dp"
+            android:id="@+id/saveUserDetailsSettings"
+            android:layout_below="@+id/fatPerCreonSettings"
+            android:onClick="addUser"/>
 
     </LinearLayout>
 

@@ -150,25 +150,16 @@
             android:textSize="15dp" />
 
     <TextView
-        android:layout_width="190dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/suggested"
-        android:layout_below="@id/creonTaken3"
-        android:layout_toRightOf="@+id/mealNotes"
-        android:layout_toEndOf="@+id/mealNotes"
+        android:layout_below="@id/creonTaken2"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_marginStart="10dp" />
 
-
-    <EditText
-        android:id="@+id/mealNotes"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/creonTaken2"
-        android:hint="Notes" />
     </RelativeLayout>
     <Button
         android:layout_width="wrap_content"

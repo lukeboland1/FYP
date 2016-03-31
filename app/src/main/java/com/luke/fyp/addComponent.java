@@ -1,5 +1,6 @@
 package com.luke.fyp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -190,7 +191,7 @@ public class addComponent extends AppCompatActivity {
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName1);
             mName.setText(mr.getName());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes1);
-            mNotes.setText(" " + mr.getServingType() + "\n" + mr.getFatContent() + " grams of fat");
+            mNotes.setText("" + mr.getServingType() + "\n" + mr.getFatContent() + " grams of fat");
 
 
             return itemView;
@@ -224,8 +225,11 @@ public class addComponent extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), settings.class);
+            startActivity(intent);
             return true;
         }
+
 
         else if (id == android.R.id.home)
         {

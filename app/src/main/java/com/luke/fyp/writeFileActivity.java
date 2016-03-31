@@ -1,6 +1,5 @@
 package com.luke.fyp;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 
 public class writeFileActivity extends AppCompatActivity {
     private DatabaseAccess db;
-    private ArrayList<Entry> mealRecords;
+    private ArrayList<Entry> entries;
     private EditText email;
 
     @Override
@@ -51,7 +50,10 @@ public class writeFileActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+
+        if (id == android.R.id.home)
+        {
+            super.onBackPressed();
             return true;
         }
 
@@ -65,7 +67,48 @@ public class writeFileActivity extends AppCompatActivity {
 
     public void sendEmail(View v) throws IOException {
         String e = email.getText().toString();
-        new ExportDatabaseFileTask().execute(e);
+        entries = db.getAllEntries();
+        File folder = new File(Environment.getExternalStorageDirectory()
+                + "/Folder");
+        boolean var = false;
+        if (!folder.exists()) {
+            var = folder.mkdir();
+        }
+        final String filename = folder.toString() + "/" + "Test.csv";
+        try {
+            FileWriter fw = new FileWriter(filename);
+            for(int i = 0; i < entries.size(); i++)
+            {
+                fw.append("'" + convertDate(entries.get(i).getDateTaken(), "dd/MM/yyyy") + ",");
+                fw.append(entries.get(i).getCreon10000taken() + ",");
+                fw.append(entries.get(i).getCreon25000taken() + "");
+                if(entries.get(i).getCombination() != null) {
+                    fw.append(entries.get(i).getCombination().getName() + ",");
+                    ArrayList<Component> components = entries.get(i).getCombination().getComponents();
+                    for(int j = 0; j < components.size(); j++)
+                    {
+                        fw.append(components.get(j).getName() + " " + components.get(j).getQuantity() + " " + components.get(j).getServingType() + ",");
+                    }
+
+                }
+
+
+                fw.append("\n");
+            }
+            fw.close();
+        } catch (Exception ex) {
+        }
+        File file = new File(filename);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email.getText().toString()});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "CREON Diary");
+        intent.putExtra(Intent.EXTRA_TEXT, "File Attached");
+        Uri uri = Uri.fromFile(file);
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, "Send email..."));
+        email.setText("");
+        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -73,44 +116,65 @@ public class writeFileActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            mealRecords = db.getAllEntries();
-            File data = Environment.getDataDirectory();
-            File folder = new File(Environment.getExternalStorageDirectory()
-                    + "/Folder");
+            entries = db.getAllEntries();
 
+            File exportDir = new File(Environment.getExternalStorageDirectory(), "");
+            if (!exportDir.exists()) {
+                exportDir.mkdirs();
+            }
+            File file = new File(exportDir, "Test.csv");
+            /*File folder = new File(Environment.getExternalStorageDirectory()
+                    + "/Folder");
             boolean var = false;
             if (!folder.exists()) {
                 var = folder.mkdir();
             }
-
-            final String filename = folder.toString() + "/" + "dump.db";
-
             try {
-                String  currentDBPath= "//data/data/com.luke.fyp/databases/MyDBName.db";
-                File currentDB = new File(data, currentDBPath);
-                File backupDB = new File(folder, filename);
+                file.createNewFile();
+                FileWriter fw = new FileWriter(file);
+                for (int i = 0; i < entries.size(); i++) {
+                    fw.append(convertDate(entries.get(i).getDateTaken(), "dd/MM/yyyy") + ",");
+                    fw.append(entries.get(i).getCreon10000taken() + ",");
+                    fw.append(entries.get(i).getCreon25000taken() + ",");
+                    if(entries.get(i).getCombination() != null)
+                    {
+                        fw.append(entries.get(i).getCombination().getName() + ",");
+                        ArrayList<Component> components = entries.get(i).getCombination().getComponents();
+                        for(int j = 0; j < components.size(); j++)
+                        {
+                            fw.append(components.get(i).getName() + " " + components.get(i).getQuantity() + " " + components.get(i).getServingType() + ",");
+                        }
+                        if(entries.get(i).getComponents() != null)
+                        {
+                            for(int k = 0; k < entries.get(i).getComponents().size(); k++)
+                            {
+                                fw.append(entries.get(i).getComponents().get(i).getName() + " " + entries.get(i).getComponents().get(i).getQuantity() + " " + entries.get(i).getComponents().get(i).getServingType() + ",");
+                            }
+                        }
 
-                FileChannel src = new FileInputStream(currentDB).getChannel();
-                FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                dst.transferFrom(src, 0, src.size());
-                src.close();
-                dst.close();
+                    }
+                    else
+                    {
+                        fw.append(" ,");
+                        for(int k = 0; k < entries.get(i).getComponents().size(); k++)
+                        {
+                            fw.append(entries.get(i).getComponents().get(i).getName() + " " + entries.get(i).getComponents().get(i).getQuantity() + " " + entries.get(i).getComponents().get(i).getServingType() + ",");
+                        }
+                    }
 
+
+
+                    fw.append(entries.get(i).getNotes() + "\n");
+                }
+                fw.close();
             } catch (Exception e) {
-
-
             }
-
-
-
-
-            File file = new File(filename);
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{params[0]});
             intent.putExtra(Intent.EXTRA_SUBJECT, "CREON Diary");
             intent.putExtra(Intent.EXTRA_TEXT, "File Attached");
-            Uri uri = Uri.fromFile(file);
+            Uri uri = Uri.fromFile(file1);
             intent.putExtra(Intent.EXTRA_STREAM, uri);
             startActivity(Intent.createChooser(intent, "Send email..."));
             return true;
@@ -121,8 +185,8 @@ public class writeFileActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
-                email.setText("");
-                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+            email.setText("");
+            Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
         }
     }*/
 

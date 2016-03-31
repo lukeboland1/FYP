@@ -1,5 +1,6 @@
 package com.luke.fyp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -216,7 +217,7 @@ public class editMeal extends AppCompatActivity implements TextWatcher {
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName2);
             mName.setText(mr.getName());
             TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes2);
-            mNotes.setText(" " + mr.getServingType() + "\n" + mr.getFatContent() + " grams of fat");
+            mNotes.setText(" " + mr.getQuantity() + " " + mr.getServingType());
             final Button up = (Button)itemView.findViewById(R.id.button6);
             up.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -360,8 +361,11 @@ public class editMeal extends AppCompatActivity implements TextWatcher {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), settings.class);
+            startActivity(intent);
             return true;
         }
+
         else if (id == android.R.id.home)
         {
             super.onBackPressed();

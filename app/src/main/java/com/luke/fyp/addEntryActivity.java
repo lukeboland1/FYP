@@ -461,29 +461,6 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
             new AddNewEntry().execute();
 
-            /*db.insertEntry(creon10taken, creon25taken, "", datetime);
-
-            int id = db.getIDForRecentEntry();
-
-            if (combination1 == null) {
-
-            } else {
-                db.addEntryCombination(id, combination1.getID(), combination1.getQuantity());
-            }
-
-            for (int i = 0; i < m.size(); i++) {
-                db.addEntryComponent(m.get(i).getID(), id, m.get(i).getQuantity());
-            }
-            Toast.makeText(addEntryActivity.this, "Entry Stored", Toast.LENGTH_SHORT).show();
-            myAutoComplete1.setText("");
-            creon10.setText("");
-            myAutoComplete1.clearListSelection();
-            m.clear();
-            creon25.setText("");
-            populateListView();
-            suggestedCreon.setText("");
-            myAutoComplete1.setEnabled(true);
-            b.setEnabled(true);*/
         }
     }
 
@@ -521,6 +498,7 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
             populateListView();
             suggestedCreon.setText("");
             myAutoComplete1.setEnabled(true);
+            entryFat = 0;
             b.setEnabled(true);
 
 
@@ -540,25 +518,56 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
     private class MyListAdapter extends ArrayAdapter<Component>
     {
-        public MyListAdapter()
-        {
-            super(addEntryActivity.this, R.layout.item_view1, m);
+        public MyListAdapter() {
+            super(addEntryActivity.this, R.layout.item_view2, m);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
             if(itemView == null)
             {
-                itemView = getLayoutInflater().inflate(R.layout.item_view1, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.item_view2, parent, false);
 
             }
 
-            Component mr = m.get(position);
-            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName1);
+            final Component mr = m.get(position);
+            TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName2);
             mName.setText(mr.getName());
-            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes1);
+            TextView mNotes = (TextView)itemView.findViewById(R.id.itemViewNotes2);
             mNotes.setText(mr.getQuantity() + " " + mr.getServingType());
+            final Button up = (Button)itemView.findViewById(R.id.button6);
+            up.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(u.getCreonType().equals("10000") || u.getCreonType().equals("25000")) {
+                        entryFat = (entryFat - (m.get(position).getTotalFat()));
+                        double cb = (entryFat / u.getFatPerCreon());
+                        suggestedCreon.setText("Suggested Creon = " + Math.round(cb));
+                    }
+                    else {
+                        entryFat = (entryFat - (m.get(position).getTotalFat()));
+                        double u25 = u.getFatPerCreon() * 2.5;
+                        double cb = (entryFat / u25);
+                        int single = (int) cb;
+                        int single2 = 0;
+                        double remainder = cb % 1;
+                        if (remainder >= 0.9) {
+                            single++;
+                        } else if (remainder >= 0.6) {
+                            single2 = 2;
+                        } else if (remainder >= 0.2) {
+                            single2 = 1;
+                        }
+
+                        suggestedCreon.setText("Suggested Creon 10,000 = " + single2 + "" + "  Suggested Creon 25,000 = " + single);
+
+                    }
+                    m.remove(position);
+
+                    populateListView();
+                }
+            });
 
             return itemView;
         }
@@ -606,8 +615,11 @@ public class addEntryActivity extends AppCompatActivity  implements TextWatcher 
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), settings.class);
+            startActivity(intent);
             return true;
         }
+
 
         else if(id == R.id.addItemMenu)
         {

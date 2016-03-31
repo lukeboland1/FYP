@@ -20,7 +20,8 @@
     <TextView
         android:id="@+id/bottomBarEmail"
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="70dp"
+        android:textSize= "28dp"
         android:background="@drawable/layoutbg"
         android:gravity="center_vertical"
         android:text="   Email File"
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/emailAddress"
         android:inputType="textEmailAddress"
+        android:textSize= "28dp"
         android:hint="Email address of recipient"
         android:layout_below="@id/bottomBarEmail"/>
     <Button
@@ -38,6 +40,7 @@
         android:layout_height="wrap_content"
         android:text="Send Email"
         android:id="@+id/sendEmail"
+        android:textSize= "28dp"
         android:onClick="sendEmail"
         android:layout_below="@+id/emailAddress"
          />

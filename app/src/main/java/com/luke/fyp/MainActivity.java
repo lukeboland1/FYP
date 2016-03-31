@@ -117,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), settings.class);
+            startActivity(intent);
             return true;
         }
 
@@ -157,4 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
+
 }

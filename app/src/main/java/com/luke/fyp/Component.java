@@ -1,18 +1,24 @@
 package com.luke.fyp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
  * Created by Luke on 18/01/2016.
  */
-public class Component implements I_Component{
+public class Component implements I_Component {
     private String name;
     private double fatContent;
     private double quantity;
     private String servingType;
     private int id;
 
-    public Component() {};
+    public Component() {
+    }
+
+    ;
+
     public Component(String name, double fatContent, double quantity, int id, String servingType) {
         this.name = name;
         this.fatContent = fatContent;
@@ -60,16 +66,12 @@ public class Component implements I_Component{
         return fatContent;
     }
 
-    public double getTotalFat(){
-        if (servingType.equals("Millilitres") || servingType.equals("Grams") || servingType.equals("Milligrams"))
-        {
+    public double getTotalFat() {
+        if (servingType.equals("Millilitres") || servingType.equals("Grams") || servingType.equals("Milligrams")) {
             double fat = quantity / 100;
             double fatP = fatContent * fat;
             return fatP;
-        }
-
-        else
-        {
+        } else {
             double fat = quantity * fatContent;
             return fat;
         }
@@ -80,25 +82,24 @@ public class Component implements I_Component{
         return name;
     }
 
-    public ArrayList<Entry> getEntries(ArrayList<Entry> e)
-    {
+    public ArrayList<Entry> getEntries(ArrayList<Entry> e) {
         ArrayList<Entry> en = new ArrayList<>();
-        for(int i = 0; i < e.size(); i++) {
+        for (int i = 0; i < e.size(); i++) {
             ArrayList<Component> et = e.get(i).getComponents();
-            ArrayList<Combination> co = e.get(i).getCombinations();
+            Combination co = e.get(i).getCombination();
             for (int j = 0; j < et.size(); j++) {
                 if (this.name.equals(et.get(j).getName())) {
                     en.add(e.get(i));
                 }
             }
 
-            for (int k = 0; k < co.size(); k++) {
-                if (this.name.equals(co.get(k).getName())) {
+            if (co != null) {
+                if (this.name.equals(co.getName())) {
                     en.add(e.get(i));
                 }
 
-                ArrayList<Component> comps = co.get(k).getComponents();
-                if(comps != null) {
+                ArrayList<Component> comps = co.getComponents();
+                if (comps.size() > 0) {
                     for (int l = 0; l < comps.size(); l++) {
                         if (this.name.equals(comps.get(l).getName())) {
                             en.add(e.get(i));
@@ -106,8 +107,9 @@ public class Component implements I_Component{
                     }
                 }
             }
-        }
 
+
+        }
         return en;
     }
 }

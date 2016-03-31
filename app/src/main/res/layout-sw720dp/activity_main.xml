@@ -180,7 +180,7 @@
         <TextView
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Viewrecords"
+            android:text="View Records"
             android:id="@+id/viewRecords"
             android:layout_below="@+id/imageView5"
             android:layout_alignParentRight="true"

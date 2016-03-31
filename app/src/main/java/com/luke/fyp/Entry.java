@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Entry {
     private ArrayList<Component> components;
-    private ArrayList<Combination> combinations;
+    private Combination combination;
     private int id;
     private String name;
     private int creon10000taken;
@@ -23,6 +23,7 @@ public class Entry {
         this.notes = notes;
         this.dateTaken = dateTaken;
         this.results = results;
+        combination = null;
     }
 
     public int getId() {
@@ -43,9 +44,9 @@ public class Entry {
 
     public String getName() {
         String jal = "";
-        if(combinations.size() > 0)
+        if(combination != null)
         {
-            jal += " " + combinations.get(0).getName();
+            jal += " " + combination.getName();
         }
         for(int i = 0; i < components.size(); i++)
         {
@@ -113,11 +114,11 @@ public class Entry {
         this.components = components;
     }
 
-    public ArrayList<Combination> getCombinations() {
-        return combinations;
+    public Combination getCombination() {
+        return combination;
     }
 
-    public void setCombinations(ArrayList<Combination> combinations) {
-        this.combinations = combinations;
+    public void setCombination(Combination combination) {
+        this.combination = combination;
     }
 }

@@ -141,8 +141,11 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), settings.class);
+            startActivity(intent);
             return true;
         }
+
         else if (id == R.id.sendDatabase) {
             Intent intent = new Intent(getApplicationContext(), writeFileActivity.class);
             startActivity(intent);
@@ -198,8 +201,8 @@ public class viewMealsActivity extends AppCompatActivity implements TextWatcher 
 
             final Entry e = foundEntries.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
-            if(e.getCombinations().size() > 0) {
-                mName.setText(e.getCombinations().get(0).getName());
+            if(e.getCombination() != null) {
+                mName.setText(e.getCombination().getName());
             }
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
             mDate.setText((convertDate(e.getDateTaken(), "dd/MM/yyyy")));

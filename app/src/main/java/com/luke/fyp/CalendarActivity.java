@@ -1,6 +1,7 @@
 package com.luke.fyp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -13,6 +14,7 @@ import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +32,8 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
         db = new DatabaseAccess(this);
         calendar = (CalendarView)findViewById(R.id.calendar);
-        Calendar c = Calendar.getInstance();
+        new loadCalendar().execute();
+        /*Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR, 00);
         c.set(Calendar.MINUTE, 00);
         c.set(Calendar.SECOND, 00);
@@ -78,10 +81,12 @@ public class CalendarActivity extends AppCompatActivity {
             }
 
 
-        });
+        });*/
 
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,8 +104,11 @@ public class CalendarActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), settings.class);
+            startActivity(intent);
             return true;
         }
+
 
         else if (id == R.id.sendDatabase1) {
             Intent intent = new Intent(getApplicationContext(), writeFileActivity.class);
@@ -144,8 +152,8 @@ public class CalendarActivity extends AppCompatActivity {
             final Entry e = mealRecords.get(position);
             TextView mName = (TextView)itemView.findViewById(R.id.itemViewMealName);
             String names = "";
-            if(e.getCombinations().size() > 0) {
-                names+=(e.getCombinations().get(0).getName());
+            if(e.getCombination() != null) {
+                names+=(e.getCombination().getName());
             }
             mName.setText(names);
             TextView mDate = (TextView)itemView.findViewById(R.id.itemViewDateTaken);
@@ -239,6 +247,67 @@ public class CalendarActivity extends AppCompatActivity {
 
 
             return itemView;
+        }
+    }
+
+    private class loadCalendar extends AsyncTask<String, Object, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR, 00);
+            c.set(Calendar.MINUTE, 00);
+            c.set(Calendar.SECOND, 00);
+            long datetime1 = c.getTimeInMillis();
+            c.add(Calendar.DATE, 1);
+            long datetime2 = c.getTimeInMillis();
+
+            entries = db.getAllEntries();
+            mealRecords = new ArrayList<>();
+            for(int i = 0; i < entries.size(); i++)
+            {
+                if(entries.get(i).isBetweenTwoDates(datetime1, datetime2))
+                {
+                    mealRecords.add(entries.get(i));
+                }
+            }
+
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            populateListView();
+
+            calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                @Override
+                public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                    //month++;
+                    long time1 = 0;
+                    long time2 = 0;
+                    date = year + "/" + String.format("%02d", month) + "/" + dayOfMonth + " 00:00:00";
+                    String date2 = "";
+                    Calendar c = Calendar.getInstance();
+                    c.set(year, month, dayOfMonth, 00, 00, 00);
+                    time1 = c.getTimeInMillis();
+                    c.add(Calendar.DATE, 1);
+                    time2 = c.getTimeInMillis();
+                    mealRecords.clear();
+                    for (int i = 0; i < entries.size(); i++) {
+                        if (entries.get(i).isBetweenTwoDates(time1, time2)) {
+                            mealRecords.add(entries.get(i));
+                        }
+                    }
+
+                    populateListView();
+
+                }
+
+
+            });
+
         }
     }
 

@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/fatPerCreon"
         android:inputType="numberDecimal"
+        android:text=""
         android:layout_below="@id/spinner3"
         android:hint="Fat Per Creon"/>
 
